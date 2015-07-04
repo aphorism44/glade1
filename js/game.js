@@ -18,6 +18,8 @@ window.onload = function() {
 	game.fps = 15;
 	//NG.connect('38383:OfvBk542','Myy86IWvjbSIU2oK2416YEHfMssjjgkh');
 	
+	game.stage = 1;
+	
 	game.spriteWidth = 25;
 	game.spriteHeight = 25;
 	
@@ -44,6 +46,7 @@ window.onload = function() {
 	game.explainActions = explainActions;
 	game.revealedClueActions = revealedClueActions;
 	game.revealedClueTriggers = revealedClueTriggers;
+	game.npcInfo = npcInfo;
 	
 	game.currentParty = ['Lemel', 'Clavo', 'Lissette', 'Mizak'];
 	
@@ -65,7 +68,14 @@ window.onload = function() {
 	//asset loading
 	game.preload('res/hyptosisOutside.png'
 			, 'res/mapTiles.png'
+			
 			, 'res/lemelSprites.png'
+			, 'res/clavoSprites.png'
+			, 'res/lissetteSprites.png'
+			, 'res/mizakSprites.png'
+			, 'res/sawaSprites.png'
+			, 'res/bowmanSprites.png'
+			, 'res/swordmanSprites.png'
 			
 			, 'res/lemelFightSprites.png'
 			, 'res/lissetteFightSprites.png'
@@ -88,12 +98,14 @@ window.onload = function() {
 			, 'res/exitvehicles.png'
 			, 'res/hyptosis.png'
 			
-			, 'res/titleBG.png'
+			, 'res/titleBg.png'
 			, 'res/grayBg.png'
 			, 'res/blackBg.png'
 			, 'res/whiteBg.png'
-			, 'res/woodBG.png'
+			, 'res/woodBg.png'
 			, 'res/caveBg.png'
+			, 'res/smithyBg.png'
+			, 'res/insideCaveBg.png'
 			
 			, 'res/question.png'
 			, 'res/attackSymbol.png'
@@ -109,14 +121,14 @@ window.onload = function() {
 			, 'res/closeWalk1.png'
 			, 'res/closeWalk2.png'
 			
-			, 'res/shrineBG.png'
-			, 'res/tavernBG.png'
-			, 'res/storeBG.png'
-			, 'res/boardhouseBG.png'
-			, 'res/hallBG.png'
-			, 'res/prairieBG.png'
-			, 'res/campBG.png'
-			, 'res/graveyardBG.png'
+			, 'res/shrineBg.png'
+			, 'res/tavernBg.png'
+			, 'res/storeBg.png'
+			, 'res/boardhouseBg.png'
+			, 'res/hallBg.png'
+			, 'res/prairieBg.png'
+			, 'res/campBg.png'
+			, 'res/graveyardBg.png'
 			
 			, 'res/instructMap.png'
 			, 'res/instructScene.png'
@@ -182,6 +194,8 @@ window.onload = function() {
 			, 'res/faces/burtonFrown.png'
 			, 'res/faces/burtonLaugh.png'
 			, 'res/faces/foremanNormal.png'
+			, 'res/faces/foremanSmile.png'
+			, 'res/faces/foremanFrown.png'
 			, 'res/faces/sawaNormal.png'
 			, 'res/faces/sawaSmile.png'
 			, 'res/faces/sawaYell.png'
@@ -190,12 +204,17 @@ window.onload = function() {
 			, 'res/faces/westonYell.png'
 			, 'res/faces/widowFrown.png'
 			, 'res/faces/widowNormal.png'
+			, 'res/faces/aderFrown.png'
+			, 'res/faces/aderNormal.png'
+			, 'res/faces/aderYell.png'
+			
 			, 'res/faces/blankFace.png'
 			
 			, 'res/sounds/pling.mp3'
 			, 'res/sounds/tone.mp3'
 			, 'res/sounds/slap.mp3'
 			, 'res/sounds/natureAmbiance.mp3'
+			, 'res/sounds/noSound.mp3'
 			, 'res/sounds/frogsNight.mp3'
 			, 'res/sounds/windBg.mp3'
 			
@@ -206,7 +225,7 @@ window.onload = function() {
 	);
 	
 	game.onload = function() {
-		console.log("gamLoad: " + game);
+		//console.log("gamLoad: " + game);
 		//start out on logo-splash screen
 		var scene = new splashScreen();
 		game.pushScene(scene);

@@ -225,7 +225,7 @@ var splashScreen = Class.create(Scene, {
     initialize: function() {
     	var game;
         Scene.apply(this);
-        console.log("gameInstance: " + Game.instance);
+        //console.log("gameInstance: " + Game.instance);
         game = Game.instance;
     	this.name = "splashScreen";
 		var bg = makeBackground(game.assets['res/blackBg.png']);

@@ -75,6 +75,7 @@ function getAvailableClues() {
 	
 	var availableClues = [];
 		for (var i = 0; i < game.clueData.length; i++) {
+			if (game.clueData[i].gameStage == game.stage)
 				availableClues.push(game.clueData[i]);
 		}
 	return availableClues;
@@ -192,4 +193,17 @@ function arrayContains(array, value) {
 		}
 	}
 	return false;
-};
+}
+
+function removeFromArray(array, item) {
+    for(var i in array){
+        if(array[i]==item){
+            array.splice(i,1);
+            break;
+            }
+    }
+}
+
+function getVisibleNPCs() {
+	
+}

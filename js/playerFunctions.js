@@ -6,7 +6,7 @@
     	game = Game.instance;
         
         Sprite.apply(this,[game.spriteWidth, game.spriteHeight]);
-        this.image = Game.instance.assets['res/lemelSprites.png']; 
+        this.image = Game.instance.assets['res/clavoSprites.png']; 
         //movement variables
         //there are 12 player sprites, 3 each: down, left, right, up
 		this.spriteOffset = 0;  
@@ -157,18 +157,8 @@ function checkCurrentMapBox(mapId, scene, x, y) {
 				if (changeType == 'npc') {
 					npcName = game.changeMap[i].name;
 					scene.bgm.stop();
-					
-					//HARDCODE ALERT begin
-					//this ending has weird requirements
-					if (npcName == 'reeve' && game.scenesTriggered[3].triggered == 1) {
-						var newScene = new talkScreen(5);
-						game.pushScene(newScene);
-					} else {
-						var newScene = new interactScreen(npcName, 1);
-						game.pushScene(newScene);
-					}
-					//HARDCODE ALERT end
-					  
+					var newScene = new interactScreen(npcName, 1);
+					game.pushScene(newScene);
 				}		
 			}
 			

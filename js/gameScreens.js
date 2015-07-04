@@ -33,7 +33,7 @@ var gameScreen = Class.create(Scene, {
         		gameTiles.image = Game.instance.assets['res/mapTiles.png'];
         		gameTiles.loadData(townMap);
         		gameTiles.collisionData = townMapCollision;
-        		this.bgm = game.assets['res/sounds/fluteMedievalBg.mp3'];
+        		this.bgm = game.assets['res/sounds/noSound.mp3'];
         		break;
         	
         }
@@ -124,6 +124,10 @@ var gameScreen = Class.create(Scene, {
         this.addChild(bg);
         gameStage.addChild(gameTiles);
         gameStage.addChild(player);
+        
+        //find any NPCs that are on this map and place them
+        this.placeNPCs(game);
+        
         this.addChild(gameStage);
         this.addChild(clueButton);
         this.addChild(saveButton);
@@ -139,6 +143,22 @@ var gameScreen = Class.create(Scene, {
     	this.player.x = x;
     	this.player.y = y;
     	this.player.direction = dir;
+    },
+    placeNPCs: function(game) {
+    	//remove and replace all NPCs
+    	for (var i = 0; i < game.npcInfo.length; i++) {
+			if (game.npcInfo[i].mapId == this.mapId) {
+				var availableVariable = game.npcInfo[i].visible;
+				var npcName = game.npcInfo[i].npcName;
+				for (var j = 0; j < game.gameVariables.length; j++) {
+					if (game.gameVariables[j].name == availableVariable && game.gameVariables[j].status == 1) {
+						var newNpc = new NPC(npcName);
+						console.log(npcName);
+						game.currentScene.gameStage.addChild(newNpc);
+					}
+				}
+			}
+		}
     }
      
 });

@@ -8,7 +8,7 @@ var titleScreen = Class.create(Scene, {
         Scene.apply(this);
         game = Game.instance;
        
-		var bg = makeBackground(game.assets['res/titleBG.png']);
+		var bg = makeBackground(game.assets['res/titleBg.png']);
 		var mainTitleLabel = makeLabel("Apprentice<br><br>Wars", 50, 150, "Impact", 42, "Black", 300, 50, "", "left");
 		var subTitleLabel = makeLabel("The Glade Chronicles: Chapter 1", 50, 270, "Impact", 22, "Maroon ", 300, 50, "", "left");
 		var siteLink = makeLabel("an Aphorism44 game", 175, 300, "Comic Sans MS", 14, "OrangeRed", 170, 12, "", "left");
@@ -77,7 +77,7 @@ var linkScreen = Class.create(Scene, {
         var game;
         Scene.apply(this);
         game = Game.instance;
-		var bg = makeBackground(game.assets['res/titleBG.png']);
+		var bg = makeBackground(game.assets['res/titleBg.png']);
 		
 		var aerinImg = makeImage(game.assets['res/aerinboy.png'], 150, 150, 25, 75);
 		var bandImg = makeImage(game.assets['res/album.png'], 175, 175, 200, 75);

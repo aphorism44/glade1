@@ -3,14 +3,15 @@ var talkScreen = Class.create(Scene, {
      // the visual novel-like screens
     initialize: function(sceneId) {
     	this.name = "talkScreen";
+    	this.sceneId = sceneId;
         var game;
         Scene.apply(this);
         game = Game.instance;
         
-        var bgName = sceneMedia[sceneId].pic;
+        var bgName = sceneMedia[this.sceneId].pic;
 		
-		if (sceneMedia[sceneId].music != '') {
-			this.bgm = game.assets[sceneMedia[sceneId].music];
+		if (sceneMedia[this.sceneId].music != '') {
+			this.bgm = game.assets[sceneMedia[this.sceneId].music];
 			this.bgm.play();
 			//loop BGM
 			this.addEventListener(Event.ENTER_FRAME, function() {
@@ -34,12 +35,12 @@ var talkScreen = Class.create(Scene, {
 		var skipButton = makeButton(" Skip ", 300, 510, 100, 35);
 		
 		skipButton.addEventListener(Event.TOUCH_END, function(e) {
-	       	leaveTalkScreen(sceneId);
+	       	leaveTalkScreen(game.currentScene.sceneId);
 		});
 		
 		this.i = 0;
 		
-		var sceneName = "scene" + sceneId;
+		var sceneName = "scene" + this.sceneId;
 		
 		faceLogo.image = game.assets[sceneDialog[sceneName][this.i].pic];
 		speakerLabel.text = sceneDialog[sceneName][this.i].speaker;
@@ -55,7 +56,7 @@ var talkScreen = Class.create(Scene, {
 					game.assets[sceneDialog[sceneName][this.i].sound].play();
 				}
 			}	else {
-				leaveTalkScreen(sceneId);
+				leaveTalkScreen(game.currentScene.sceneId);
 			}	
 		});
 		
@@ -72,13 +73,29 @@ var talkScreen = Class.create(Scene, {
 function leaveTalkScreen(sceneId) {
     var game;
     game = Game.instance;
-    
-    var action, newScene, newClue, startX, startY, startDir, startMap;
+    var action, newScene, newClue, startX, startY, startDir, startMap, gameVariable, addCharacter, removeCharacter;
     for (var i = 0; i < game.sceneActions.length; i++) {
     	if (game.sceneActions[i].scene == sceneId) {
     		action = game.sceneActions[i].action;
     		if (action == 'trigger') {
     			game.scenesTriggered[sceneId].triggered = '1';
+    		}
+    		if (action == 'toggleGameVariable') {
+    			gameVariable = game.sceneActions[i].variable;
+    			for (var j = 0; j < game.gameVariables.length; j++) {
+					if (game.gameVariables[j].name == gameVariable) {
+						var temp = game.gameVariables[j].status;
+						game.gameVariables[j].status = (temp == 1? 0: 1);
+					}
+				}
+    		}
+    		if (action == 'addCharacter') {
+    			addCharacter = game.sceneActions[i].character;
+    			game.currentParty.push(addCharacter);
+    		}
+    		if (action == 'removeCharacter') {
+    			removeCharacter = game.sceneActions[i].character;
+    			removeFromArray(game.currentParty, removeCharacter);
     		}
     		if (action == 'stopMusic') {
     			game.currentScene.bgm.stop();
@@ -92,6 +109,9 @@ function leaveTalkScreen(sceneId) {
     		if (action == 'addClue') {  
     			newClue = game.sceneActions[i].clueId;
     			updateClueAvailability(newClue);
+    		}
+    		if (action == 'advanceStage') {
+    			game.stage++;
     		}
     		if (action == 'popScene') {
     			game.popScene();
@@ -118,17 +138,18 @@ function leaveTalkScreen(sceneId) {
 				startDir = game.sceneActions[i].startDir;
 				
 				var scene = new gameScreen(startMap, startX, startY, startDir);
-				game.replaceScene(scene); 
+				game.replaceScene(scene);
     		}
     		if (action == 'battle') {
     			var battleId = game.sceneActions[i].battleId;
-    			var ememyLevels =  game.sceneActions[i].ememyLevels;
+    			var ememyLevels =  [];
 				var enemyArray =  game.sceneActions[i].enemyArray;
-				var isEscapable =  game.sceneActions[i].isEscapable;
-				var maxNoOfEmemies =  game.sceneActions[i].maxNoOfEmemies;
+				var isEscapable =  false;
+				var maxNoOfEmemies =  0;
 				var scene = new combatScreen(battleId, game.currentParty, enemyArray
 					, isEscapable, ememyLevels, maxNoOfEmemies);
-				game.replaceScene(scene);
+				game.popScene();
+				game.pushScene(scene);
     		}
     		
     	}
@@ -193,7 +214,6 @@ function leaveExplainScreen(explainId) {
 	    	if (action == 'newScene') {
 	    		newScene = game.explainActions[i].nextScene;
 	    		var scene = new talkScreen(newScene);
-	    		console.log('popScene');
 				game.popScene();
 				game.pushScene(scene);
 	    	}
@@ -208,7 +228,6 @@ var interactScreen = Class.create(Scene, {
         var game;
         Scene.apply(this);
         game = Game.instance;
-        
         var bgName = npcNames[characterName].mainBg;
         
 		var bg = makeBackground(game.assets[[bgName]]);
@@ -296,6 +315,7 @@ var interactScreen = Class.create(Scene, {
 			}
 			game.popScene();
 			game.currentScene.restartMusic();
+			game.currentScene.placeNPCs();
 			game.currentScene.placePlayer(startX * 25, startY * 25 + 25, 0);
 	   	});
 		

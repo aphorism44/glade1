@@ -602,7 +602,6 @@
 
 			this.removeCombantants = function() {
 				
-				console.log("enter removeCombat");
 				var actionJustTaken;
 				//remove who's dead or fled; end game if necessary
 				
@@ -755,12 +754,22 @@ function leaveCombatScreen(battleId) {
     		if (action == 'trigger') {
     			game.battlesTriggered[battleId].triggered = '1';
     		}
-    	}
-    	if (action == 'newScene') {
-    			newScene = game.combatActions[i].nextScene;
-    			var scene = new talkScreen(newScene);
-				game.popScene();
-				game.pushScene(scene);
-    		}
-    	}
-  }
+	    	if (action == 'toggleGameVariable') {
+				gameVariable = game.combatActions[i].variable;
+				for (var j = 0; j < game.gameVariables.length; j++) {
+					if (game.gameVariables[j].name == gameVariable) {
+						var temp = game.gameVariables[j].status;
+						game.gameVariables[j].status = (temp == 1? 0: 1);
+					}
+				}
+			}
+	    	if (action == 'newScene') {
+	    			newScene = game.combatActions[i].nextScene;
+	    			var scene = new talkScreen(newScene);
+					game.popScene();
+					game.pushScene(scene);
+	    		}
+	    }
+    }
+}
+

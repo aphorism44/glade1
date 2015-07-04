@@ -6,7 +6,7 @@ var clueScreen = Class.create(Scene, {
         var game;
         Scene.apply(this);
         game = Game.instance;
-		var bg = makeBackground(game.assets['res/woodBG.png']); 
+		var bg = makeBackground(game.assets['res/woodBg.png']); 
         
         //text of clue goes here
         var clueTextA = makeLabel("", 20, 340, "monospace", 16, "White", 160, 170, "Black");

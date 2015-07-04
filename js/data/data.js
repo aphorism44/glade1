@@ -13,6 +13,7 @@ var initialSceneTriggered = [
 	, {'triggered':'0'}
 	, {'triggered':'0'}
 	, {'triggered':'0'}
+	
 	, {'triggered':'0'}
 	, {'triggered':'0'}
 	, {'triggered':'0'}
@@ -23,7 +24,19 @@ var initialSceneTriggered = [
 	, {'triggered':'0'}
 	, {'triggered':'0'}
 	, {'triggered':'0'}
+	
 	, {'triggered':'0'}
+	, {'triggered':'0'}
+	, {'triggered':'0'}
+	, {'triggered':'0'}
+	, {'triggered':'0'}
+	, {'triggered':'0'}
+	, {'triggered':'0'}
+	, {'triggered':'0'}
+	, {'triggered':'0'}
+	, {'triggered':'0'}
+	
+	
 ];
 
 var initialBattlesTriggered = [
@@ -35,15 +48,14 @@ var initialBattlesTriggered = [
 
 //the final scene that leaves to good ending
 //set this manually
-var finalScene = 25;
+var defeatedInBattleEnding = 28;
 
 //the ending that triggers when you make too many mistakes
 //set this manually
-var tooManyMistakesEnding = 98;
+var tooManyMistakesEnding = 29;
 
-//the ending that triggers when you fall in battle
-//set this manually
-var tooManyMistakesEnding = 99;
+
+var bestEnding = 30;
 
 //sets where you start when you load a game
 //set this manually
@@ -83,9 +95,10 @@ var initialGameVariables = [
 //(except for too-many-mistakes ending)
 //from spreadsheet
 var initialEndingsTriggered = [
-	{'ending':'0', 'status':'0', 'scene':'98'}
-	, {'ending':'1', 'status':'0', 'scene':'99'}
-	, {'ending':'2', 'status':'0', 'scene':'25'}
+	{'ending':'0', 'status':'0', 'scene':'28'}
+	, {'ending':'1', 'status':'0', 'scene':'29'}
+	, {'ending':'2', 'status':'0', 'scene':'30'}
+
 ];
 
 
@@ -202,29 +215,29 @@ var initialClueData = [
 //actions taken when you enter certain map squares, with other conditionals
 //from spreadsheet
 var changeMapData = [
-	{'mapChangeId' :'1' ,'changeType': 'mapChange','mapId' : '1', 'x' : '7', 'y': '12', 'available':'1', 'newMap':'2',  'newX':'19', 'newY':'22', 'newDir':'1'}
-	, {'mapChangeId' :'2' ,'changeType': 'gotoScene','mapId' : '1', 'x' : '20', 'y': '19', 'available':'1', 'newScene':'11', 'requirement':'sawaAvailable'}
-	, {'mapChangeId' :'3' ,'changeType': 'gotoScene','mapId' : '1', 'x' : '17', 'y': '8', 'available':'1', 'newScene':'13', 'requirement':'soldierAvailable'}
-	, {'mapChangeId' :'4' ,'changeType': 'gotoScene','mapId' : '1', 'x' : '17', 'y': '8', 'available':'1', 'newScene':'14', 'requirement':'bowmanAvailable'}
-	, {'mapChangeId' :'5' ,'changeType': 'npc','mapId' : '2', 'x' : '20', 'y': '5', 'available':'1', 'name': 'jera'}
-	, {'mapChangeId' :'6' ,'changeType': 'npc','mapId' : '2', 'x' : '2', 'y': '19', 'available':'1', 'name': 'widow'}
-	, {'mapChangeId' :'7' ,'changeType': 'npc','mapId' : '2', 'x' : '15', 'y': '20', 'available':'1', 'name': 'weston'}
-	, {'mapChangeId' :'8' ,'changeType': 'npc','mapId' : '2', 'x' : '11', 'y': '11', 'available':'1', 'name': 'reeve'}
-	, {'mapChangeId' :'9' ,'changeType': 'npc','mapId' : '2', 'x' : '20', 'y': '11', 'available':'1', 'name': 'burton'}
-	, {'mapChangeId' :'10' ,'changeType': 'npc','mapId' : '2', 'x' : '2', 'y': '11', 'available':'1', 'name': 'bryce'}
-	, {'mapChangeId' :'11' ,'changeType': 'npc','mapId' : '1', 'x' : '20', 'y': '19', 'available':'0', 'name': 'sawa'}
-	, {'mapChangeId' :'12' ,'changeType': 'gotoScene','mapId' : '2', 'x' : '1', 'y': '8', 'available':'1', 'newScene':'2', 'requirement':'lemelOutside'}
-	, {'mapChangeId' :'13' ,'changeType': 'gotoScene','mapId' : '2', 'x' : '18', 'y': '8', 'available':'1', 'newScene':'3', 'requirement':'mizakOutside'}
-	, {'mapChangeId' :'14' ,'changeType': 'gotoScene','mapId' : '2', 'x' : '7', 'y': '20', 'available':'1', 'newScene':'7', 'requirement':'lissetteOutside'}
-	, {'mapChangeId' :'15' ,'changeType': 'gotoScene','mapId' : '2', 'x' : '18', 'y': '8', 'available':'1', 'newScene':'4', 'requirement':'helpingMizak'}
-	, {'mapChangeId' :'16' ,'changeType': 'gotoScene','mapId' : '2', 'x' : '7', 'y': '20', 'available':'1', 'newScene':'8', 'requirement':'helpingLissette'}
-	, {'mapChangeId' :'17' ,'changeType': 'gotoScene','mapId' : '2', 'x' : '9', 'y': '3', 'available':'1', 'newScene':'5', 'requirement':'helpingMizak'}
-	, {'mapChangeId' :'18' ,'changeType': 'gotoScene','mapId' : '2', 'x' : '18', 'y': '8', 'available':'1', 'newScene':'6', 'requirement':'foundMizakItem'}
-	, {'mapChangeId' :'19' ,'changeType': 'gotoScene','mapId' : '2', 'x' : '13', 'y': '14', 'available':'1', 'newScene':'9', 'requirement':'helpingLissette'}
-	, {'mapChangeId' :'20' ,'changeType': 'npc','mapId' : '1', 'x' : '17', 'y': '8', 'available':'1', 'name': 'sawa'}
-	, {'mapChangeId' :'21' ,'changeType': 'npc','mapId' : '1', 'x' : '23', 'y': '5', 'available':'1', 'name': 'bowman'}
-	, {'mapChangeId' :'22' ,'changeType': 'npc','mapId' : '1', 'x' : '6', 'y': '18', 'available':'1', 'name': 'soldier'}
-	, {'mapChangeId' :'23' ,'changeType': 'gotoScene','mapId' : '1', 'x' : '16', 'y': '2', 'available':'1', 'newScene':'16', 'requirement':'caveAvailable'}
+	{'mapChangeId' :'1' ,'changeType': 'mapChange','mapId' : '1', 'x' : '7', 'y': '12 ', 'newMap':'2',  'newX':'19', 'newY':'22', 'newDir':'1'}
+	, {'mapChangeId' :'2' ,'changeType': 'gotoScene','mapId' : '1', 'x' : '20', 'y': '19 ', 'newScene':'11', 'requirement':'sawaAvailable'}
+	, {'mapChangeId' :'3' ,'changeType': 'gotoScene','mapId' : '1', 'x' : '17', 'y': '8 ', 'newScene':'13', 'requirement':'soldierAvailable'}
+	, {'mapChangeId' :'4' ,'changeType': 'gotoScene','mapId' : '1', 'x' : '17', 'y': '8 ', 'newScene':'14', 'requirement':'bowmanAvailable'}
+	, {'mapChangeId' :'5' ,'changeType': 'npc','mapId' : '2', 'x' : '20', 'y': '5 ', 'newScene':'', 'requirement':'', 'name': 'jera'}
+	, {'mapChangeId' :'6' ,'changeType': 'npc','mapId' : '2', 'x' : '2', 'y': '19 ', 'newScene':'', 'requirement':'', 'name': 'widow'}
+	, {'mapChangeId' :'7' ,'changeType': 'npc','mapId' : '2', 'x' : '15', 'y': '20 ', 'newScene':'', 'requirement':'', 'name': 'weston'}
+	, {'mapChangeId' :'8' ,'changeType': 'npc','mapId' : '2', 'x' : '11', 'y': '11 ', 'newScene':'', 'requirement':'', 'name': 'reeve'}
+	, {'mapChangeId' :'9' ,'changeType': 'npc','mapId' : '2', 'x' : '20', 'y': '11 ', 'newScene':'', 'requirement':'', 'name': 'burton'}
+	, {'mapChangeId' :'10' ,'changeType': 'npc','mapId' : '2', 'x' : '2', 'y': '11 ', 'newScene':'', 'requirement':'', 'name': 'bryce'}
+	, {'mapChangeId' :'11' ,'changeType': 'npc','mapId' : '1', 'x' : '20', 'y': '19 ', 'newScene':'', 'requirement':'', 'name': 'sawa'}
+	, {'mapChangeId' :'12' ,'changeType': 'gotoScene','mapId' : '2', 'x' : '1', 'y': '8 ', 'newScene':'2', 'requirement':'lemelOutside'}
+	, {'mapChangeId' :'13' ,'changeType': 'gotoScene','mapId' : '2', 'x' : '18', 'y': '8 ', 'newScene':'3', 'requirement':'mizakOutside'}
+	, {'mapChangeId' :'14' ,'changeType': 'gotoScene','mapId' : '2', 'x' : '7', 'y': '20 ', 'newScene':'7', 'requirement':'lissetteOutside'}
+	, {'mapChangeId' :'15' ,'changeType': 'gotoScene','mapId' : '2', 'x' : '18', 'y': '8 ', 'newScene':'4', 'requirement':'helpingMizak'}
+	, {'mapChangeId' :'16' ,'changeType': 'gotoScene','mapId' : '2', 'x' : '7', 'y': '20 ', 'newScene':'8', 'requirement':'helpingLissette'}
+	, {'mapChangeId' :'17' ,'changeType': 'gotoScene','mapId' : '2', 'x' : '9', 'y': '3 ', 'newScene':'5', 'requirement':'helpingMizak'}
+	, {'mapChangeId' :'18' ,'changeType': 'gotoScene','mapId' : '2', 'x' : '18', 'y': '8 ', 'newScene':'6', 'requirement':'foundMizakItem'}
+	, {'mapChangeId' :'19' ,'changeType': 'gotoScene','mapId' : '2', 'x' : '13', 'y': '14 ', 'newScene':'9', 'requirement':'helpingLissette'}
+	, {'mapChangeId' :'20' ,'changeType': 'npc','mapId' : '1', 'x' : '17', 'y': '8 ', 'newScene':'', 'requirement':'sawaOutside', 'name': 'sawa'}
+	, {'mapChangeId' :'21' ,'changeType': 'npc','mapId' : '1', 'x' : '23', 'y': '5 ', 'newScene':'', 'requirement':'bowmanOutside', 'name': 'bowman'}
+	, {'mapChangeId' :'22' ,'changeType': 'npc','mapId' : '1', 'x' : '6', 'y': '18 ', 'newScene':'', 'requirement':'soldierOutside', 'name': 'soldier'}
+	, {'mapChangeId' :'23' ,'changeType': 'gotoScene','mapId' : '1', 'x' : '16', 'y': '2 ', 'newScene':'16', 'requirement':'caveAvailable'}
 
 ]; 
 
@@ -274,6 +287,9 @@ var sceneMedia = {
 	, '14' : { 'pic':'res/prairieBg.png', 'music': ''}
 	, '15' : { 'pic':'res/prairieBg.png', 'music': ''}
 	, '16' : { 'pic':'res/prairieBg.png', 'music': 'res/sounds/windBg.mp3'}
+	, '28' : { 'pic':'res/prairieBg.png', 'music': ''}
+	, '29' : { 'pic':'res/prairieBg.png', 'music': ''}
+
 }; 
 
 //the text, bgs, and sounds for explain scene frames
@@ -467,7 +483,7 @@ var sceneDialog = {
 		, { 'pic': 'res/faces/reeveNormal.png', 'speaker': 'Reeve Donte', 'text': 'And the only way to do that is for someone to let him posess them. Yes.', 'sound': '' }
 		, { 'pic': 'res/faces/reeveNormal.png', 'speaker': 'Reeve Donte', 'text': 'We don\'t know where - or who - the wizard is. You need to find out.', 'sound': '' }
 		, { 'pic': 'res/faces/reeveNormal.png', 'speaker': 'Reeve Donte', 'text': 'Was it some human explorer? A random monster? The wizard is wearing someone else\'s flesh now.', 'sound': '' }
-		, { 'pic': 'res/faces/reeveNormal.png', 'speaker': 'Reeve Donte', 'text': 'Find out who. Then we\'ll know what we\'re up against, and the League should be forced to act.', 'sound': '' }
+		, { 'pic': 'res/faces/reeveNormal.png', 'speaker': 'Reeve Donte', 'text': 'Find out who. Then we\'ll know what we\'re up against, and the League will at least know who they\'re fighting.', 'sound': '' }
 		, { 'pic': 'res/faces/reeveNormal.png', 'speaker': 'Reeve Donte', 'text': 'It\'s not going to be easy leaving town - monsters are popping up all over the place.', 'sound': '' }
 		, { 'pic': 'res/faces/reeveNormal.png', 'speaker': 'Reeve Donte', 'text': 'Don\'t leave town until those three friends of yours go with. You should be able to fight off anything then.', 'sound': '' }
 		, { 'pic': 'res/faces/clavoFrown.png', 'speaker': 'Clavo', 'text': 'Right.', 'sound': '' }
@@ -721,6 +737,45 @@ var sceneDialog = {
 		, { 'pic': 'res/faces/lemelStruggle.png', 'speaker': 'Lemel', 'text': 'Urghh….no use….', 'sound': '' }
 		, { 'pic': 'res/faces/mizakFrown.png', 'speaker': 'Mizak', 'text': 'There\'s no way out! The wizard must have sealed us in!', 'sound': '' }
 		, { 'pic': 'res/faces/clavoFrown.png', 'speaker': 'Clavo', 'text': '(…think…the wizard lived for centuries here...there has to be a way out…)', 'sound': '' }
+	],
+	"scene28" : [ 
+		{ 'pic': 'res/faces/blankFace.png', 'speaker': '', 'text': '(a week later, the Glade\'s denizens fight a desperate defense against a large goblin horde)', 'sound': '' }
+	, { 'pic': 'res/faces/reeveFrown.png', 'speaker': 'Reeve Donte', 'text': 'No, no - shoot the arrows upwards. You\'ll have a longer range doing that.', 'sound': '' }
+	, { 'pic': 'res/faces/aderFrown.png', 'speaker': 'Longbowman', 'text': 'I\'m trying, but there\'s just so many of them. And I\'m going to run out of arrows soon!', 'sound': '' }
+	, { 'pic': 'res/faces/blankFace.png', 'speaker': '', 'text': '(Burton runs up to the reeve, panting)', 'sound': '' }
+	, { 'pic': 'res/faces/burtonFrown.png', 'speaker': 'Burton', 'text': 'I just managed to get through to some merchants of the Consortium. They report another thousand goblins from the north heading this way.', 'sound': '' }
+	, { 'pic': 'res/faces/widowFrown.png', 'speaker': 'Widow Starnes', 'text': 'This is the Horde Wars all over again. What about the Grandmarchy? Aren\'t their troops coming?', 'sound': '' }
+	, { 'pic': 'res/faces/reeveFrown.png', 'speaker': 'Reeve Donte', 'text': 'Not for several days at least. ', 'sound': '' }
+	, { 'pic': 'res/faces/widowFrown.png', 'speaker': 'Widow Starnes', 'text': 'And what about…Lemel, Clavo, and the others?', 'sound': '' }
+	, { 'pic': 'res/faces/burtonFrown.png', 'speaker': 'Burton', 'text': 'Nothing. None of the merchants found any trace of them. They could have been captured. Or….', 'sound': '' }
+	, { 'pic': 'res/faces/reeveFrown.png', 'speaker': '', 'text': '(Burton lets the last sentence hang)', 'sound': '' }
+	, { 'pic': 'res/faces/blankFace.png', 'speaker': 'Reeve Donte', 'text': 'Once reinforcements come in, we can resume our search.', 'sound': '' }
+	, { 'pic': 'res/faces/blankFace.png', 'speaker': '', 'text': '(Starnes nods sadly, and walks away; when she\'s out of airshot, Burton glares at Donte)', 'sound': '' }
+	, { 'pic': 'res/faces/burtonFrown.png', 'speaker': 'Burton', 'text': 'Why did you tell her that? The goblins just brought in their siege equipment; we\'ll be lucky if we make it through the night!', 'sound': '' }
+	, { 'pic': 'res/faces/reeveFrown.png', 'speaker': 'Reeve Donte', 'text': 'A great philosopher once said:  \'Everything that is done in the world is done by hope.\'', 'sound': '' }
+	, { 'pic': 'res/faces/reeveFrown.png', 'speaker': 'Reeve Donte', 'text': 'And now that\'s all we have. Let her have hope during the final night of her life.', 'sound': '' }
+	, { 'pic': 'res/faces/reeveSmile.png', 'speaker': 'Reeve Donte', 'text': 'Now….should we go down fighting, or should we hide in the corners?', 'sound': '' }
+	, { 'pic': 'res/faces/blankFace.png', 'speaker': '', 'text': '(Burton smiles and follows the Reeve towards the beseiged walls)', 'sound': '' }
+	, { 'pic': 'res/faces/blankFace.png', 'speaker': '', 'text': '(GAME OVER.  You\'ve reached the third ending, which is also the worst ending)', 'sound': '' }
+	, { 'pic': 'res/faces/blankFace.png', 'speaker': '', 'text': '(Try going back and trying again. The people of Talem\'s Glade need you!)', 'sound': '' }
+
+		
+	],
+	"scene29" : [ 
+		{ 'pic': 'res/faces/blankFace.png', 'speaker': '', 'text': '(the reeve runs over to the party)', 'sound': '' }
+		, { 'pic': 'res/faces/reeveNormal.png', 'speaker': 'Reeve Donte', 'text': ' Have you found out anything about the wizard?', 'sound': '' }
+		, { 'pic': 'res/faces/clavoFrown.png', 'speaker': 'Clavo', 'text': 'Afraid not. If we could have a few more days-', 'sound': '' }
+		, { 'pic': 'res/faces/reeveNormal.png', 'speaker': 'Reeve Donte', 'text': 'We don\'t have days. The goblins will be at the Glade by evening!', 'sound': '' }
+		, { 'pic': 'res/faces/lemelAngry.png', 'speaker': 'Lemel', 'text': 'What are we waiting for then? Let\'s get back and fight!', 'sound': '' }
+		, { 'pic': 'res/faces/clavoTalk.png', 'speaker': 'Clavo', 'text': 'How can we fight against something we know nothing about? The wizard must be controlling those goblins.', 'sound': '' }
+		, { 'pic': 'res/faces/reeveNormal.png', 'speaker': 'Reeve Donte', 'text': 'First things first, Clavo. At least we know where the goblins are.', 'sound': '' }
+		, { 'pic': 'res/faces/mizakFrown.png', 'speaker': 'Mizak', 'text': 'Yeah - about to besiege the Glade! And there\'s only a handful of us!', 'sound': '' }
+		, { 'pic': 'res/faces/reeveNormal.png', 'speaker': 'Reeve Donte', 'text': 'The Glade survived the Horde Wars, and we didn\'t have many people then either.', 'sound': '' }
+		, { 'pic': 'res/faces/reeveNormal.png', 'speaker': 'Reeve Donte', 'text': 'If we can hold out until the Grandmarchy sends troops, we’ll be okay. Until then we need all the hands we can get.', 'sound': '' }
+		, { 'pic': 'res/faces/blankFace.png', 'speaker': '', 'text': '(the reeve and the party head back to their goblin-surrounded hometown)', 'sound': '' }
+		, { 'pic': 'res/faces/blankFace.png', 'speaker': '', 'text': '(GAME OVER. This was neither the best nor worst ending. Try again.)', 'sound': '' }
+		, { 'pic': 'res/faces/blankFace.png', 'speaker': '', 'text': '(Don\'t forget - read over your clues carefully before trying to analyze them.)', 'sound': '' }
+
 	]
 	
 };

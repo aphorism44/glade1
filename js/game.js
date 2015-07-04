@@ -108,6 +108,7 @@ window.onload = function() {
 			, 'res/insideCaveBg.png'
 			
 			, 'res/question.png'
+			, 'res/questionHighlighted.png'
 			, 'res/attackSymbol.png'
 			, 'res/defendSymbol.png'
 			, 'res/splitSymbol.png'

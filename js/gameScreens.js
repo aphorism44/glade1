@@ -1,17 +1,18 @@
 
+
 var gameScreen = Class.create(Scene, {
     initialize: function(mapId, startX, startY, startDir) {
         var game;
         Scene.apply(this);
         game = Game.instance;
         
-		var gameStage = new Group();
-		gameStage.width = 400;
-        gameStage.height = 380;
-        gameStage.x = game.mapXOffset;
-        gameStage.y = game.mapYOffset;
-        gameStage.moveStack = [];
-        gameStage.mapId = mapId;
+		this.gameStage = new Group();
+		this.gameStage.width = 400;
+        this.gameStage.height = 380;
+        this.gameStage.x = game.mapXOffset;
+        this.gameStage.y = game.mapYOffset;
+        this.gameStage.moveStack = [];
+        this.gameStage.mapId = mapId;
         
         var clueButton = makeButton(" Clues ", 20, 500, 60, 30);
         var saveButton = makeButton(" Save ", 120, 500, 60, 30);
@@ -35,6 +36,13 @@ var gameScreen = Class.create(Scene, {
         		gameTiles.collisionData = townMapCollision;
         		this.bgm = game.assets['res/sounds/noSound.mp3'];
         		break;
+        	case '3': case 3:
+        		//wizard's cave
+        		gameTiles.image = Game.instance.assets['res/mapTiles.png'];
+        		gameTiles.loadData(caveMap);
+        		gameTiles.collisionData = caveMapCollision;
+        		this.bgm = game.assets['res/sounds/noSound.mp3'];
+        		break;
         	
         }
         
@@ -42,16 +50,16 @@ var gameScreen = Class.create(Scene, {
         this.addEventListener(Event.TOUCH_END, function(e) {
         	//find what game tile you clicked on
         if (player.isMoving) { 
-        		gameStage.moveStack = [];
+        		this.gameStage.moveStack = [];
 	        } else {
-	        	gameStage.moveStack = [];
+	        	this.gameStage.moveStack = [];
 	        	cx = e.x;
 	        	cy = e.y;
 	        	//first get the x/y offset the center program throws off
-	        	var ox = Math.min((gameStage.width  - 25) / 2 - player.x, 0);
-			    var oy = Math.min((gameStage.height - 25) / 2 - player.y, 0);
-			    ox = Math.max(gameStage.width,  ox + gameTiles.width)  - gameTiles.width;
-			    oy = Math.max(gameStage.height, oy + gameTiles.height) - gameTiles.height;
+	        	var ox = Math.min((this.gameStage.width  - 25) / 2 - player.x, 0);
+			    var oy = Math.min((this.gameStage.height - 25) / 2 - player.y, 0);
+			    ox = Math.max(this.gameStage.width,  ox + gameTiles.width)  - gameTiles.width;
+			    oy = Math.max(this.gameStage.height, oy + gameTiles.height) - gameTiles.height;
 			    ox = ox + game.mapXOffset;
 			    oy = oy + game.mapYOffset;
 			    //modify your click by this offset
@@ -60,9 +68,9 @@ var gameScreen = Class.create(Scene, {
 			    var gx = Math.round(x / game.spriteWidth);
 			    var gy = Math.round(y / game.spriteHeight); 
 			    //log out where you clicked
-			    //console.log('clicked x: ' + gx);
-				//console.log('clicked y: ' + gy);
-			    gameStage.moveStack = getDirectionArray((player.x / game.spriteWidth), (player.y / game.spriteHeight), gx, gy, gameStage.mapId);
+			    //console.log('clicked x: ' + gx + ', ' + x / game.spriteWidth);
+				//console.log('clicked y: ' + gy + ', ' + y/ game.spriteHeight);
+			    this.gameStage.moveStack = getDirectionArray((player.x / game.spriteWidth), (player.y / game.spriteHeight), gx, gy, this.gameStage.mapId);
 			}
 		});
         
@@ -86,17 +94,17 @@ var gameScreen = Class.create(Scene, {
         this.mapId = mapId;
         
         player.addEventListener(Event.ENTER_FRAME, function() { 
-        	player.move(gameTiles, mapId, gameStage.moveStack);
+        	player.move(gameTiles, mapId, game.currentScene.gameStage.moveStack);
         });
     	
         this.addEventListener(Event.ENTER_FRAME, function() { 
         	//focus map on player
-        	var x = Math.min((gameStage.width  - 25) / 2 - player.x, 0);
-		    var y = Math.min((gameStage.height - 25) / 2 - player.y, 0);
-		    x = Math.max(gameStage.width,  x + gameTiles.width)  - gameTiles.width;
-		    y = Math.max(gameStage.height, y + gameTiles.height) - gameTiles.height;
-		    gameStage.x = x + game.mapXOffset;
-		    gameStage.y = y + game.mapYOffset;
+        	var x = Math.min((this.gameStage.width  - 25) / 2 - player.x, 0);
+		    var y = Math.min((this.gameStage.height - 25) / 2 - player.y, 0);
+		    x = Math.max(this.gameStage.width,  x + gameTiles.width)  - gameTiles.width;
+		    y = Math.max(this.gameStage.height, y + gameTiles.height) - gameTiles.height;
+		    this.gameStage.x = x + game.mapXOffset;
+		    this.gameStage.y = y + game.mapYOffset;
         });
 	   	
 	   	//immediately end game if any ending requirements met
@@ -122,13 +130,13 @@ var gameScreen = Class.create(Scene, {
 	   		} );
 	   	
         this.addChild(bg);
-        gameStage.addChild(gameTiles);
-        gameStage.addChild(player);
+        this.gameStage.addChild(gameTiles);
+        this.gameStage.addChild(player);
         
         //find any NPCs that are on this map and place them
-        this.placeNPCs(game);
+        this.placeNPCs();
         
-        this.addChild(gameStage);
+        this.addChild(this.gameStage);
         this.addChild(clueButton);
         this.addChild(saveButton);
         //this.addChild(dPad);
@@ -144,17 +152,20 @@ var gameScreen = Class.create(Scene, {
     	this.player.y = y;
     	this.player.direction = dir;
     },
-    placeNPCs: function(game) {
+    
+    placeNPCs: function() {
+    	var game;
+   		game = Game.instance;
     	//remove and replace all NPCs
     	for (var i = 0; i < game.npcInfo.length; i++) {
 			if (game.npcInfo[i].mapId == this.mapId) {
 				var availableVariable = game.npcInfo[i].visible;
 				var npcName = game.npcInfo[i].npcName;
+				this.gameStage.removeChild(npcName);
 				for (var j = 0; j < game.gameVariables.length; j++) {
 					if (game.gameVariables[j].name == availableVariable && game.gameVariables[j].status == 1) {
 						var newNpc = new NPC(npcName);
-						console.log(npcName);
-						game.currentScene.gameStage.addChild(newNpc);
+						this.gameStage.addChild(newNpc);
 					}
 				}
 			}
@@ -165,4 +176,3 @@ var gameScreen = Class.create(Scene, {
 
 
 
-	

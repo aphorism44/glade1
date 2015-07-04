@@ -746,30 +746,42 @@ function leaveCombatScreen(battleId) {
     var game;
     game = Game.instance;
     game.currentScene.bgm.stop();
+     var action, newScene, newClue, startX, startY, startDir, startMap;
     
-    var action, newScene, newClue, startX, startY, startDir, startMap;
-    for (var i = 0; i < game.combatActions.length; i++) {
-    	if (game.combatActions[i].battle == battleId) {
-    		action = game.combatActions[i].action;
-    		if (action == 'trigger') {
-    			game.battlesTriggered[battleId].triggered = '1';
-    		}
-	    	if (action == 'toggleGameVariable') {
-				gameVariable = game.combatActions[i].variable;
-				for (var j = 0; j < game.gameVariables.length; j++) {
-					if (game.gameVariables[j].name == gameVariable) {
-						var temp = game.gameVariables[j].status;
-						game.gameVariables[j].status = (temp == 1? 0: 1);
+    //first, if defeated, goes to defeated endScene  
+    if (game.lastBattleResult == 2) {
+    	//game.endingsTriggered[defeatedInBattleEnding].status = '1';
+		var scene = new talkScreen(defeatedInBattleEnding);
+		game.popScene();
+		game.pushScene(scene);
+    	
+   //if it's a random encounter (battleId = -1), then just pop it; otherwise look through JSON data
+    } else if (battleId == -1) {
+    	game.popScene();
+    } else {
+	    for (var i = 0; i < game.combatActions.length; i++) {
+	    	if (game.combatActions[i].battle == battleId) {
+	    		action = game.combatActions[i].action;
+	    		if (action == 'trigger') {
+	    			game.battlesTriggered[battleId].triggered = '1';
+	    		}
+		    	if (action == 'toggleGameVariable') {
+					gameVariable = game.combatActions[i].variable;
+					for (var j = 0; j < game.gameVariables.length; j++) {
+						if (game.gameVariables[j].name == gameVariable) {
+							var temp = game.gameVariables[j].status;
+							game.gameVariables[j].status = (temp == 1? 0: 1);
+						}
 					}
 				}
-			}
-	    	if (action == 'newScene') {
-	    			newScene = game.combatActions[i].nextScene;
-	    			var scene = new talkScreen(newScene);
-					game.popScene();
-					game.pushScene(scene);
-	    		}
+		    	if (action == 'newScene') {
+		    			newScene = game.combatActions[i].nextScene;
+		    			var scene = new talkScreen(newScene);
+						game.popScene();
+						game.pushScene(scene);
+		    		}
+		    }
 	    }
-    }
+   } 
 }
 

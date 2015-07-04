@@ -117,49 +117,77 @@ function checkCurrentMapBox(mapId, scene, x, y) {
 			}
 		//HARDCODEALERT end
 		
-		//loop through game.changeMap JSON to check current spot
-		for (var i = 0; i < game.changeMap.length; i++) {
-			
-			if (game.changeMap[i].mapId == mapId && game.changeMap[i].available == 1
-				&& game.changeMap[i].x == x / game.spriteWidth 
-				&& game.changeMap[i].y ==  y / game.spriteHeight) {
+		//there's a small chance (2 %) of being attacked outside of town
+		var randomEncounter = false;
+		if (mapId != 2) {
+			var randNum = Math.floor(Math.random() * 101);
+			//console.log(randNum);
+			if (randNum == 25 || randNum == 75) {
+				randomEncounter = true;
+			}
+		}
+		//first give random encounter if needed
+		if (randomEncounter) {
+			var battleId = -1;
+			var ememyLevels =  [1,2,3,4];
+			var enemyArray =  null;
+			var isEscapable =  true;
+			var maxNoOfEmemies =  4;
+			var scene = new combatScreen(battleId, game.currentParty, enemyArray
+				, isEscapable, ememyLevels, maxNoOfEmemies);
+			game.pushScene(scene);
+		} else {
+			//loop through game.changeMap JSON to check current spot
+			for (var i = 0; i < game.changeMap.length; i++) {
 				
-				var mapChangeId = Math.floor(game.changeMap[i].mapChangeId);
-				var changeType = game.changeMap[i].changeType;
-				var newMap, newX, newY, newDir, newScene, sceneRequirement, sceneAvailable, npcName;
-				
-				if (changeType == 'mapChange') {
-					newMap = game.changeMap[i].newMap;
-					newX = game.changeMap[i].newX;
-					newY = game.changeMap[i].newY;
-					newDir = game.changeMap[i].newDir;
-					scene.bgm.stop();
-					var newScene = new gameScreen(newMap, newX, newY, newDir);
-					game.replaceScene(newScene);
-				}
-				if (changeType == 'gotoScene') {
-					newScene = game.changeMap[i].newScene;
-					sceneAvailable = 0;
-					sceneRequirement = game.changeMap[i].requirement;
-					
+				//check if it's available
+				var sceneAvailable = false;
+				var sceneRequirement = game.changeMap[i].requirement;
+				if  (sceneRequirement != undefined && sceneRequirement.length > 0) {
 					for (var j = 0; j < game.gameVariables.length; j++) {
 						if (game.gameVariables[j].name == sceneRequirement && game.gameVariables[j].status == 1) {
-							sceneAvailable = '1';
+							sceneAvailable = true;
 						}
 					}
-					
-					if (game.scenesTriggered[newScene].triggered == 0 && sceneAvailable == 1) {
-						scene.bgm.stop();
-						var scene = new talkScreen(newScene);
-						game.pushScene(scene);
-					}	
+				} else {
+					sceneAvailable = true;
 				}
-				if (changeType == 'npc') {
-					npcName = game.changeMap[i].name;
-					scene.bgm.stop();
-					var newScene = new interactScreen(npcName, 1);
-					game.pushScene(newScene);
-				}		
+				
+				if (game.changeMap[i].mapId == mapId 
+					&& game.changeMap[i].x == x / game.spriteWidth 
+					&& game.changeMap[i].y ==  y / game.spriteHeight && sceneAvailable) {
+					
+					console.log('in available');
+					
+					var mapChangeId = Math.floor(game.changeMap[i].mapChangeId);
+					var changeType = game.changeMap[i].changeType;
+					var newMap, newX, newY, newDir, newScene, sceneRequirement, sceneAvailable, npcName;
+					
+					if (changeType == 'mapChange') {
+						newMap = game.changeMap[i].newMap;
+						newX = game.changeMap[i].newX;
+						newY = game.changeMap[i].newY;
+						newDir = game.changeMap[i].newDir;
+						scene.bgm.stop();
+						var newScene = new gameScreen(newMap, newX, newY, newDir);
+						game.replaceScene(newScene);
+					}
+					if (changeType == 'gotoScene') {
+						newScene = game.changeMap[i].newScene;
+						
+						if (game.scenesTriggered[newScene].triggered == 0) {
+							scene.bgm.stop();
+							var scene = new talkScreen(newScene);
+							game.pushScene(scene);
+						}	
+					}
+					if (changeType == 'npc') {
+						npcName = game.changeMap[i].name;
+						scene.bgm.stop();
+						var newScene = new interactScreen(npcName, 1);
+						game.pushScene(newScene);
+					}		
+				}
 			}
 			
 		}

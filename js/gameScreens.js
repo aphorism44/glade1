@@ -15,7 +15,8 @@ var gameScreen = Class.create(Scene, {
         this.gameStage.mapId = mapId;
         
         var clueButton = makeButton(" Clues ", 20, 500, 60, 30);
-        var saveButton = makeButton(" Save ", 120, 500, 60, 30);
+        var statusButton = makeButton(" Status ", 120, 500, 60, 30);
+        var saveButton = makeButton(" Save ", 220, 500, 60, 30);
         
         player = new Player(startX, startY, startDir);
         
@@ -62,9 +63,9 @@ var gameScreen = Class.create(Scene, {
 			    oy = Math.max(this.gameStage.height, oy + gameTiles.height) - gameTiles.height;
 			    ox = ox + game.mapXOffset;
 			    oy = oy + game.mapYOffset;
-			    //modify your click by this offset
-			    x = cx - ox;
-			    y = cy - oy;
+			    //modify your click by this offset; also undo the adjustment made above
+			    x = cx - ox -10;
+			    y = cy - oy -10;
 			    var gx = Math.round(x / game.spriteWidth);
 			    var gy = Math.round(y / game.spriteHeight); 
 			    //log out where you clicked
@@ -124,7 +125,10 @@ var gameScreen = Class.create(Scene, {
 	   		var scene = new clueScreen();
 			game.pushScene(scene); 
 	   		} );
-	   		
+	   	statusButton.addEventListener(Event.TOUCH_END, function() { 
+	   		var scene = new statusScreen();
+			game.pushScene(scene); 
+	   		} );	 		
 	   	saveButton.addEventListener(Event.TOUCH_END, function() { 
 	   		saveGame();
 	   		} );
@@ -139,6 +143,7 @@ var gameScreen = Class.create(Scene, {
         this.addChild(this.gameStage);
         this.addChild(clueButton);
         this.addChild(saveButton);
+        this.addChild(statusButton);
         //this.addChild(dPad);
     }, 
     

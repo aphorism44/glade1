@@ -82,12 +82,7 @@ function leaveTalkScreen(sceneId) {
     		}
     		if (action == 'toggleGameVariable') {
     			gameVariable = game.sceneActions[i].variable;
-    			for (var j = 0; j < game.gameVariables.length; j++) {
-					if (game.gameVariables[j].name == gameVariable) {
-						var temp = game.gameVariables[j].status;
-						game.gameVariables[j].status = (temp == 1? 0: 1);
-					}
-				}
+    			toggleGameVariable(gameVariable);
     		}
     		if (action == 'addCharacter') {
     			addCharacter = game.sceneActions[i].character;
@@ -139,6 +134,12 @@ function leaveTalkScreen(sceneId) {
 				
 				var scene = new gameScreen(startMap, startX, startY, startDir);
 				game.replaceScene(scene);
+    		}
+    		if (action == 'gotoTalkScene') {
+    			var npc = game.sceneActions[i].npc;
+    			var scene = new interactScreen(npc, 1);
+				game.popScene();
+				game.pushScene(scene);
     		}
     		if (action == 'battle') {
     			var battleId = game.sceneActions[i].battleId;
@@ -279,8 +280,15 @@ var interactScreen = Class.create(Scene, {
 					game.availableWords = [];
 					game.availableWords = getAvailableWords();
 				}
+				//enable (don't toggle) any game variables
+				var activatedVar = npcResponses[game.currentScene.npc][game.availableWords[wordListLabel.chosenWord]].activate;
+				if (activatedVar.length > 0) {
+					activateGameVariable(activatedVar);
+					game.assets['res/sounds/tone.mp3'].play();
+				}
+				
 				var revealedClueId= npcResponses[game.currentScene.npc][game.availableWords[wordListLabel.chosenWord]].clueReveal;
-				//also update the clues if possible
+				//also update the clues and variables if possible
 				if (revealedClueId.length > 0) {
 					updateClueAvailability(revealedClueId);
 					//some clues enabled through talking trigger game events
@@ -289,11 +297,8 @@ var interactScreen = Class.create(Scene, {
 						if (game.revealedClueActions[i].clueId == revealedClueId)	{
 							if (game.revealedClueActions[i].action == 'updateGameVariable') {
 								gameVariable = game.revealedClueActions[i].gameVariable;
-								for (var j = 0; j < game.gameVariables.length; j++) {
-									if (game.gameVariables[j].name == gameVariable) {
-										game.gameVariables[j].status = '1';
-									}
-								}
+								activateGameVariable(gameVariable);
+								game.assets['res/sounds/tone.mp3'].play();
 							}
 						}
 					}

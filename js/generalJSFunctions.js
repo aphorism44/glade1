@@ -98,6 +98,28 @@ function updateClueAvailability(clueId) {
 		}
 }
 
+function activateGameVariable(variable) {
+	var game;
+    game = Game.instance;
+	for (var i = 0; i < game.gameVariables.length; i++) {
+		if (game.gameVariables[i].name == variable) {
+			game.gameVariables[i].status = 1;
+		}
+	}
+}
+
+function toggleGameVariable(variable) {
+	var game;
+    game = Game.instance;
+	for (var i = 0; i < game.gameVariables.length; i++) {
+		if (game.gameVariables[i].name == variable) {
+			var temp = game.gameVariables[i].status;
+			game.gameVariables[i].status = (temp == 1? 0: 1);
+		}
+	}
+}
+
+
 function wordWrap (str, widthInPixels, fontSize) {
    var textArray = str.split(" ");
    var wrappedText = " ";
@@ -204,6 +226,4 @@ function removeFromArray(array, item) {
     }
 }
 
-function getVisibleNPCs() {
-	
-}
+

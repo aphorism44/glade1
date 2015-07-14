@@ -60,7 +60,7 @@ var bestEnding = 30;
 //sets where you start when you load a game
 //set this manually
 var loadGameStartPoints = [
-	{'loadId':'1', 'startMap':'2', 'startX':'19', 'startY':'22', 'startDir':'0' }
+	{'loadId':'1', 'gameStage': 1, 'startMap':'2', 'startX':'19', 'startY':'22', 'startDir':'0' }
 ];
 
 //action that happens after an explain scene
@@ -149,12 +149,14 @@ var sceneActions = [
 	, {'scene':'11', 'action':'toggleGameVariable', 'variable': 'sawaOutside' }
 	, {'scene':'11', 'action':'gotoTalkScene', 'npc': 'sawa' }
 	, {'scene':'12', 'action':'trigger' }
-	, {'scene':'12', 'action':'toggleGameVariable', 'variable': 'soldierOutside' }
+	, {'scene':'12', 'action':'toggleGameVariable', 'variable': 'bowmanOutside' }
+	, {'scene':'12', 'action':'toggleGameVariable', 'variable': 'bowmanAvailable' }
 	, {'scene':'12', 'action':'gotoTalkScene', 'npc': 'bowman' }
 	, {'scene':'13', 'action':'trigger' }
 	, {'scene':'13', 'action':'battle', 'enemyArray': ['Goblin', 'Goblin', 'Goblin', 'Goblin', 'Goblin'], 'battleId': 2 }
 	, {'scene':'14', 'action':'trigger' }
-	, {'scene':'14', 'action':'toggleGameVariable', 'variable': 'bowmanOutside' }
+	, {'scene':'14', 'action':'toggleGameVariable', 'variable': 'soldierOutside' }
+	, {'scene':'14', 'action':'toggleGameVariable', 'variable': 'soldierAvailable' }
 	, {'scene':'14', 'action':'gotoTalkScene', 'npc': 'soldier' }
 	, {'scene':'15', 'action':'trigger' }
 	, {'scene':'15', 'action':'removeCharacter', 'character': 'Mizak' }
@@ -162,7 +164,7 @@ var sceneActions = [
 	, {'scene':'16', 'action':'trigger' }
 	, {'scene':'16', 'action':'addCharacter', 'character': 'Mizak' }
 	, {'scene':'16', 'action':'toggleGameVariable', 'variable': '' }
-	, {'scene':'16', 'action':'gotoMap', 'startMap': '3', 'startX': '?', 'startY': '?', 'startDir': '1' }
+	, {'scene':'16', 'action':'gotoMap', 'startMap': '3', 'startX': '12', 'startY': '23', 'startDir': '1' }
 
 ];
 
@@ -196,18 +198,18 @@ var revealedClueActions = [
 //from spreadsheet
 var initialClueData = [  
 	{'id': '1', 'gameStage': '1',  'available': '1', 'partner': '9', 'revealed': '10', 'wordRevealed': '', 'text': 'The wizard possessed either a human or a monster.'}
-	, {'id': '2', 'gameStage': '1',  'available': '0', 'partner': '7', 'revealed': '9', 'wordRevealed': 'blood', 'text': 'If a human was possessed by the wizard, they had to smear their own blood in the cave.'}
+	, {'id': '2', 'gameStage': '1',  'available': '0', 'partner': '7', 'revealed': '9', 'wordRevealed': '', 'text': 'If a human was possessed by the wizard, they had to make a blood sacrifice.'}
 	, {'id': '3', 'gameStage': '1',  'available': '0', 'partner': '0', 'revealed': '0', 'wordRevealed': '', 'text': 'A being possessed by a wizard can command monsters.'}
 	, {'id': '4', 'gameStage': '1',  'available': '0', 'partner': '10', 'revealed': '11', 'wordRevealed': '', 'text': 'If a monster was possessed by the wizard, it had to be one strong monster or a group of weak ones.'}
 	, {'id': '5', 'gameStage': '1',  'available': '0', 'partner': '8', 'revealed': '12', 'wordRevealed': '', 'text': 'If the wizard possessed a group of monsters, he would manifest as a ghost.'}
-	, {'id': '6', 'gameStage': '1',  'available': '0', 'partner': '13', 'revealed': '14', 'wordRevealed': '', 'text': 'The only monster that could survive wizard possession by itself is a vampyre.'}
+	, {'id': '6', 'gameStage': '1',  'available': '0', 'partner': '13', 'revealed': '14', 'wordRevealed': '', 'text': 'The only single monster that could survive possession is a vampyre.'}
 	, {'id': '7', 'gameStage': '1',  'available': '0', 'partner': '2', 'revealed': '9', 'wordRevealed': '', 'text': 'The was no blood found in the cave.'}
 	, {'id': '8', 'gameStage': '1',  'available': '0', 'partner': '5', 'revealed': '12', 'wordRevealed': '', 'text': 'There were no ghosts in the cave.'}
 	, {'id': '9', 'gameStage': '1',  'available': '0', 'partner': '1', 'revealed': '10', 'wordRevealed': '', 'text': 'A human didn\'t free the wizard.'}
-	, {'id': '10', 'gameStage': '1',  'available': '0', 'partner': '4', 'revealed': '11', 'wordRevealed': '', 'text': 'A monster freed the wizard.'}
+	, {'id': '10', 'gameStage': '1',  'available': '0', 'partner': '4', 'revealed': '11', 'wordRevealed': '', 'text': 'A monster was possessed by the wizard.'}
 	, {'id': '11', 'gameStage': '1',  'available': '0', 'partner': '12', 'revealed': '13', 'wordRevealed': '', 'text': 'The wizard possessed either a strong monster or a group of weak ones.'}
-	, {'id': '12', 'gameStage': '1',  'available': '0', 'partner': '11', 'revealed': '13', 'wordRevealed': '', 'text': 'A group of weak monsters weren\'t possessed by the wizard.'}
-	, {'id': '13', 'gameStage': '1',  'available': '0', 'partner': '6', 'revealed': '14', 'wordRevealed': '', 'text': 'A powerful monster freed the wizard.'}
+	, {'id': '12', 'gameStage': '0',  'available': '0', 'partner': '11', 'revealed': '13', 'wordRevealed': '', 'text': 'A group of weak monsters weren\'t possessed by the wizard.'}
+	, {'id': '13', 'gameStage': '1',  'available': '0', 'partner': '6', 'revealed': '14', 'wordRevealed': '', 'text': 'A single powerful monster freed the wizard.'}
 	, {'id': '14', 'gameStage': '1',  'available': '0', 'partner': '0', 'revealed': '0', 'wordRevealed': 'vampyre', 'text': 'The wizard possessed a vampyre.'}
 	, {'id': '15', 'gameStage': '1',  'available': '0', 'partner': '0', 'revealed': '0', 'wordRevealed': '', 'text': 'If the wizard possessed a human, their eyes would start glowing.'}
 ];
@@ -215,10 +217,10 @@ var initialClueData = [
 //actions taken when you enter certain map squares, with other conditionals
 //from spreadsheet
 var changeMapData = [
-	{'mapChangeId' :'1' ,'changeType': 'mapChange','mapId' : '1', 'x' : '7', 'y': '12 ', 'newMap':'2',  'newX':'19', 'newY':'22', 'newDir':'1'}
-	, {'mapChangeId' :'2' ,'changeType': 'gotoScene','mapId' : '1', 'x' : '20', 'y': '19 ', 'newScene':'11', 'requirement':'sawaAvailable'}
-	, {'mapChangeId' :'3' ,'changeType': 'gotoScene','mapId' : '1', 'x' : '17', 'y': '8 ', 'newScene':'13', 'requirement':'soldierAvailable'}
-	, {'mapChangeId' :'4' ,'changeType': 'gotoScene','mapId' : '1', 'x' : '17', 'y': '8 ', 'newScene':'14', 'requirement':'bowmanAvailable'}
+	{'mapChangeId' :'1' ,'changeType': 'mapChange','mapId' : '1', 'x' : '7', 'y': '12', 'newMap':'2',  'newX':'19', 'newY':'22', 'newDir':'1'}
+	, {'mapChangeId' :'2' ,'changeType': 'gotoScene','mapId' : '1', 'x' : '17', 'y': '8', 'newScene':'11', 'requirement':'sawaAvailable'}
+	, {'mapChangeId' :'3' ,'changeType': 'gotoScene','mapId' : '1', 'x' : '6', 'y': '18', 'newScene':'13', 'requirement':'soldierAvailable'}
+	, {'mapChangeId' :'4' ,'changeType': 'gotoScene','mapId' : '1', 'x' : '23', 'y': '5', 'newScene':'12', 'requirement':'bowmanAvailable'}
 	, {'mapChangeId' :'5' ,'changeType': 'npc','mapId' : '2', 'x' : '20', 'y': '5 ', 'newScene':'', 'requirement':'', 'name': 'jera'}
 	, {'mapChangeId' :'6' ,'changeType': 'npc','mapId' : '2', 'x' : '2', 'y': '19 ', 'newScene':'', 'requirement':'', 'name': 'widow'}
 	, {'mapChangeId' :'7' ,'changeType': 'npc','mapId' : '2', 'x' : '15', 'y': '20 ', 'newScene':'', 'requirement':'', 'name': 'weston'}
@@ -237,7 +239,7 @@ var changeMapData = [
 	, {'mapChangeId' :'20' ,'changeType': 'npc','mapId' : '1', 'x' : '17', 'y': '8 ', 'newScene':'', 'requirement':'sawaOutside', 'name': 'sawa'}
 	, {'mapChangeId' :'21' ,'changeType': 'npc','mapId' : '1', 'x' : '23', 'y': '5 ', 'newScene':'', 'requirement':'bowmanOutside', 'name': 'bowman'}
 	, {'mapChangeId' :'22' ,'changeType': 'npc','mapId' : '1', 'x' : '6', 'y': '18 ', 'newScene':'', 'requirement':'soldierOutside', 'name': 'soldier'}
-	, {'mapChangeId' :'23' ,'changeType': 'gotoScene','mapId' : '1', 'x' : '16', 'y': '2 ', 'newScene':'16', 'requirement':'caveAvailable'}
+	, {'mapChangeId' :'23' ,'changeType': 'gotoScene','mapId' : '1', 'x' : '16', 'y': '1 ', 'newScene':'16', 'requirement':'caveAvailable'}
 
 ]; 
 
@@ -281,8 +283,8 @@ var sceneMedia = {
 	, '8' : { 'pic':'res/prairieBg.png', 'music': ''}
 	, '9' : { 'pic':'res/prairieBg.png', 'music': ''}
 	, '10' : { 'pic':'res/prairieBg.png', 'music': ''}
-	, '11' : { 'pic':'res/campBg.png', 'music': ''}
-	, '12' : { 'pic':'res/prairieBg.png', 'music': 'res/sounds/frogsNight.mp3'}
+	, '11' : { 'pic':'res/campBg.png', 'music': 'res/sounds/frogsNight.mp3'}
+	, '12' : { 'pic':'res/prairieBg.png', 'music': ''}
 	, '13' : { 'pic':'res/prairieBg.png', 'music': ''}
 	, '14' : { 'pic':'res/prairieBg.png', 'music': ''}
 	, '15' : { 'pic':'res/prairieBg.png', 'music': ''}
@@ -330,7 +332,7 @@ var explainData= {
 var npcResponses = {
 	"jera" : {
 		'cave': { 'response': 'I\'ve heard a lot about the wizard\'s cave. It must have housed some foul magic.', 'reveal': '', 'clueReveal': '' , 'activate':''},
-		'wizards': { 'response': 'According to the texts, if a human lets themselves be possessed by a wizard spirit, they have to make a blood sacrifice first.', 'reveal': '', 'clueReveal': '2' , 'activate':''},
+		'wizards': { 'response': 'According to the texts, if a human lets themselves be possessed by a wizard spirit, they have to make a blood sacrifice first.', 'reveal': 'blood', 'clueReveal': '2' , 'activate':''},
 		'Sawa': { 'response': 'He\'s been keeping out of trouble since Donte made him the local ranger.', 'reveal': '', 'clueReveal': '' , 'activate':''},
 		'Horde wars': { 'response': 'I served as a healer with the Grandmarchy during the final year. But I never saw any fighting.', 'reveal': '', 'clueReveal': '' , 'activate':''},
 		'goblins': { 'response': 'This week, I had to treat several travelers who were wounded by goblins. This isn\'t good.', 'reveal': '', 'clueReveal': '' , 'activate':''},
@@ -353,13 +355,13 @@ var npcResponses = {
 		'wizards': { 'response': 'I fought in the Horde wars, and we never came up against a being that powerful.', 'reveal': '', 'clueReveal': '' , 'activate':''},
 		'Sawa': { 'response': 'Ever since he took up his ranger post, he stopped drinking. Good for him, even if its bad for business.', 'reveal': '', 'clueReveal': '' , 'activate':''},
 		'Horde wars': { 'response': 'I\'m one of the few veterans left. I\'m afraid most of your parents didn\'t survive…', 'reveal': '', 'clueReveal': '' , 'activate':''},
-		'goblins': { 'response': 'I heard Sawa saw a few in the northwest forest. He easily dispatched them, though.', 'reveal': 'Sawa', 'clueReveal': '' , 'activate':''},
+		'goblins': { 'response': 'I heard our new ranger Sawa saw a few. He easily dispatched them, though.', 'reveal': 'Sawa', 'clueReveal': '' , 'activate':''},
 		'blood': { 'response': 'Damned wizards and their magic. Even their spells are bloody.', 'reveal': '', 'clueReveal': '' , 'activate':''},
 		'vampyre': { 'response': 'Some of the horde chiefs were probably vampyres. Ran away when their forced got massacred.', 'reveal': '', 'clueReveal': '' , 'activate':''}
 	},
 	
 	"widow" : {
-		'cave': { 'response': 'Stay away from that place! I almost lost Clavo; I don\'t need to lose anyone else!', 'reveal': '', 'clueReveal': '' , 'activate':''},
+		'cave': { 'response': 'Stay away from that horrible place! The last time you went there you almost died!', 'reveal': '', 'clueReveal': '' , 'activate':''},
 		'wizards': { 'response': 'This is terrible! If a wizard controls enough monsters, this could be the Horde wars all over again!', 'reveal': 'Horde wars', 'clueReveal': '' , 'activate':''},
 		'Sawa': { 'response': 'He\'s not a nice young man. Never says hello when I see him in town. Which isn\'t often.', 'reveal': '', 'clueReveal': '' , 'activate':''},
 		'Horde wars': { 'response': 'It seems like yesterday. The goblin hordes killed your great-uncle, Lemel. And your parents, Clavo.', 'reveal': 'goblins', 'clueReveal': '' , 'activate':''},
@@ -484,6 +486,7 @@ var sceneDialog = {
 		, { 'pic': 'res/faces/reeveNormal.png', 'speaker': 'Reeve Donte', 'text': 'We don\'t know where - or who - the wizard is. You need to find out.', 'sound': '' }
 		, { 'pic': 'res/faces/reeveNormal.png', 'speaker': 'Reeve Donte', 'text': 'Was it some human explorer? A random monster? The wizard is wearing someone else\'s flesh now.', 'sound': '' }
 		, { 'pic': 'res/faces/reeveNormal.png', 'speaker': 'Reeve Donte', 'text': 'Find out who. Then we\'ll know what we\'re up against, and the League will at least know who they\'re fighting.', 'sound': '' }
+		, { 'pic': 'res/faces/reeveNormal.png', 'speaker': 'Reeve Donte', 'text': 'I bet Sawa knows something, since I appointed him ranger. But he hasn\'t been in town for awhile.', 'sound': '' }
 		, { 'pic': 'res/faces/reeveNormal.png', 'speaker': 'Reeve Donte', 'text': 'It\'s not going to be easy leaving town - monsters are popping up all over the place.', 'sound': '' }
 		, { 'pic': 'res/faces/reeveNormal.png', 'speaker': 'Reeve Donte', 'text': 'Don\'t leave town until those three friends of yours go with. You should be able to fight off anything then.', 'sound': '' }
 		, { 'pic': 'res/faces/clavoFrown.png', 'speaker': 'Clavo', 'text': 'Right.', 'sound': '' }
@@ -612,7 +615,7 @@ var sceneDialog = {
 	],
 	"scene12" : [ 
 		{ 'pic': 'res/faces/blankFace.png', 'speaker': '', 'text': '(the four reach the ocean\'s beach and walk onto the sand)', 'sound': '' }
-		, { 'pic': 'res/faces/lemelTalk.png', 'speaker': 'Lemel', 'text': 'Man, I can\'t remember that last time we came out here. We should take a swim!', 'sound': '' }
+		, { 'pic': 'res/faces/lemelTalk.png', 'speaker': 'Lemel', 'text': 'Man, I can\'t remember the last time we came out here. We should take a swim!', 'sound': '' }
 		, { 'pic': 'res/faces/lissetteFrown.png', 'speaker': 'Lissette', 'text': 'Well, you might want to keep your pants on until we\'re done dealing with that guy.', 'sound': '' }
 		, { 'pic': 'res/faces/blankFace.png', 'speaker': '', 'text': '(Lissette points to  a man sitting on the sand. A longbow lays across his shoulders)', 'sound': '' }
 		, { 'pic': 'res/faces/aderNormal.png', 'speaker': 'Longbowman', 'text': 'Hey! You guys from Talem\'s Glade?', 'sound': '' }
@@ -739,27 +742,10 @@ var sceneDialog = {
 		, { 'pic': 'res/faces/clavoFrown.png', 'speaker': 'Clavo', 'text': '(…think…the wizard lived for centuries here...there has to be a way out…)', 'sound': '' }
 	],
 	"scene28" : [ 
-		{ 'pic': 'res/faces/blankFace.png', 'speaker': '', 'text': '(a week later, the Glade\'s denizens fight a desperate defense against a large goblin horde)', 'sound': '' }
-	, { 'pic': 'res/faces/reeveFrown.png', 'speaker': 'Reeve Donte', 'text': 'No, no - shoot the arrows upwards. You\'ll have a longer range doing that.', 'sound': '' }
-	, { 'pic': 'res/faces/aderFrown.png', 'speaker': 'Longbowman', 'text': 'I\'m trying, but there\'s just so many of them. And I\'m going to run out of arrows soon!', 'sound': '' }
-	, { 'pic': 'res/faces/blankFace.png', 'speaker': '', 'text': '(Burton runs up to the reeve, panting)', 'sound': '' }
-	, { 'pic': 'res/faces/burtonFrown.png', 'speaker': 'Burton', 'text': 'I just managed to get through to some merchants of the Consortium. They report another thousand goblins from the north heading this way.', 'sound': '' }
-	, { 'pic': 'res/faces/widowFrown.png', 'speaker': 'Widow Starnes', 'text': 'This is the Horde Wars all over again. What about the Grandmarchy? Aren\'t their troops coming?', 'sound': '' }
-	, { 'pic': 'res/faces/reeveFrown.png', 'speaker': 'Reeve Donte', 'text': 'Not for several days at least. ', 'sound': '' }
-	, { 'pic': 'res/faces/widowFrown.png', 'speaker': 'Widow Starnes', 'text': 'And what about…Lemel, Clavo, and the others?', 'sound': '' }
-	, { 'pic': 'res/faces/burtonFrown.png', 'speaker': 'Burton', 'text': 'Nothing. None of the merchants found any trace of them. They could have been captured. Or….', 'sound': '' }
-	, { 'pic': 'res/faces/reeveFrown.png', 'speaker': '', 'text': '(Burton lets the last sentence hang)', 'sound': '' }
-	, { 'pic': 'res/faces/blankFace.png', 'speaker': 'Reeve Donte', 'text': 'Once reinforcements come in, we can resume our search.', 'sound': '' }
-	, { 'pic': 'res/faces/blankFace.png', 'speaker': '', 'text': '(Starnes nods sadly, and walks away; when she\'s out of airshot, Burton glares at Donte)', 'sound': '' }
-	, { 'pic': 'res/faces/burtonFrown.png', 'speaker': 'Burton', 'text': 'Why did you tell her that? The goblins just brought in their siege equipment; we\'ll be lucky if we make it through the night!', 'sound': '' }
-	, { 'pic': 'res/faces/reeveFrown.png', 'speaker': 'Reeve Donte', 'text': 'A great philosopher once said:  \'Everything that is done in the world is done by hope.\'', 'sound': '' }
-	, { 'pic': 'res/faces/reeveFrown.png', 'speaker': 'Reeve Donte', 'text': 'And now that\'s all we have. Let her have hope during the final night of her life.', 'sound': '' }
-	, { 'pic': 'res/faces/reeveSmile.png', 'speaker': 'Reeve Donte', 'text': 'Now….should we go down fighting, or should we hide in the corners?', 'sound': '' }
-	, { 'pic': 'res/faces/blankFace.png', 'speaker': '', 'text': '(Burton smiles and follows the Reeve towards the beseiged walls)', 'sound': '' }
-	, { 'pic': 'res/faces/blankFace.png', 'speaker': '', 'text': '(GAME OVER.  You\'ve reached the third ending, which is also the worst ending)', 'sound': '' }
-	, { 'pic': 'res/faces/blankFace.png', 'speaker': '', 'text': '(Try going back and trying again. The people of Talem\'s Glade need you!)', 'sound': '' }
-
-		
+		{ 'pic': 'res/faces/blankFace.png', 'speaker': '', 'text': '(the party has fallen in battle)', 'sound': '' }
+		, { 'pic': 'res/faces/blankFace.png', 'speaker': '', 'text': '(GAME OVER.  You\'ve reached the third ending, which is also the worst ending)', 'sound': '' }
+		, { 'pic': 'res/faces/blankFace.png', 'speaker': '', 'text': '(Try going back and trying again. The people of Talem\'s Glade need you!)', 'sound': '' }
+	
 	],
 	"scene29" : [ 
 		{ 'pic': 'res/faces/blankFace.png', 'speaker': '', 'text': '(the reeve runs over to the party)', 'sound': '' }
@@ -782,10 +768,10 @@ var sceneDialog = {
 
 /*when done testing set goblin CON = 9*/
 var FIGHTER_DATA = [
-  	  {'name' : 'Lemel' , 'isMonster' : false , 'faceIcon' : 'res/faces/lemelFight.png' , 'sprite' : 'res/lemelFightSprites.png' , 'attackIcon' : 'res/faces/lemelAttack.png' , 'DEX' : 16 , 'CON' : 15 , 'POW' : 5 , 'level' :  1}
-  	 , {'name' : 'Clavo' , 'isMonster' : false , 'faceIcon' : 'res/faces/clavoFight.png' , 'sprite' : 'res/clavoFightSprites.png' , 'attackIcon' : 'res/faces/clavoAttack.png' , 'DEX' : 9 , 'CON' : 6 , 'POW' : 17 , 'level' : 1}
-	 , {'name' : 'Lissette' , 'isMonster' : false , 'faceIcon' : 'res/faces/lissetteFight.png' , 'sprite' : 'res/lissetteFightSprites.png' , 'attackIcon' : 'res/faces/lissetteAttack.png' , 'DEX' : 15 , 'CON'  :  10 , 'POW' : 10 , 'level' :  1}
-	 , {'name' : 'Mizak' , 'isMonster' : false , 'faceIcon' : 'res/faces/mizakFight.png' , 'sprite' : 'res/mizakFightSprites.png' , 'attackIcon' : 'res/faces/mizakAttack.png' , 'DEX' : 15 , 'CON' : 8 , 'POW' : 7 , 'level'  :  1}
+  	  {'name' : 'Lemel' , 'title':'Blacksmith', 'isMonster' : false , 'faceIcon' : 'res/faces/lemelFight.png' , 'sprite' : 'res/lemelFightSprites.png' , 'attackIcon' : 'res/faces/lemelAttack.png' , 'DEX' : 16 , 'CON' : 15 , 'POW' : 5 , 'level' :  1}
+  	 , {'name' : 'Clavo' , 'title':'Clerk' , 'isMonster' : false , 'faceIcon' : 'res/faces/clavoFight.png' , 'sprite' : 'res/clavoFightSprites.png' , 'attackIcon' : 'res/faces/clavoAttack.png' , 'DEX' : 9 , 'CON' : 6 , 'POW' : 17 , 'level' : 1}
+	 , {'name' : 'Lissette' , 'title':'Bartender' , 'isMonster' : false , 'faceIcon' : 'res/faces/lissetteFight.png' , 'sprite' : 'res/lissetteFightSprites.png' , 'attackIcon' : 'res/faces/lissetteAttack.png' , 'DEX' : 15 , 'CON'  :  10 , 'POW' : 10 , 'level' :  1}
+	 , {'name' : 'Mizak'  , 'title':'Shopkeep' , 'isMonster' : false , 'faceIcon' : 'res/faces/mizakFight.png' , 'sprite' : 'res/mizakFightSprites.png' , 'attackIcon' : 'res/faces/mizakAttack.png' , 'DEX' : 15 , 'CON' : 8 , 'POW' : 7 , 'level'  :  1}
 	
 	 , {'name' : 'Goblin' , 'isMonster' : true , 'faceIcon' : '' , 'sprite' : 'res/goblinSprites.png' , 'attackIcon' : '' , 'DEX' : 10 , 'CON' : 1 , 'POW' : 4 , 'level'  : 1}
 	 , {'name' : 'Highwayman' , 'isMonster' : true , 'faceIcon' : '' , 'sprite' : 'res/highwaymanSprites.png' , 'attackIcon' : '' , 'DEX' : 12 , 'CON' : 12 , 'POW' : 7 , 'level'  : 2}
@@ -798,7 +784,7 @@ var FIGHTER_DATA = [
 var EQUIPMENT_DATA = [
   {'name': 'staff', 'type': 'weapon', 'sprite': '', 'attackMod': 1, 'defenseMod': 2}
 	, {'name': 'hammer', 'type': 'weapon', 'sprite': '', 'attackMod': 2, 'defenseMod': 0}
-	, {'name': 'short sword', 'type': 'weapon', 'sprite': '', 'attackMod': 2, 'defenseMod': 1}
+	, {'name': 'rapier', 'type': 'weapon', 'sprite': '', 'attackMod': 2, 'defenseMod': 1}
 	, {'name': 'martial arts', 'type': 'weapon', 'sprite': '', 'attackMod': 2, 'defenseMod': 2}
 	
 	, {'name': 'clothes', 'type': 'armor', 'sprite': '', 'attackMod': 0, 'defenseMod': 1}
@@ -823,11 +809,11 @@ var EQUIPMENT_DATA = [
 var FIGHTER_EQUIPMENT = [
 	{'fighter': 'Lemel', 'weapon': 'hammer', 'armor': 'leather armor'}
 	, {'fighter': 'Clavo', 'weapon': 'staff', 'armor': 'clothes'}
-	, {'fighter': 'Lissette', 'weapon': 'short sword', 'armor': 'clothes'}
+	, {'fighter': 'Lissette', 'weapon': 'rapier', 'armor': 'clothes'}
 	, {'fighter': 'Mizak', 'weapon': 'martial arts', 'armor': 'cape'}
 
 	, {'fighter': 'Goblin', 'weapon': 'club', 'armor': 'leather armor'}
-	, {'fighter': 'Highwayman', 'weapon': 'short sword', 'armor': 'leather armor'}
+	, {'fighter': 'Highwayman', 'weapon': 'rapier', 'armor': 'leather armor'}
 	, {'fighter': 'Barrow-Wight', 'weapon': 'crushing hands', 'armor': 'none'}
 	, {'fighter': 'Trow', 'weapon': 'crushing hands', 'armor': 'tough skin'}
 	, {'fighter': 'Nicor', 'weapon': 'club', 'armor': 'scales'}

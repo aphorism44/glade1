@@ -42,25 +42,33 @@ var openingScreen = Class.create(Scene, {
         var clavoTextA = "Did you find a map on me the night I…I died?";
         var clavoBannerA = makeLabel(clavoTextA + ' ' + clavoTextA, 50, 400, "monospace", 24, "White", 5000, 35);
         clavoBannerA.opacity = 0;;
-        var clavoNameLabel= makeLabel("Clavo", 180, 200, "Times New Roman", 24, "DarkOrchid", 5000, 35);
+        var clavoNameLabel= makeLabel("Clavo", -200, -200, "Times New Roman", 24, "White", 5000, 35);
+        var clavoTitleLabel1 = makeLabel("scholar", -200, -200, "Times New Roman", 24, "DarkGreen", 200, 35);
+        var clavoTitleLabel2 = makeLabel("town clerk", -200, -200, "Times New Roman", 24, "DarkGreen", 200, 35);
         clavoNameLabel.opacity = 0;
         
         var lemelTextA = "Come on, Clavo, not after all this!";
-        var lemelBannerA = makeLabel(lemelTextA + ' ' + lemelTextA, 50, 400, "monospace", 24, "White", 5000, 35);
+        var lemelBannerA = makeLabel(lemelTextA + ' ' + lemelTextA, 50, 380, "monospace", 24, "White", 5000, 35);
         lemelBannerA.opacity = 0;
-        var lemelNameLabel= makeLabel("Lemel", 120, 240, "Times New Roman", 24, "Aqua", 5000, 35);
+        var lemelNameLabel= makeLabel("Lemel", -200, -200, "Times New Roman", 24, "White", 5000, 35);
+        var lemelTitleLabel1 = makeLabel("apprentice", -200, -200, "Times New Roman", 24, "DarkRed", 200, 35);
+        var lemelTitleLabel2 = makeLabel("blacksmith", -200, -200, "Times New Roman", 24, "DarkRed", 200, 35);
         lemelNameLabel.opacity = 0;
         
         var lissetteTextA = "How about if I slam you in the head with this tankard? That ought to put you to sleep.";
-        var lissetteBannerA = makeLabel(lissetteTextA + ' ' + lissetteTextA, 50, 400, "monospace", 24, "White", 5000, 35);
+        var lissetteBannerA = makeLabel(lissetteTextA + ' ' + lissetteTextA, 50, 350, "monospace", 24, "White", 5000, 35);
         lissetteBannerA.opacity = 0;
-        var lissetteNameLabel= makeLabel("Lissette", 180, 240, "Times New Roman", 24, "DarkRed", 200, 35);
+        var lissetteNameLabel= makeLabel("Lissette", -200, -200, "Times New Roman", 24, "White", 200, 35);
+        var lissetteTitleLabel1 = makeLabel("bartender", -200, -200, "Times New Roman", 24, "DarkOrchid", 200, 35);
+        var lissetteTitleLabel2 = makeLabel("waitress", -200, -200, "Times New Roman", 24, "DarkOrchid", 200, 35);
         lissetteNameLabel.opacity = 0;
         
-        var mizakTextA = "Ahahaha! This is great! I always thought so!";
+        var mizakTextA = "C'mon, I said I was sorry. Don't be like that.";
         var mizakBannerA = makeLabel(mizakTextA + ' ' + mizakTextA, 50, 400, "monospace", 24, "White", 5000, 35);
         mizakBannerA.opacity = 0;
-        var mizakNameLabel= makeLabel("Mizak", 180, 200, "Times New Roman", 24, "DarkGreen", 200, 35);
+        var mizakNameLabel= makeLabel("Mizak", -200, -200, "Times New Roman", 24, "White", 200, 35);
+        var mizakTitleLabel1 = makeLabel("shopkeeper", -200, -200, "Times New Roman", 24, "DarkGreen", 200, 35);
+        var mizakTitleLabel2 = makeLabel("merchant", -200, -200, "Times New Roman", 24, "DarkGreen", 200, 35);
         mizakNameLabel.opacity = 0;
         
         var textLabel = makeLabel("", 40, 245, "16px monospace", 58, "White", 320, 120, "", "left");
@@ -79,6 +87,7 @@ var openingScreen = Class.create(Scene, {
 			game.pushScene(scene);   
 		});
         
+        //opening, 0 -100
         open1.tl.delay(0).fadeIn(5).delay(38).fadeOut(5);
         open2.tl.delay(25).fadeIn(5).delay(8).fadeOut(5);
         
@@ -86,26 +95,39 @@ var openingScreen = Class.create(Scene, {
         high2.tl.delay(60).fadeIn(5).delay(30).fadeOut(5);
         high3.tl.delay(72).fadeIn(5).delay(18).fadeOut(5);
         
+        //clavo intro, 105 - 207
         clavoImage.tl.delay(105).fadeIn(5).delay(97).fadeOut(5);
         clavoWorkImage.tl.delay(105).fadeIn(5).delay(97).fadeOut(5);
         clavoBannerA.tl.delay(105).fadeIn(5).moveBy(-600, 0, 102).fadeOut(5);
-        clavoNameLabel.tl.delay(105).fadeIn(5).moveBy(40, 40, 102).fadeOut(5);
+        clavoNameLabel.tl.delay(105).fadeIn(0).moveBy(380, 449, 5).moveBy(40, -40, 97).fadeOut(5); 
+        clavoTitleLabel1.tl.delay(105).fadeIn(0).moveBy(350, 300, 5).moveBy(-40, 40, 97).fadeOut(5); 
+        clavoTitleLabel2.tl.delay(105).fadeIn(0).moveBy(250, 650, 5).moveBy(40, -40, 97).fadeOut(5); 
         
+        //lemel intro, 207 - 301
         lemelImage.tl.delay(207).fadeIn(5).delay(89).fadeOut(5);
         lemelWorkImage.tl.delay(207).fadeIn(5).delay(89).fadeOut(5);
         lemelBannerA.tl.delay(207).fadeIn(5).moveBy(-600, 0, 94).fadeOut(5);
-        lemelNameLabel.tl.delay(207).fadeIn(5).moveBy(-40, 40, 94).fadeOut(5);
+        lemelNameLabel.tl.delay(207).fadeIn(0).moveBy(340, 440, 5).moveBy(-40, 40, 89).fadeOut(5);
+        lemelTitleLabel1.tl.delay(207).fadeIn(0).moveBy(350, 600, 5).moveBy(-40, 40, 89).fadeOut(5); 
+        lemelTitleLabel2.tl.delay(207).fadeIn(0).moveBy(450, 250, 5).moveBy(40, -40, 89).fadeOut(5); 
         
+        //lissette intro, 301 - 398
         lissetteImage.tl.delay(301).fadeIn(5).delay(92).fadeOut(5);
         lissetteWorkImage.tl.delay(301).fadeIn(5).delay(92).fadeOut(5);
         lissetteBannerA.tl.delay(301).fadeIn(5).moveBy(-600, 0, 97).fadeOut(5);
-        lissetteNameLabel.tl.delay(301).fadeIn(5).moveBy(40, 40, 97).fadeOut(5);
+        lissetteNameLabel.tl.delay(301).fadeIn(0).moveBy(380, 440, 5).moveBy(40, 40, 92).fadeOut(5);
+        lissetteTitleLabel1.tl.delay(301).fadeIn(0).moveBy(300, 650, 5).moveBy(-40, 40, 92).fadeOut(5); 
+        lissetteTitleLabel2.tl.delay(301).fadeIn(0).moveBy(450, 450, 5).moveBy(40, -40, 92).fadeOut(5); 
         
+        //mizak intro, 398 - 495
         mizakImage.tl.delay(398).fadeIn(5).delay(87).fadeOut(5);
         mizakWorkImage.tl.delay(398).fadeIn(5).delay(87).fadeOut(5);
         mizakBannerA.tl.delay(398).fadeIn(5).moveBy(-600, 0, 92).fadeOut(5);
-        mizakNameLabel.tl.delay(398).fadeIn(5).moveBy(40, 40, 92).fadeOut(5);
+        mizakNameLabel.tl.delay(398).fadeIn(0).moveBy(350, 400, 5).moveBy(40, 40, 87).fadeOut(5);
+        mizakTitleLabel1.tl.delay(398).fadeIn(0).moveBy(500, 250, 5).moveBy(-40, 40, 87).fadeOut(5); 
+        mizakTitleLabel2.tl.delay(398).fadeIn(0).moveBy(250, 550, 5).moveBy(40, -40, 87).fadeOut(5); 
 		
+		//end, 495-585
 		close1.tl.delay(495).fadeIn(5).delay(20).fadeOut(5);
         close2.tl.delay(501).fadeIn(5).delay(40).fadeOut(5);
 		
@@ -143,6 +165,15 @@ var openingScreen = Class.create(Scene, {
         this.addChild(lemelNameLabel);
         this.addChild(lissetteNameLabel);
         this.addChild(mizakNameLabel); 
+        
+        this.addChild(clavoTitleLabel1);
+        this.addChild(clavoTitleLabel2);
+        this.addChild(lemelTitleLabel1);
+        this.addChild(lemelTitleLabel2);
+        this.addChild(lissetteTitleLabel1);
+        this.addChild(lissetteTitleLabel2);
+        this.addChild(mizakTitleLabel1);
+        this.addChild(mizakTitleLabel2);
         
         this.addChild(close1);
         this.addChild(close2);

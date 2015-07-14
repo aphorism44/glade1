@@ -659,6 +659,7 @@ function Fighter(name, levelArray, game) {
 				this.sprite = allFighterData[i].sprite;
 				this.attackIcon = allFighterData[i].attackIcon;
 				this.isMonster = allFighterData[i].isMonster;
+				this.title = allFighterData[i].title;
 			}
 		}
 	} else {

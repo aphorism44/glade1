@@ -136,3 +136,56 @@ var linkScreen = Class.create(Scene, {
 	});
 
 
+
+var statusScreen = Class.create(Scene, {
+     // the links to credits   
+    initialize: function() {
+    	this.name = "statusScreen";
+        var game;
+        Scene.apply(this);
+        game = Game.instance;
+		var bg = makeBackground(game.assets['res/blackBg.png']);
+		
+		var returnButton = makeButton(" Return ", 300, 500, 200, 75);
+      	
+        this.addChild(bg);  
+        this.addChild(returnButton);
+		
+		
+		var allFighterData = game.fighterData;
+		//show all players/stats in your party
+		for (var i = 0; i < game.currentParty.length; i++) {
+			var name = game.currentParty[i];
+			var player = new Fighter(name, null, game);
+			var playerFace = makeImage(game.assets[player.faceIcon], 80, 80, 25, 25 + (100 * i));
+			var nameLabel = makeLabel(player.name, 125, 25 + (100 * i), "monospace", 14, "White", 50, 20);
+			var titleLabel = makeLabel(player.title, 250, 25 + (100 * i), "monospace", 14, "White", 90, 20);
+			var conLabel = makeLabel('CON: ' + player.HP, 125, 45 + (100 * i), "monospace", 14, "White", 50, 20);
+			var dexLabel = makeLabel('DEX: ' + player.DEX, 250, 45 + (100 * i), "monospace", 14, "White", 50, 20);
+			var weaponLabel = makeLabel('Weapon: ' + player.weaponName, 125, 65 + (100 * i), "monospace", 14, "White", 200, 20);
+			var armorLabel = makeLabel('Armor: ' + player.armorName, 125, 85 + (100 * i), "monospace", 14, "White", 200, 20);
+			
+			this.addChild(playerFace);
+			this.addChild(nameLabel);
+			this.addChild(titleLabel);
+			this.addChild(conLabel);
+			this.addChild(dexLabel);
+			this.addChild(weaponLabel);
+			this.addChild(armorLabel);
+		}
+		
+		var missionLabel = makeLabel('', 25, 450, "monospace", 14, "White", 350, 50);
+		switch(game.stage) {
+			case 1: missionLabel.text = wordWrap('Mission: Find the expedition survivors and discover who the wizard possessed.', 350, 14);
+				break;
+			case 2: missionLabel.text = wordWrap('Mission: Escape the cave!', 350, 14);
+				break;
+		}
+		this.addChild(missionLabel);
+		
+	   	returnButton.addEventListener(Event.TOUCH_END, function(e) {
+			game.popScene(); 
+	   	});
+		
+    	}
+	});

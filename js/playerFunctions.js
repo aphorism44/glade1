@@ -117,12 +117,12 @@ function checkCurrentMapBox(mapId, scene, x, y) {
 			}
 		//HARDCODEALERT end
 		
-		//there's a small chance (2 %) of being attacked outside of town
+		//there's a small chance (1 %) of being attacked outside of town
 		var randomEncounter = false;
 		if (mapId != 2) {
 			var randNum = Math.floor(Math.random() * 101);
 			//console.log(randNum);
-			if (randNum == 25 || randNum == 75) {
+			if (randNum == 50) {
 				randomEncounter = true;
 			}
 		}
@@ -157,7 +157,7 @@ function checkCurrentMapBox(mapId, scene, x, y) {
 					&& game.changeMap[i].x == x / game.spriteWidth 
 					&& game.changeMap[i].y ==  y / game.spriteHeight && sceneAvailable) {
 					
-					console.log('in available');
+					//console.log('in available');
 					
 					var mapChangeId = Math.floor(game.changeMap[i].mapChangeId);
 					var changeType = game.changeMap[i].changeType;
@@ -174,7 +174,6 @@ function checkCurrentMapBox(mapId, scene, x, y) {
 					}
 					if (changeType == 'gotoScene') {
 						newScene = game.changeMap[i].newScene;
-						
 						if (game.scenesTriggered[newScene].triggered == 0) {
 							scene.bgm.stop();
 							var scene = new talkScreen(newScene);

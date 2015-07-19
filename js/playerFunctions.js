@@ -112,8 +112,14 @@ function checkCurrentMapBox(mapId, scene, x, y) {
 		if (mapId == 2 && ((x / game.spriteWidth) < 1 || (x / game.spriteWidth) > 23
 						|| (y / game.spriteHeight) < 1 || (y / game.spriteHeight) > 23  ) ) {
 				scene.bgm.stop();
-				var newScene = new gameScreen(1, 7, 13, 0);
-				game.replaceScene(newScene); 
+				//you can't leave town unless you have 4 team members or the cave is available
+				if (game.currentParty.length > 3 || isVariableActive('caveAvailable')) {
+					var newScene = new gameScreen(1, 7, 13, 0);
+					game.replaceScene(newScene); 
+				} else {
+					var newScene = new talkScreen(27);
+					game.replaceScene(newScene);
+				}
 			}
 		//HARDCODEALERT end
 		

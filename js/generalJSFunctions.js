@@ -96,6 +96,19 @@ function updateClueAvailability(clueId) {
 				}
 			}
 		}
+		
+		//some clues enabled through talking trigger game events
+		var gameVariable;
+		for (var j = 0; j < game.revealedClueActions.length; j++) {
+			if (game.revealedClueActions[j].clueId == revealedClueId)	{
+				if (game.revealedClueActions[j].action == 'activateGameVariable') {
+					gameVariable = game.revealedClueActions[j].gameVariable;
+					activateGameVariable(gameVariable);
+					game.assets['res/sounds/tone.mp3'].play();
+				}
+			}
+		}
+		
 }
 
 function activateGameVariable(variable) {
@@ -104,6 +117,13 @@ function activateGameVariable(variable) {
 	for (var i = 0; i < game.gameVariables.length; i++) {
 		if (game.gameVariables[i].name == variable) {
 			game.gameVariables[i].status = 1;
+			//check if that variable triggers special scenes
+			for (var j = 0; j < variableTrigger.length; j++) {
+				if (variableTrigger[j].triggerVariable == variable) {
+					var triggerIndex = variableTrigger[j].triggerIndex;
+					game.specialScenesTriggered[triggerIndex] = 1;
+				}
+			}
 		}
 	}
 }
@@ -115,8 +135,25 @@ function toggleGameVariable(variable) {
 		if (game.gameVariables[i].name == variable) {
 			var temp = game.gameVariables[i].status;
 			game.gameVariables[i].status = (temp == 1? 0: 1);
+			break;
 		}
 	}
+}
+
+function isVariableActive(variable) {
+	var game;
+    game = Game.instance;
+    var temp = 0;
+	for (var i = 0; i < game.gameVariables.length; i++) {
+		if (game.gameVariables[i].name == variable) {
+			temp = game.gameVariables[i].status;
+			break;
+		}
+	}
+	if (temp == 1)
+		return true;
+	else
+		return false;
 }
 
 
@@ -158,25 +195,31 @@ function resetGameVariables() {
 		game.scenesTriggered[i].triggered = '0';
 	}
 	
-	for (var j = 0; j < game.gameVariables.length; j++) {
-		game.gameVariables[j].status = '0';
-	}
 	
-	for (var k = 0; k < game.endingsTriggered.length; k++) {
-		game.endingsTriggered[k].status = '0';
+	for (var k = 0; k < game.specialScenesTriggered.length; k++) {
+		game.specialScenesTriggered[k].status = '0';
 	}   
 	
 	//HARDCODEALERT begin
+	game.currentParty = ['Lemel', 'Clavo', 'Lissette', 'Mizak'];
+	
+	for (var j = 0; j < game.gameVariables.length; j++) {
+		var variable = game.gameVariables[j].name;
+		if (variable == 'lemelOutside' || variable == 'lissetteOutside' || variable == 'mizakOutside')
+			game.gameVariables[j].status = 1;
+		else
+			game.gameVariables[j].status = 0;
+	}
 	
 	for (var l = 0; l < game.topicWords.length; l++) {
-		if(game.topicWords[l].word == 'Clavo')
+		if(game.topicWords[l].word == 'cave')
 			game.topicWords[l].available = 1;
 		else
 			game.topicWords[l].available = 0;
 	}
 	
 	for (var m = 0; m < game.clueData.length; m++) {
-		if (game.clueData[m].id == 0)
+		if (game.clueData[m].id == 1)
 			game.clueData[m].available = 1;
 		else
 			game.clueData[m].available = 0;

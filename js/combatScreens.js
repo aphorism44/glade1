@@ -751,8 +751,7 @@ function leaveCombatScreen(battleId) {
     
     //first, if defeated, goes to defeated endScene  
     if (game.lastBattleResult == 2) {
-    	//game.endingsTriggered[defeatedInBattleEnding].status = '1';
-		var scene = new talkScreen(defeatedInBattleEnding);
+		var scene = new talkScreen(28);
 		game.popScene();
 		game.pushScene(scene);
     	

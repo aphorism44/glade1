@@ -97,7 +97,7 @@ function evaluateClues() {
 		game.clueMistakesMade++;
 		//gameend for making too many mistakes
 		if (game.clueMistakesMade > 4) {
-			game.endingsTriggered[tooManyMistakesEnding].status = '1';
+			game.endingsTriggered[0].status = '1';
 		}
 	}
 }

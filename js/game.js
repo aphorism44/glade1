@@ -31,16 +31,17 @@ window.onload = function() {
 	
 	//initialize game data
 	var scenesTriggeredLoad = initialSceneTriggered;
+	var specialScenesTriggeredLoad = specialScenesTriggered;
 	var battlesTriggeredLoad = initialBattlesTriggered;
     var gameVariablesLoad = initialGameVariables;
     var clueDataLoad = initialClueData;
     var topicWordsLoad = initialTopicWords;
 	
 	game.topicWords = topicWordsLoad;
-	game.scenesTriggered = scenesTriggeredLoad;
+	game.specialScenesTriggered = specialScenesTriggeredLoad;
 	game.battlesTriggered = battlesTriggeredLoad;
 	game.gameVariables = gameVariablesLoad;
-	game.endingsTriggered = initialEndingsTriggered;
+	game.scenesTriggered = scenesTriggeredLoad;
 	game.sceneActions = sceneActions;
 	game.combatActions = combatActions;
 	game.explainActions = explainActions;

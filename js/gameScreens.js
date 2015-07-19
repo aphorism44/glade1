@@ -108,14 +108,14 @@ var gameScreen = Class.create(Scene, {
 		    this.gameStage.y = y + game.mapYOffset;
         });
 	   	
-	   	//immediately end game if any ending requirements met
+	   	//immediately trigger scene if requirements met
 	   	this.addEventListener(Event.ENTER_FRAME, function() { 
-	   		var endScene;
-	   		for (var i = 0; i < game.endingsTriggered.length; i++) {
-	   			if (game.endingsTriggered[i].status == 1) {
-	   				endScene = game.endingsTriggered[i].scene;
+	   		var sceneId;
+	   		for (var i = 0; i < game.specialScenesTriggered.length; i++) {
+	   			if (game.specialScenesTriggered[i].status == 1) {
+	   				sceneId = game.scenesTriggered[i].scene;
 	   				this.bgm.stop();
-					var scene = new talkScreen(endScene);
+					var scene = new talkScreen(sceneId);
 					game.pushScene(scene);
 	   			}
 	   		}

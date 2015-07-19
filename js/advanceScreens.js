@@ -117,6 +117,7 @@ function leaveTalkScreen(sceneId) {
     		if (action == 'endGameBad') {
     			game.popScene();
 				game.popScene();
+				game.popScene();
 				resetGameVariables();
     		}
     		if (action == 'endGameGood') {
@@ -291,18 +292,6 @@ var interactScreen = Class.create(Scene, {
 				//also update the clues and variables if possible
 				if (revealedClueId.length > 0) {
 					updateClueAvailability(revealedClueId);
-					//some clues enabled through talking trigger game events
-					var gameVariable;
-					for (var i = 0; i < game.revealedClueActions.length; i++) {
-						if (game.revealedClueActions[i].clueId == revealedClueId)	{
-							if (game.revealedClueActions[i].action == 'updateGameVariable') {
-								gameVariable = game.revealedClueActions[i].gameVariable;
-								activateGameVariable(gameVariable);
-								game.assets['res/sounds/tone.mp3'].play();
-							}
-						}
-					}
-					
 				}
 				
 			});

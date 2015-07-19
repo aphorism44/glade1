@@ -45,18 +45,6 @@ var initialBattlesTriggered = [
 	, {'triggered':'0'}
 ];
 
-
-//the final scene that leaves to good ending
-//set this manually
-var defeatedInBattleEnding = 28;
-
-//the ending that triggers when you make too many mistakes
-//set this manually
-var tooManyMistakesEnding = 29;
-
-
-var bestEnding = 30;
-
 //sets where you start when you load a game
 //set this manually
 var loadGameStartPoints = [
@@ -74,7 +62,6 @@ var explainActions = [
 //from spreadsheet
 var initialGameVariables = [
 	{'name': 'sawaAvailable', 'status':'0'}
-	, {'name': 'canLeaveTown', 'status':'0'}
 	, {'name': 'soldierAvailable', 'status':'0'}
 	, {'name': 'bowmanAvailable', 'status':'0'}
 	, {'name': 'caveAvailable', 'status':'0'}
@@ -92,21 +79,30 @@ var initialGameVariables = [
 ];
 
 //keeps track of when/which endings are triggered and triggered scene 
-//(except for too-many-mistakes ending)
-//from spreadsheet
-var initialEndingsTriggered = [
-	{'ending':'0', 'status':'0', 'scene':'28'}
-	, {'ending':'1', 'status':'0', 'scene':'29'}
-	, {'ending':'2', 'status':'0', 'scene':'30'}
-
+//0 - ENDING - too many mistakes
+//1 - SCENE to stage 2
+//2 - SCENE - escape the cave
+//3 - ENDING - best
+var specialScenesTriggered = [
+	{'status':'0', 'scene':'29'} 
+	, {'status':'0', 'scene':'15'}
+	, {'status':'0', 'scene':'22'}
+	, {'status':'0', 'scene':'30'}
 ];
 
+
+//certain variables trigger the above scenese
+var variableTrigger = [
+	{'triggerVariable':'caveAvailable', 'triggerIndex':1}
+	, {'triggerVariable':'cavePuzzleSolved', 'triggerIndex':2 }
+];
 
 //any special actions triggered by revealing clues
 //from spreadsheet
 var revealedClueTriggers = [
 
 ];
+
 
 //the actions taken when player finishes a scene
 //from spreadsheet
@@ -166,6 +162,11 @@ var sceneActions = [
 	, {'scene':'16', 'action':'toggleGameVariable', 'variable': '' }
 	, {'scene':'16', 'action':'gotoMap', 'startMap': '3', 'startX': '12', 'startY': '23', 'startDir': '1' }
 
+	, {'scene':'27', 'action':'gotoMap', 'startMap': '2', 'startX': '19', 'startY': '22', 'startDir': '0' }
+	, {'scene':'28', 'action':'endGameBad' }
+	, {'scene':'29', 'action':'endGameBad' }
+
+
 ];
 
 var npcInfo = [
@@ -191,28 +192,40 @@ var combatActions = [
 //actions taken when a particular clue is revealed
 //from spreadsheet
 var revealedClueActions = [
- 	
+ 	{'clueId':'25', 'action':'activateGameVariable', 'gameVariable':'cavePuzzleSolved'}
 ];
 
 //definitions of clues, how they match, what other clues/topics they reveal
 //from spreadsheet
 var initialClueData = [  
 	{'id': '1', 'gameStage': '1',  'available': '1', 'partner': '9', 'revealed': '10', 'wordRevealed': '', 'text': 'The wizard possessed either a human or a monster.'}
-	, {'id': '2', 'gameStage': '1',  'available': '0', 'partner': '7', 'revealed': '9', 'wordRevealed': '', 'text': 'If a human was possessed by the wizard, they had to make a blood sacrifice.'}
+	, {'id': '2', 'gameStage': '1',  'available': '0', 'partner': '7', 'revealed': '9', 'wordRevealed': '', 'text': 'If the wizard possessed a human, they needed a blood sacrifice.'}
 	, {'id': '3', 'gameStage': '1',  'available': '0', 'partner': '0', 'revealed': '0', 'wordRevealed': '', 'text': 'A being possessed by a wizard can command monsters.'}
-	, {'id': '4', 'gameStage': '1',  'available': '0', 'partner': '10', 'revealed': '11', 'wordRevealed': '', 'text': 'If a monster was possessed by the wizard, it had to be one strong monster or a group of weak ones.'}
+	, {'id': '4', 'gameStage': '1',  'available': '0', 'partner': '10', 'revealed': '11', 'wordRevealed': '', 'text': 'If the wizard possessed a monster, it was one strong monster or a group of weak ones.'}
 	, {'id': '5', 'gameStage': '1',  'available': '0', 'partner': '8', 'revealed': '12', 'wordRevealed': '', 'text': 'If the wizard possessed a group of monsters, he would manifest as a ghost.'}
 	, {'id': '6', 'gameStage': '1',  'available': '0', 'partner': '13', 'revealed': '14', 'wordRevealed': '', 'text': 'The only single monster that could survive possession is a vampyre.'}
-	, {'id': '7', 'gameStage': '1',  'available': '0', 'partner': '2', 'revealed': '9', 'wordRevealed': '', 'text': 'The was no blood found in the cave.'}
+	, {'id': '7', 'gameStage': '1',  'available': '0', 'partner': '2', 'revealed': '9', 'wordRevealed': '', 'text': 'Nobody performed a blood sacrifice.'}
 	, {'id': '8', 'gameStage': '1',  'available': '0', 'partner': '5', 'revealed': '12', 'wordRevealed': '', 'text': 'There were no ghosts in the cave.'}
-	, {'id': '9', 'gameStage': '1',  'available': '0', 'partner': '1', 'revealed': '10', 'wordRevealed': '', 'text': 'A human didn\'t free the wizard.'}
-	, {'id': '10', 'gameStage': '1',  'available': '0', 'partner': '4', 'revealed': '11', 'wordRevealed': '', 'text': 'A monster was possessed by the wizard.'}
-	, {'id': '11', 'gameStage': '1',  'available': '0', 'partner': '12', 'revealed': '13', 'wordRevealed': '', 'text': 'The wizard possessed either a strong monster or a group of weak ones.'}
-	, {'id': '12', 'gameStage': '0',  'available': '0', 'partner': '11', 'revealed': '13', 'wordRevealed': '', 'text': 'A group of weak monsters weren\'t possessed by the wizard.'}
-	, {'id': '13', 'gameStage': '1',  'available': '0', 'partner': '6', 'revealed': '14', 'wordRevealed': '', 'text': 'A single powerful monster freed the wizard.'}
+	, {'id': '9', 'gameStage': '1',  'available': '0', 'partner': '1', 'revealed': '10', 'wordRevealed': '', 'text': 'The wizard didn\'t posess a human.'}
+	, {'id': '10', 'gameStage': '1',  'available': '0', 'partner': '4', 'revealed': '11', 'wordRevealed': '', 'text': 'The wizard possessed a monster.'}
+	, {'id': '11', 'gameStage': '1',  'available': '0', 'partner': '12', 'revealed': '13', 'wordRevealed': '', 'text': 'The wizard possessed either one strong monster or a group of weak ones.'}
+	, {'id': '12', 'gameStage': '1',  'available': '0', 'partner': '11', 'revealed': '13', 'wordRevealed': '', 'text': 'The wizard didn\'t possess a group of weak monsters.'}
+	, {'id': '13', 'gameStage': '1',  'available': '0', 'partner': '6', 'revealed': '14', 'wordRevealed': '', 'text': 'The wizard possessed a single monster.'}
 	, {'id': '14', 'gameStage': '1',  'available': '0', 'partner': '0', 'revealed': '0', 'wordRevealed': 'vampyre', 'text': 'The wizard possessed a vampyre.'}
-	, {'id': '15', 'gameStage': '1',  'available': '0', 'partner': '0', 'revealed': '0', 'wordRevealed': '', 'text': 'If the wizard possessed a human, their eyes would start glowing.'}
-];
+	
+	, {'id': '15', 'gameStage': '2',  'available': '1', 'partner': '24', 'revealed': '25', 'wordRevealed': '', 'text': 'When the sun and the moon rise, the door will open.'}
+	, {'id': '16', 'gameStage': '2',  'available': '0', 'partner': '23', 'revealed': '24', 'wordRevealed': '', 'text': 'When the altar is touched, the sun rises.'}
+	, {'id': '17', 'gameStage': '2',  'available': '0', 'partner': '22', 'revealed': '23', 'wordRevealed': '', 'text': 'If the petals are not closed, the moon will not rise.'}
+	, {'id': '18', 'gameStage': '2',  'available': '0', 'partner': '21', 'revealed': '22', 'wordRevealed': '', 'text': 'While the water flows or the farmer toils, the petals will not close.'}
+	, {'id': '19', 'gameStage': '2',  'available': '0', 'partner': '20', 'revealed': '21', 'wordRevealed': '', 'text': 'If the fountain is stopped, the water will not flow.'}
+	, {'id': '20', 'gameStage': '2',  'available': '0', 'partner': '19', 'revealed': '21', 'wordRevealed': '', 'text': 'If the statue of the farmer is moved, the farmer will stop toiling.'}
+	, {'id': '21', 'gameStage': '2',  'available': '0', 'partner': '18', 'revealed': '22', 'wordRevealed': '', 'text': 'If the fountain stops and the statue moved, the water won\'t flow and the farmer stops toiling.'}
+	, {'id': '22', 'gameStage': '2',  'available': '0', 'partner': '17', 'revealed': '23', 'wordRevealed': '', 'text': 'If the fountain stops and the statue moved, the petals will close'}
+	, {'id': '23', 'gameStage': '2',  'available': '0', 'partner': '16', 'revealed': '24', 'wordRevealed': '', 'text': 'If the fountain is stopped and the statue moved, the moon rises.'}
+	, {'id': '24', 'gameStage': '2',  'available': '0', 'partner': '15', 'revealed': '25', 'wordRevealed': '', 'text': 'If the altar is touched, the fountain stopped, and statue moved, the sun and moon rise.'}
+	, {'id': '25', 'gameStage': '2',  'available': '0', 'partner': '0', 'revealed': '0', 'wordRevealed': '', 'text': 'If the altar is touched, the fountain stopped, and statue moved, the door opens.'}
+	
+	];
 
 //actions taken when you enter certain map squares, with other conditionals
 //from spreadsheet
@@ -289,6 +302,9 @@ var sceneMedia = {
 	, '14' : { 'pic':'res/prairieBg.png', 'music': ''}
 	, '15' : { 'pic':'res/prairieBg.png', 'music': ''}
 	, '16' : { 'pic':'res/prairieBg.png', 'music': 'res/sounds/windBg.mp3'}
+	
+	
+	, '27' : { 'pic':'res/prairieBg.png', 'music': ''}
 	, '28' : { 'pic':'res/prairieBg.png', 'music': ''}
 	, '29' : { 'pic':'res/prairieBg.png', 'music': ''}
 
@@ -332,13 +348,13 @@ var explainData= {
 var npcResponses = {
 	"jera" : {
 		'cave': { 'response': 'I\'ve heard a lot about the wizard\'s cave. It must have housed some foul magic.', 'reveal': '', 'clueReveal': '' , 'activate':''},
-		'wizards': { 'response': 'According to the texts, if a human lets themselves be possessed by a wizard spirit, they have to make a blood sacrifice first.', 'reveal': 'blood', 'clueReveal': '2' , 'activate':''},
+		'wizards': { 'response': 'Before a human can be possessed by a wizard, they have to make a blood sacrifice first.', 'reveal': 'blood', 'clueReveal': '2' , 'activate':''},
 		'Sawa': { 'response': 'He\'s been keeping out of trouble since Donte made him the local ranger.', 'reveal': '', 'clueReveal': '' , 'activate':''},
 		'Horde wars': { 'response': 'I served as a healer with the Grandmarchy during the final year. But I never saw any fighting.', 'reveal': '', 'clueReveal': '' , 'activate':''},
 		'goblins': { 'response': 'This week, I had to treat several travelers who were wounded by goblins. This isn\'t good.', 'reveal': '', 'clueReveal': '' , 'activate':''},
 		'blood': { 'response': 'Once the wizard possesses someone, he can control monsters. Like goblins, unfortunately.', 'reveal': '', 'clueReveal': '3' , 'activate':''},
 		'vampyre': { 'response': 'The most powerful of undead creatures…only a special ritual using herbs can keep them at bay.', 'reveal': '', 'clueReveal': '' , 'activate':''}
-	},
+			},
 	
 	"reeve" : {
 		'cave': { 'response': 'There was no wizard there, only monsters.', 'reveal': 'wizards', 'clueReveal': '' , 'activate':''},
@@ -348,34 +364,34 @@ var npcResponses = {
 		'goblins': { 'response': 'Since the wars ended, they fled to the caves and we rarely saw them. Until last week.', 'reveal': '', 'clueReveal': '' , 'activate':''},
 		'blood': { 'response': 'I\'m no magician; I have no idea how magic works.', 'reveal': '', 'clueReveal': '' , 'activate':''},
 		'vampyre': { 'response': 'So the wizard possessed a vampyre! Good work, Clavo! I\'ll notify the Grandmarchy at once.', 'reveal': '', 'clueReveal': '' , 'activate':'caveAvailable'}
-	},
+			},
 	
 	"weston" : {
 		'cave': { 'response': 'Keep away from that place, kids! No good will come of it.', 'reveal': '', 'clueReveal': '' , 'activate':''},
 		'wizards': { 'response': 'I fought in the Horde wars, and we never came up against a being that powerful.', 'reveal': '', 'clueReveal': '' , 'activate':''},
-		'Sawa': { 'response': 'Ever since he took up his ranger post, he stopped drinking. Good for him, even if its bad for business.', 'reveal': '', 'clueReveal': '' , 'activate':''},
+		'Sawa': { 'response': 'Ever since he took up his ranger post, he stopped drinking. Good for him, even if it\'s bad for business.', 'reveal': '', 'clueReveal': '' , 'activate':''},
 		'Horde wars': { 'response': 'I\'m one of the few veterans left. I\'m afraid most of your parents didn\'t survive…', 'reveal': '', 'clueReveal': '' , 'activate':''},
 		'goblins': { 'response': 'I heard our new ranger Sawa saw a few. He easily dispatched them, though.', 'reveal': 'Sawa', 'clueReveal': '' , 'activate':''},
 		'blood': { 'response': 'Damned wizards and their magic. Even their spells are bloody.', 'reveal': '', 'clueReveal': '' , 'activate':''},
-		'vampyre': { 'response': 'Some of the horde chiefs were probably vampyres. Ran away when their forced got massacred.', 'reveal': '', 'clueReveal': '' , 'activate':''}
-	},
+		'vampyre': { 'response': 'Some of the horde chiefs were probably vampyres. Ran away when their minions got massacred.', 'reveal': '', 'clueReveal': '' , 'activate':''}
+			},
 	
 	"widow" : {
-		'cave': { 'response': 'Stay away from that horrible place! The last time you went there you almost died!', 'reveal': '', 'clueReveal': '' , 'activate':''},
+		'cave': { 'response': 'Stay away from that horrible place! You nearly died the last time you went there!', 'reveal': '', 'clueReveal': '' , 'activate':''},
 		'wizards': { 'response': 'This is terrible! If a wizard controls enough monsters, this could be the Horde wars all over again!', 'reveal': 'Horde wars', 'clueReveal': '' , 'activate':''},
 		'Sawa': { 'response': 'He\'s not a nice young man. Never says hello when I see him in town. Which isn\'t often.', 'reveal': '', 'clueReveal': '' , 'activate':''},
 		'Horde wars': { 'response': 'It seems like yesterday. The goblin hordes killed your great-uncle, Lemel. And your parents, Clavo.', 'reveal': 'goblins', 'clueReveal': '' , 'activate':''},
 		'goblins': { 'response': 'Beastly little green men! Talem\'s Glade lost a third of its people to them during the war.', 'reveal': '', 'clueReveal': '' , 'activate':''},
 		'blood': { 'response': 'Sounds awful. These wizards aren\'t nice men, are they?', 'reveal': '', 'clueReveal': '' , 'activate':''},
 		'vampyre': { 'response': 'I never say one, and I can\'t say I care to.', 'reveal': '', 'clueReveal': '' , 'activate':''}
-	},
-	
+		},
+			
 	"burton" : {
 		'cave': { 'response': 'I wonder if any treasure was left behind - Mizak mentioned there might be…', 'reveal': '', 'clueReveal': '' , 'activate':''},
+		'goblins': { 'response': 'They\'re attacking a lot of caravans, but not stealing anything. What are they up to?', 'reveal': '', 'clueReveal': '' , 'activate':''},
 		'wizards': { 'response': 'This guy is bad for business - all the merchants are avoiding the Glade now.', 'reveal': '', 'clueReveal': '' , 'activate':''},
 		'Sawa': { 'response': 'The last I heard, he was staying in the northwest forest. Good base for a ranger.', 'reveal': '', 'clueReveal': '' , 'activate':'sawaAvailable'},
 		'Horde wars': { 'response': 'I came here 10 years after the war ended. But the scars will never leave.', 'reveal': '', 'clueReveal': '' , 'activate':''},
-		'goblins': { 'response': 'They\'re attacking a lot of caravans, but not stealing anything. What are they up to?', 'reveal': '', 'clueReveal': '' , 'activate':''},
 		'blood': { 'response': 'Sounds like a magic ritual. Did you talk to Jera about that?', 'reveal': '', 'clueReveal': '' , 'activate':''},
 		'vampyre': { 'response': 'Just great - more monsters to scare away our customers…', 'reveal': '', 'clueReveal': '' , 'activate':''}
 	},
@@ -384,37 +400,37 @@ var npcResponses = {
 		'wizards': { 'response': 'I\'ve heard lots of stories about those bastards. They have to posess the living to get their power back.', 'reveal': '', 'clueReveal': '' , 'activate':''},
 		'Sawa': { 'response': 'He bought some arrows from me once. But he made his own bow.', 'reveal': '', 'clueReveal': '' , 'activate':''},
 		'Horde wars': { 'response': 'I was barely 12 when the war started, but I joined the militia. After I was wounded, I turned to weaponmaking.', 'reveal': '', 'clueReveal': '' , 'activate':''},
-		'goblins': { 'response': 'See this limp arm? It took a dozen goblins to do that, and none of them survived my sword!', 'reveal': '', 'clueReveal': '' , 'activate':''},
-		'blood': { 'response': ' I heard only the strongest monsters can survive possession, but wizards can posess whole groups of weak ones instead.', 'reveal': '', 'clueReveal': '4' , 'activate':''},
+		'goblins': { 'response': 'I heard wizards can posess whole groups of weak monsters, like goblins.', 'reveal': '', 'clueReveal': '4' , 'activate':''},
+		'blood': { 'response': 'Who in their right mind would want to be possessed?', 'reveal': '', 'clueReveal': '' , 'activate':''},
 		'vampyre': { 'response': 'Sounds nasty. And I don\'t have much silver to use in the weapons.', 'reveal': '', 'clueReveal': '' , 'activate':''}
-	},
+			},
 	"sawa": {
-		'cave': { 'response': 'I saw the Grandmarchy marksman flee from there to the east, towards the ocean.', 'reveal': '', 'clueReveal': '' , 'activate':'bowmanAvailable'},
+		'cave': { 'response': 'The Grandmarchy bowman fled east from the cave, towards the ocean.', 'reveal': '', 'clueReveal': '' , 'activate':'bowmanAvailable'},
 		'wizards': { 'response': 'It\'s hard to fight an enemy who could be lurking in a different body.', 'reveal': '', 'clueReveal': '' , 'activate':''},
 		'Sawa': { 'response': 'Yes?', 'reveal': '', 'clueReveal': '' , 'activate':''},
-		'Horde wars': { 'response': 'The Grandmarchy footman looked like he was fighting that war by himself! The goblins chased him towards the sourthwest plains.', 'reveal': '', 'clueReveal': '' , 'activate':'soldierAvailable'},
-		'goblins': { 'response': 'It\'s possible the wizard could have possessed a bunch of gobilns, but his ghostly manifestation would be stuck in his cave.', 'reveal': '', 'clueReveal': '5' , 'activate':''},
-		'blood': { 'response': 'The only single monster strong enough to survive a spiritual possession is a vampyre.', 'reveal': '', 'clueReveal': '6' , 'activate':'bowmanAvailable'},
+		'Horde wars': { 'response': 'I think that Grandmarchy footman was a veteran. He fled towards the sourthwest plains.', 'reveal': '', 'clueReveal': '' , 'activate':'soldierAvailable'},
+		'goblins': { 'response': 'If the wizard somehow possessed a bunch of gobilns,  his ghost would be stuck in his cave.', 'reveal': '', 'clueReveal': '5' , 'activate':''},
+		'blood': { 'response': 'The only single monster strong enough to survive a spiritual possession is a vampyre.', 'reveal': '', 'clueReveal': '6' , 'activate':''},
 		'vampyre': { 'response': 'I have some silver-tipped arrows just for them. Bring it on!', 'reveal': '', 'clueReveal': '' , 'activate':''}
 	},
 	"soldier": {
 		'cave': { 'response': 'Those stained glass windows were creepy! An underground sun!', 'reveal': '', 'clueReveal': '' , 'activate':''},
 		'wizards': { 'response': 'If that\'s what we\'re up against, the League better send more soldiers.', 'reveal': '', 'clueReveal': '' , 'activate':''},
-		'Sawa': { 'response': 'Short guy with a bow? I saw him. He shot at a few goblins but missed.', 'reveal': '', 'clueReveal': '' , 'activate':''},
-		'Horde wars': { 'response': 'I didn\'t enlist to fight in a war! Maybe I should go for veteran\'s disability before another starts…', 'reveal': '', 'clueReveal': '' , 'activate':''},
+		'Sawa': { 'response': 'Yeah, I saw that ranger. I didn\'t need him. A bow\'s no match for a blade.', 'reveal': '', 'clueReveal': '' , 'activate':''},
+		'Horde wars': { 'response': 'Another war, eh? Looks like I choose the right time to enlist.', 'reveal': '', 'clueReveal': '' , 'activate':''},
 		'goblins': { 'response': 'Individually they\'re weak, but when they band together, they can sure put up a fight.', 'reveal': '', 'clueReveal': '' , 'activate':''},
 		'blood': { 'response': 'That couldn\'t have happened - there wasn\'t a drop of blood in the entire cave.', 'reveal': '', 'clueReveal': '7' , 'activate':''},
 		'vampyre': { 'response': 'If I ever saw one, I\'d run away.', 'reveal': '', 'clueReveal': '' , 'activate':''}
 	},
 	"bowman": {
 		'cave': { 'response': 'The goblins were guarding that place, but there was nothing inside! I don\'t get it.', 'reveal': '', 'clueReveal': '' , 'activate':''},
-		'wizards': { 'response': 'A ghost? No, I didn\'t see the wizard\'s ghost in the cave. He must have been long gone.', 'reveal': '', 'clueReveal': '8' , 'activate':''},
-		'Sawa': { 'response': 'Yeah, I saw that ranger. I didn\'t need him. A bow\'s no match for a blade.', 'reveal': '', 'clueReveal': '' , 'activate':''},
-		'Horde wars': { 'response': 'Another war, eh? Looks like I choose the right time to enlist.', 'reveal': '', 'clueReveal': '' , 'activate':''},
+		'wizards': { 'response': 'A ghost? No, I didn\'t see the wizard\'s ghost in the cave.', 'reveal': '', 'clueReveal': '8' , 'activate':''},
+		'Sawa': { 'response': 'Short guy with a bow? I saw him. He shot at a few goblins but missed.', 'reveal': '', 'clueReveal': '' , 'activate':''},
+		'Horde wars': { 'response': 'I didn\'t enlist to fight in a war! Maybe I should go for veteran\'s disability before another starts…', 'reveal': '', 'clueReveal': '' , 'activate':''},
 		'goblins': { 'response': 'Weak little buggers. They wouldn\'t dare attack unless someone was leading them.', 'reveal': '', 'clueReveal': '' , 'activate':''},
-		'blood': { 'response': 'I wasn\'t paying too much attention to the inside of the cave. Maybe someone else did.', 'reveal': '', 'clueReveal': '' , 'activate':''},
-		'vampyre': { 'response': 'A bloodsucker? I\'m a solder, not a priest. Let them handle it.', 'reveal': '', 'clueReveal': '' , 'activate':''}
-	},
+		'blood': { 'response': 'I wasn\'t looking for blood. Maybe someone else did.', 'reveal': '', 'clueReveal': '' , 'activate':''},
+		'vampyre': { 'response': 'A bloodsucker? I\'m a solder, not a priest-man. Let them handle it.', 'reveal': '', 'clueReveal': '' , 'activate':''}
+	}
 		
 };
 
@@ -644,7 +660,7 @@ var sceneDialog = {
 		{ 'pic': 'res/faces/blankFace.png', 'speaker': '', 'text': '(with a grim smile, the soldier plants his sword in the ground and sits down)', 'sound': '' }
 		, { 'pic': 'res/faces/foremanNormal.png', 'speaker': 'Swordsman', 'text': 'Man, I\'m tired. I\'ve spent all day holding them off. I could sleep for a week!', 'sound': '' }
 		, { 'pic': 'res/faces/blankFace.png', 'speaker': '', 'text': '(the soldier seems to notice the group for the first time)', 'sound': '' }
-		, { 'pic': 'res/faces/foremanNormal.png', 'speaker': 'Swordsman', 'text': 'And where\'s you come from?', 'sound': '' }
+		, { 'pic': 'res/faces/foremanNormal.png', 'speaker': 'Swordsman', 'text': 'And where\'d you come from?', 'sound': '' }
 		, { 'pic': 'res/faces/clavoNormal.png', 'speaker': 'Clavo', 'text': 'From Talem\'s Glade - Donte Kenhos sent us.', 'sound': '' }
 		, { 'pic': 'res/faces/foremanNormal.png', 'speaker': 'Swordsman', 'text': 'So your Reeve survived - good. Good. Listen, it\'s been a whole day and-', 'sound': '' }
 		, { 'pic': 'res/faces/blankFace.png', 'speaker': '', 'text': '(Lemel pulls out his canteen and gives it to the tired soldier)', 'sound': '' }
@@ -656,17 +672,17 @@ var sceneDialog = {
 	"scene15" : [ 
 		{ 'pic': 'res/faces/blankFace.png', 'speaker': '', 'text': '(after talking with Reeve Donte, Clavo goes outside to find Lemel)', 'sound': '' }
 		, { 'pic': 'res/faces/lemelNormal.png', 'speaker': 'Lemel', 'text': 'So what\'s going to happen?', 'sound': '' }
-		, { 'pic': 'res/faces/clavoNormal.png', 'speaker': 'Clavo', 'text': 'Donte believes that the League will have to get serious, now that we know exactly how the wizard was set loose.', 'sound': '' }
+		, { 'pic': 'res/faces/clavoNormal.png', 'speaker': 'Clavo', 'text': 'Now that we know who the wizard possessed, the League will have something to go on.', 'sound': '' }
 		, { 'pic': 'res/faces/clavoNormal.png', 'speaker': 'Clavo', 'text': 'In a few days, we should get some more troops for protection.', 'sound': '' }
 		, { 'pic': 'res/faces/lemelTalk.png', 'speaker': 'Lemel', 'text': 'That\'s a relief.', 'sound': '' }
-		, { 'pic': 'res/faces/clavoStruggle.png', 'speaker': 'Clavo', 'text': 'Tell me about it. This adventuring is hard work. I almost can\'t wait to get back to my ledgers.', 'sound': '' }
+		, { 'pic': 'res/faces/clavoTalk.png', 'speaker': 'Clavo', 'text': 'Tell me about it. This adventuring is hard work. I almost can\'t wait to get back to my ledgers.', 'sound': '' }
 		, { 'pic': 'res/faces/lemelNormal.png', 'speaker': 'Lemel', 'text': 'Let\'s tell Lissette. We should at least get a drink out of the town for doing all their dirty work.', 'sound': '' }
 		, { 'pic': 'res/faces/blankFace.png', 'speaker': '', 'text': '(inside the Pathway Inn, the tavern is empty of customers)', 'sound': '' }
 		, { 'pic': 'res/faces/lissetteTalk.png', 'speaker': 'Lissette', 'text': 'Hey what\'s up, guys?', 'sound': '' }
 		, { 'pic': 'res/faces/clavoNormal.png', 'speaker': 'Clavo', 'text': 'I told Donte everything, and we should get some help within a few days.', 'sound': '' }
 		, { 'pic': 'res/faces/lissetteNormal.png', 'speaker': 'Lissette', 'text': 'Great! That calls for a drink or two on the house.', 'sound': '' }
 		, { 'pic': 'res/faces/lemelFrown.png', 'speaker': 'Lemel', 'text': 'Hey - where\'s Mizak?', 'sound': '' }
-		, { 'pic': 'res/faces/lemelNormal.png', 'speaker': 'Clavo', 'text': 'We should get him. He\'d never forgive us if he missed a chance to get something for free.', 'sound': '' }
+		, { 'pic': 'res/faces/clavoNormal.png', 'speaker': 'Clavo', 'text': 'We should get him. He\'d never forgive us if he missed a chance to get something for free.', 'sound': '' }
 		, { 'pic': 'res/faces/blankFace.png', 'speaker': '', 'text': '(at the item store, Burton stands sweeping the front walk)', 'sound': '' }
 		, { 'pic': 'res/faces/burtonNormal.png', 'speaker': 'Burton', 'text': 'Hey, kids. What\'s up?', 'sound': '' }
 		, { 'pic': 'res/faces/clavoNormal.png', 'speaker': 'Clavo', 'text': 'Have you seen Mizak around?', 'sound': '' }
@@ -674,7 +690,7 @@ var sceneDialog = {
 		, { 'pic': 'res/faces/burtonLaugh.png', 'speaker': 'Burton', 'text': 'He said he had an idea to make some money, and that you guys might want in.', 'sound': '' }
 		, { 'pic': 'res/faces/clavoFrown.png', 'speaker': 'Clavo', 'text': 'Why doesn\'t that surprise me?', 'sound': '' }
 		, { 'pic': 'res/faces/blankFace.png', 'speaker': '', 'text': '(Burton tosses the note to Lissette before heading back inside)', 'sound': '' }
-		, { 'pic': 'res/faces/lissetteAngry.png', 'speaker': 'Lissette', 'text': 'Just great. The last time I listened to him, I lost a month\'s worth of tips.', 'sound': '' }
+		, { 'pic': 'res/faces/lissetteAngry.png', 'speaker': 'Lissette', 'text': 'Just great. The last time I listened to one of his moneymaking ideas, I lost a month\'s worth of tips.', 'sound': '' }
 		, { 'pic': 'res/faces/clavoFrown.png', 'speaker': 'Lemel', 'text': 'So what does it say?', 'sound': '' }
 		, { 'pic': 'res/faces/lissetteNormal.png', 'speaker': 'Lissette', 'text': '(reading) Hey all, I was asking the lost soldiers a few discreet questions while you were busy.', 'sound': '' }
 		, { 'pic': 'res/faces/lissetteFrown.png', 'speaker': 'Lissette', 'text': '(reading) They all agreed on one thing - there was some type of treasure in the wizard\'s cave, probably made of silver.', 'sound': '' }
@@ -692,7 +708,7 @@ var sceneDialog = {
 		, { 'pic': 'res/faces/lemelFrown.png', 'speaker': 'Lemel', 'text': 'Clavo, do you remember how to find the cave without the map?', 'sound': '' }
 		, { 'pic': 'res/faces/clavoFrown.png', 'speaker': 'Clavo', 'text': 'If we walk along the edge of the north mountains, I\'ll be able to recognize it.', 'sound': '' }
 		, { 'pic': 'res/faces/lemelFrown.png', 'speaker': 'Lemel', 'text': 'Let\'s find him before the goblins do.', 'sound': '' }
-	],
+			],
 	"scene16" : [ 
 		{ 'pic': 'res/faces/blankFace.png', 'speaker': '', 'text': '(as dusk approaches, the trio finds Mizak standing in the opening of the cave)', 'sound': '' }
 		, { 'pic': 'res/faces/mizakLaugh.png', 'speaker': 'Mizak', 'text': 'My friends, thanks for coming! I see you got my letter.', 'sound': '' }
@@ -704,43 +720,41 @@ var sceneDialog = {
 		, { 'pic': 'res/faces/mizakNormal.png', 'speaker': 'Mizak', 'text': 'Lissette - enough money to set up your own inn! I know that\'s your dream.', 'sound': '' }
 		, { 'pic': 'res/faces/mizakNormal.png', 'speaker': 'Mizak', 'text': 'Lemel - imagine completing your apprenticeship with enough to buy your own forge!', 'sound': '' }
 		, { 'pic': 'res/faces/mizakNormal.png', 'speaker': 'Mizak', 'text': 'Clavo - you can dump that lowly government clerkship and live like a true scholar!', 'sound': '' }
-		, { 'pic': 'res/faces/clavoFrown.png', 'speaker': 'Clavo', 'text': 'You know, this sounds a lot like how the wizard tried to tempt me…', 'sound': '' }
-		, { 'pic': 'res/faces/', 'speaker': '', 'text': '(Clavo grabs a scroll from his tunic and quickly scans it)', 'sound': '' }
-		, { 'pic': 'res/faces/mizakFrown.png', 'speaker': 'Mizak', 'text': 'You guys can go back. I\'m going in. I\'ll run if there\'s danger. But I won\'t need to, and I\'ll finally have the break I need to start my own trading firm!', 'sound': '' }
-		, { 'pic': 'res/faces/clavoAngry.png', 'speaker': 'Clavo', 'text': '(reading from the scroll) Mi sentas!', 'sound': '' }
-		, { 'pic': 'res/faces/clavoOut.png', 'speaker': '', 'text': '(after reading the scroll, Clavo lurches backwards, and Lemel grabs him)', 'sound': '' }
-		, { 'pic': 'res/faces/lemelFrown.png', 'speaker': 'Lemel', 'text': 'Clavo, are you okay?!?', 'sound': '' }
-		, { 'pic': 'res/faces/', 'speaker': '', 'text': '(a dull glowing sphere appears above Mizak\'s head)', 'sound': '' }
-		, { 'pic': 'res/faces/clavoAngry.png', 'speaker': 'Clavo', 'text': 'Look! The wizard is trying to possess Mizak! Grab him!', 'sound': '' }
-		, { 'pic': 'res/faces/lissetteAngry.png', 'speaker': 'Lissette', 'text': 'You don\'t need to tell me twice!', 'sound': '' }
-		, { 'pic': 'res/faces/', 'speaker': '', 'text': '(Lissette tackles Mizak, throwing him to the ground)', 'sound': '' }
-		, { 'pic': 'res/faces/mizakOut.png', 'speaker': 'Mizak', 'text': 'Ugh!', 'sound': '' }
-		, { 'pic': 'res/faces/lemelAngry.png', 'speaker': 'Lemel', 'text': 'Hang on!', 'sound': '' }
-		, { 'pic': 'res/faces/', 'speaker': '', 'text': '(Lemel runs over and grabs Mizak\'s legs, effectively pinning him to the ground)', 'sound': '' }
-		, { 'pic': 'res/faces/clavoFrown.png', 'speaker': 'Clavo', 'text': 'Mizak, listen! There is no treasure! The wizard is trying to trick you!', 'sound': '' }
-		, { 'pic': 'res/faces/mizakTalk.png', 'speaker': 'Mizak', 'text': 'I…how….', 'sound': '' }
-		, { 'pic': 'res/faces/clavoFrown.png', 'speaker': 'Clavo', 'text': 'Did you really talk to any of the soldiers? Did they really tell you there was silver in the cave?', 'sound': '' }
-		, { 'pic': 'res/faces/clavoFrown.png', 'speaker': 'Clavo', 'text': 'Or did someone else talk to you? A man\'s voice? An old man, a voice that seems like it\'s whispering directly into your ear?', 'sound': '' }
-		, { 'pic': 'res/faces/mizakFrown.png', 'speaker': 'Mizak', 'text': 'Damn…I could have had it…', 'sound': '' }
-		, { 'pic': 'res/faces/clavoFrown.png', 'speaker': 'Clavo', 'text': 'It was never there to begin with.', 'sound': '' }
-		, { 'pic': 'res/faces/', 'speaker': '', 'text': '(Lissette hesitantly releases Mizak\'s arms, and he sits up)', 'sound': '' }
-		, { 'pic': 'res/faces/clavoNormal.png', 'speaker': 'Clavo', 'text': 'Now let\'s get out of here - and quickly!', 'sound': '' }
-		, { 'pic': 'res/faces/', 'speaker': '???', 'text': 'What a shame. And here I thought we could meet and be good friends.', 'sound': '' }
-		, { 'pic': 'res/faces/', 'speaker': '', 'text': '(the air shimmers, and a vampyre appears behind the group)', 'sound': '' }
-		, { 'pic': 'res/faces/clavoAngry.png', 'speaker': 'Clavo', 'text': 'Stay back! Ordi mi avertas!', 'sound': '' }
-		, { 'pic': 'res/faces/', 'speaker': '???', 'text': 'For one untrained in magic, little scholar, these words mean nothing to me.', 'sound': '' }
-		, { 'pic': 'res/faces/lemelFrown.png', 'speaker': 'Lemel', 'text': 'Um…do you have a backup plan?', 'sound': '' }
-		, { 'pic': 'res/faces/clavoFrown.png', 'speaker': 'Clavo', 'text': 'Yeah….RUN!!!', 'sound': '' }
-		, { 'pic': 'res/faces/', 'speaker': '', 'text': '(the four scamper into the cave)', 'sound': '' }
-		, { 'pic': 'res/faces/mizakTalk.png', 'speaker': 'Mizak', 'text': 'Why are we in here? We\'ll be cornered!', 'sound': '' }
-		, { 'pic': 'res/faces/clavoFrown.png', 'speaker': 'Clavo', 'text': 'I need more time! We can\'t defeat a vampyre unless I prepare my herbs ahead of time and-', 'sound': '' }
-		, { 'pic': 'res/faces/', 'speaker': '', 'text': '(at the mouth of the cave, a wall of stone crashes down)', 'sound': '' }
+		, { 'pic': 'res/faces/mizakFrown.png', 'speaker': 'Mizak', 'text': 'You guys can go back. I\'m going in. I\'ll finally have the break I need to start my own trading firm!', 'sound': '' }
+		, { 'pic': 'res/faces/lissetteAngry.png', 'speaker': 'Lissette', 'text': 'No you\'re not. We\'re going back. Now.', 'sound': '' }
+		, { 'pic': 'res/faces/blankFace.png', 'speaker': '', 'text': '(Lissette runs forward and tackles Mizak, and they both fall backwards into the cave)', 'sound': '' }
+		, { 'pic': 'res/faces/mizakStruggle.png', 'speaker': 'Mizak', 'text': 'Hey!', 'sound': '' }
+		, { 'pic': 'res/faces/lemelAngry.png', 'speaker': 'Lemel', 'text': 'I\'m right beside you!', 'sound': '' }
+		, { 'pic': 'res/faces/blankFace.png', 'speaker': '', 'text': '(Lemel straddles Mizak and pins him to the ground)', 'sound': '' }
+		, { 'pic': 'res/faces/lemelAngry.png', 'speaker': 'Lemel', 'text': 'Now, are you coming home with us, or do we have to carry you?', 'sound': '' }
+		, { 'pic': 'res/faces/mizakStruggle.png', 'speaker': 'Mizak', 'text': 'Damnit, this is our future you\'re throwing away!', 'sound': '' }
+		, { 'pic': 'res/faces/clavoFrown.png', 'speaker': 'Clavo', 'text': 'Mizak, I really don\'t think there\'d be any treasure in here. I-', 'sound': '' }
+		, { 'pic': 'res/faces/blankFace.png', 'speaker': '', 'text': '(a strong force pushes Clavo forward into the cave)', 'sound': '' }
+		, { 'pic': 'res/faces/clavoTalk.png', 'speaker': 'Clavo', 'text': 'Hey, what the-', 'sound': '' }
+		, { 'pic': 'res/faces/blankFace.png', 'speaker': '', 'text': '(at the mouth of the cave, a wall of stone crashes down)', 'sound': '' }
 		, { 'pic': 'res/faces/lissetteFrown.png', 'speaker': 'Lissette', 'text': 'Oh no! We\'re trapped!', 'sound': '' }
-		, { 'pic': 'res/faces/', 'speaker': '', 'text': '(Lemel runs to the stone door and pushes at it until his muscles bulge out)', 'sound': '' }
+		, { 'pic': 'res/faces/blankFace.png', 'speaker': '', 'text': '(Lemel runs to the stone door and pushes at it until his muscles bulge out)', 'sound': '' }
 		, { 'pic': 'res/faces/lemelStruggle.png', 'speaker': 'Lemel', 'text': 'Urghh….no use….', 'sound': '' }
-		, { 'pic': 'res/faces/mizakFrown.png', 'speaker': 'Mizak', 'text': 'There\'s no way out! The wizard must have sealed us in!', 'sound': '' }
-		, { 'pic': 'res/faces/clavoFrown.png', 'speaker': 'Clavo', 'text': '(…think…the wizard lived for centuries here...there has to be a way out…)', 'sound': '' }
+		, { 'pic': 'res/faces/blankFace.png', 'speaker': '', 'text': '(from somewhere in the darkness a strange voice rises)', 'sound': '' }
+		, { 'pic': 'res/faces/blankFace.png', 'speaker': '???', 'text': 'Welcome to my humble cave, kids.', 'sound': '' }
+		, { 'pic': 'res/faces/clavoAngry.png', 'speaker': 'Clavo', 'text': 'You! The wizard!', 'sound': '' }
+		, { 'pic': 'res/faces/blankFace.png', 'speaker': '???', 'text': 'Ah, my little scholar. The one who threw away his chance at glory.', 'sound': '' }
+		, { 'pic': 'res/faces/clavoAngry.png', 'speaker': 'Clavo', 'text': 'You tried to kill me!', 'sound': '' }
+		, { 'pic': 'res/faces/blankFace.png', 'speaker': '???', 'text': 'Only when you refused your destiny. I\'ve spent a thousand years trapped in this cave; now it\'s your turn!', 'sound': '' }
+		, { 'pic': 'res/faces/clavoAngry.png', 'speaker': 'Clavo', 'text': '…grrrrr….', 'sound': '' }
+		, { 'pic': 'res/faces/blankFace.png', 'speaker': '???', 'text': 'Please make yourselves at home. Now that the sun is going down, I think I\'ll visit your charming hometown in my new body. Gis!', 'sound': '' }
+		, { 'pic': 'res/faces/blankFace.png', 'speaker': '', 'text': '(Lissette pulls out a small lantern and looks around)', 'sound': '' }
+		, { 'pic': 'res/faces/lissetteAngry.png', 'speaker': 'Lissette', 'text': 'Damnit, we\'re trapped! Thanks a lot, Mizak!', 'sound': '' }
+		, { 'pic': 'res/faces/mizakFrown.png', 'speaker': 'Mizak', 'text': 'I\'m sorry, okay? I was trying to benefit us all!', 'sound': '' }
+		, { 'pic': 'res/faces/lemelFrown.png', 'speaker': 'Lemel', 'text': 'Clavo, you\'ve been here before. Is there any other way out of this cave? We have to warn the Glade!', 'sound': '' }
+		, { 'pic': 'res/faces/blankFace.png', 'speaker': '', 'text': '(at the mouth of the cave, a wall of stone crashes down)', 'sound': '' }
+		, { 'pic': 'res/faces/lissetteFrown.png', 'speaker': 'Lissette', 'text': 'Oh no! We\'re trapped!', 'sound': '' }
+		],
+	
+	"scene27" : [ 
+		{ 'pic': 'res/faces/clavoFrown.png', 'speaker': 'Clavo', 'text': '(I better not leave town unless I have four people in the party)', 'sound': '' }
 	],
+	
 	"scene28" : [ 
 		{ 'pic': 'res/faces/blankFace.png', 'speaker': '', 'text': '(the party has fallen in battle)', 'sound': '' }
 		, { 'pic': 'res/faces/blankFace.png', 'speaker': '', 'text': '(GAME OVER.  You\'ve reached the third ending, which is also the worst ending)', 'sound': '' }

@@ -29,6 +29,15 @@
 	                    blockMap[x][y] = townMapCollision[y][x];
 	                } 
 	            }
+	        } else if (mapId == 3) {
+	            this.maxX = 24;
+	            this.maxY = 24;
+	            for (var x = 0; x < 25; x++) {
+	                blockMap[x] = [];
+	                for (var y = 0; y < 25; y++) {
+	                    blockMap[x][y] = caveMapCollision[y][x];
+	                } 
+	            }
 	        }
 	      this.blockMap = blockMap;
 	      this.goalX = goalX;

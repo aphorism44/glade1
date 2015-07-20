@@ -100,7 +100,7 @@ function updateClueAvailability(clueId) {
 		//some clues enabled through talking trigger game events
 		var gameVariable;
 		for (var j = 0; j < game.revealedClueActions.length; j++) {
-			if (game.revealedClueActions[j].clueId == revealedClueId)	{
+			if (game.revealedClueActions[j].clueId == clueId)	{
 				if (game.revealedClueActions[j].action == 'activateGameVariable') {
 					gameVariable = game.revealedClueActions[j].gameVariable;
 					activateGameVariable(gameVariable);
@@ -121,7 +121,7 @@ function activateGameVariable(variable) {
 			for (var j = 0; j < variableTrigger.length; j++) {
 				if (variableTrigger[j].triggerVariable == variable) {
 					var triggerIndex = variableTrigger[j].triggerIndex;
-					game.specialScenesTriggered[triggerIndex] = 1;
+					game.specialScenesTriggered[triggerIndex].status = 1;
 				}
 			}
 		}
@@ -198,7 +198,9 @@ function resetGameVariables() {
 	
 	for (var k = 0; k < game.specialScenesTriggered.length; k++) {
 		game.specialScenesTriggered[k].status = '0';
-	}   
+	}  
+	
+	game.stage = 1; 
 	
 	//HARDCODEALERT begin
 	game.currentParty = ['Lemel', 'Clavo', 'Lissette', 'Mizak'];

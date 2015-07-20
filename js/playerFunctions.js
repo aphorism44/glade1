@@ -91,6 +91,7 @@
 			//console.log('mapId: ' + mapId);
 			//console.log('main x: ' + x / game.spriteWidth);
 			//console.log('main y: ' + y / game.spriteHeight);
+			
 			//check tile
 			if (this.checkTile == true) {
 				checkCurrentMapBox(mapId, scene, x, y);

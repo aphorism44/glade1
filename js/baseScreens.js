@@ -5,7 +5,7 @@ var titleScreen = Class.create(Scene, {
     initialize: function() {
     	this.name = "titleScreen";
         var game;
-        Scene.apply(this);
+        Scene.apply(this);   
         game = Game.instance;
        
 		var bg = makeBackground(game.assets['res/titleBg.png']);
@@ -40,10 +40,12 @@ var titleScreen = Class.create(Scene, {
 	       	window.open("http://www.aphorism44.com");
 		});
 		startButton.addEventListener(Event.TOUCH_END, function(e) {
-	       var scene = new openingScreen();
-	       //var scene = new talkScreen(4);
+	      //var scene = new openingScreen();
+	       var scene = new talkScreen(30);
 	       //var scene = new interactScreen("jera", 1);
 	       //var scene = new gameScreen(1, 4, 5, 0);
+	       //game.stage++;
+	       //var scene = new gameScreen(3, 12, 23, 1);
 			//var scene = new clueScreen();
 			//var scene = new creditScreen();
 			//var playerArray = game.currentParty;

@@ -42,7 +42,7 @@ var gameScreen = Class.create(Scene, {
         		gameTiles.image = Game.instance.assets['res/mapTiles.png'];
         		gameTiles.loadData(caveMap);
         		gameTiles.collisionData = caveMapCollision;
-        		this.bgm = game.assets['res/sounds/noSound.mp3'];
+        		this.bgm = game.assets['res/sounds/scaryAmbiance.mp3'];
         		break;
         	
         }
@@ -113,10 +113,12 @@ var gameScreen = Class.create(Scene, {
 	   		var sceneId;
 	   		for (var i = 0; i < game.specialScenesTriggered.length; i++) {
 	   			if (game.specialScenesTriggered[i].status == 1) {
-	   				sceneId = game.scenesTriggered[i].scene;
-	   				this.bgm.stop();
-					var scene = new talkScreen(sceneId);
-					game.pushScene(scene);
+	   				sceneId = game.specialScenesTriggered[i].scene;
+	   				if (game.scenesTriggered[sceneId].triggered == 0) {
+	   					this.bgm.stop();
+						var scene = new talkScreen(sceneId);
+						game.pushScene(scene);
+	   				}
 	   			}
 	   		}
 	   	} );

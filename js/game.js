@@ -96,8 +96,7 @@ window.onload = function() {
 			
 			, 'res/album.png'
 			, 'res/aerinboy.png'
-			, 'res/exitvehicles.png'
-			, 'res/hyptosis.png'
+			, 'res/endScene.png'
 			
 			, 'res/titleBg.png'
 			, 'res/grayBg.png'
@@ -216,6 +215,7 @@ window.onload = function() {
 			, 'res/sounds/tone.mp3'
 			, 'res/sounds/slap.mp3'
 			, 'res/sounds/natureAmbiance.mp3'
+			, 'res/sounds/scaryAmbiance.mp3'
 			, 'res/sounds/noSound.mp3'
 			, 'res/sounds/frogsNight.mp3'
 			, 'res/sounds/windBg.mp3'

@@ -195,57 +195,66 @@ var creditScreen = Class.create(Scene, {
         this.bgm.play();
         
         var bg = makeBackground(game.assets['res/blackBg.png']);
+        
+        var endScene = makeImage(game.assets['res/endScene.png'], 1159, 560, 0, 0);
+		endScene.opacity = 0;
+        endScene.tl.setTimeBased();
+        endScene.tl.fadeIn(4000).moveBy(-759, 0, 39250).fadeOut(2000);
 		
         var artistImg = makeImage(game.assets['res/aerinboy.png'], 150, 150, 150, 75);
         artistImg.opacity = 0;
         artistImg.tl.setTimeBased();
-        var bandImg = makeImage(game.assets['res/exitvehicles.png'], 141, 141, 150, 75);
+        var bandImg = makeImage(game.assets['res/album.png'], 141, 141, 150, 75);
         bandImg.opacity = 0;
         bandImg.tl.setTimeBased();
-        var hypImg = makeImage(game.assets['res/hyptosis.png'], 150, 111, 150, 75);
-        hypImg.opacity = 0;
-        hypImg.tl.setTimeBased();
         
         var textLabel = makeLabel('', 40, 245, 'monospace', '16', 'rgb(255,255,255)', 320, 150, 'rgba(0,0,0,0.6)', '');	
         textLabel.tl.setTimeBased();
+        textLabel.tl.delay(50000).fadeOut(5000);
         
-        artistImg.tl.delay(3500).fadeIn(500).delay(2500).fadeOut(500);
-        bandImg.tl.delay(7000).fadeIn(500).delay(2500).fadeOut(500);
-        hypImg.tl.delay(10500).fadeIn(500).delay(3000).fadeOut(500);
+        
+        var finalDialogue = 'Clavo: I don\'t think I have a real reason. I just wanted to come home.';
+        var dialogueLabel = makeLabel(wordWrap(finalDialogue, 320, 16), 40, 340, 'monospace', '16', 'rgb(255,255,255)', 320, 160, 'rgba(0,0,0,0.6)');
+		dialogueLabel.tl.setTimeBased();
+        dialogueLabel.tl.delay(17000).fadeOut(500);
+        
+        artistImg.tl.delay(24000).fadeIn(500).delay(5250).fadeOut(500);
+        bandImg.tl.delay(30250).fadeIn(500).delay(5750).fadeOut(500);
 		
 		textLabel.tl.cue( {
-			200: function() {
-				textLabel.text = wordWrap("All dialogue and coding (HTML5/JavaScript/CSS, with the enchant.js library) by Aphorism44."
+			17500: function() {
+				textLabel.text = wordWrap("Aphorism44 - game engine design, JavaScript/enchant.js coding, and dialogue"
 					, textLabel.width, 16);
 			},
-			3500: function() {
-				textLabel.text = wordWrap("Artwork by AerinBoy"
+			24000: function() {
+				textLabel.text = wordWrap("AerinBoy - atrwork and graphic design"
 					, textLabel.width, 16);
 			},
-			7000: function() {
-				textLabel.text = wordWrap("Music by the Exit Vehicles, Tsunami track."
+			30250: function() {
+				textLabel.text = wordWrap("Exit Vehicles - music (Unplugged track)."
 					, textLabel.width, 16);
 			},
-			10500: function() {
-				textLabel.text = wordWrap("Public domain art/music from Hyptosis (above), Sprite Creator 3, Wikimedia Commons, and SoundBible."
+			37000: function() {
+				textLabel.text = wordWrap("Public domain art and sounds - Hyptosis, Sprite Creator 3, Wikimedia Commons, and SoundBible."
 					, textLabel.width, 16);
 			},
-			14500: function() {
-				textLabel.text = wordWrap(""
+			43250: function() {
+				textLabel.text = wordWrap("All copyrights on non-public domain materials are maintained by these parties. 2015."
 					, textLabel.width, 16);
 			}
 		});
 		
 		this.addEventListener(Event.ENTER_FRAME, function() {
-			if (this.age > 275) {
+			if (this.age > 55000) {
 				game.popScene();                                                                           
 			}
 		});	
         
         this.addChild(bg);
+        this.addChild(endScene);
+        this.addChild(dialogueLabel);
         this.addChild(artistImg);
         this.addChild(bandImg);
-        this.addChild(hypImg);
         this.addChild(textLabel);
     }
 	

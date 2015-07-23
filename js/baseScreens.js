@@ -223,7 +223,7 @@ var statusScreen = Class.create(Scene, {
 		}
 		
 		var missionLabel = makeLabel('', 25, 450, "monospace", 14, "White", 350, 50);
-		missionLabel.text = wordWrap(stageMissions[game.stage], 350, 14);
+		missionLabel.text = wordWrap(stageMissions[game.stage - 1], 350, 14);
 		
 		this.addChild(missionLabel);
 		

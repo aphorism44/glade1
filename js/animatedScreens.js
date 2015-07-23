@@ -43,32 +43,32 @@ var openingScreen = Class.create(Scene, {
         var clavoBannerA = makeLabel(clavoTextA + ' ' + clavoTextA, 50, 400, "monospace", 24, "White", 5000, 35);
         clavoBannerA.opacity = 0;;
         var clavoNameLabel= makeLabel("Clavo", -200, -200, "Times New Roman", 24, "White", 5000, 35);
-        var clavoTitleLabel1 = makeLabel("scholar", -200, -200, "Times New Roman", 24, "DarkGreen", 200, 35);
-        var clavoTitleLabel2 = makeLabel("town clerk", -200, -200, "Times New Roman", 24, "DarkGreen", 200, 35);
+        var clavoTitleLabel1 = makeLabel("scholar", -200, -200, "Times New Roman", 24, "DarkViolet", 200, 35);
+        var clavoTitleLabel2 = makeLabel("town clerk", -200, -200, "Times New Roman", 24, "DarkViolet", 200, 35);
         clavoNameLabel.opacity = 0;
         
         var lemelTextA = "Come on, Clavo, not after all this!";
         var lemelBannerA = makeLabel(lemelTextA + ' ' + lemelTextA, 50, 380, "monospace", 24, "White", 5000, 35);
         lemelBannerA.opacity = 0;
         var lemelNameLabel= makeLabel("Lemel", -200, -200, "Times New Roman", 24, "White", 5000, 35);
-        var lemelTitleLabel1 = makeLabel("apprentice", -200, -200, "Times New Roman", 24, "DarkRed", 200, 35);
-        var lemelTitleLabel2 = makeLabel("blacksmith", -200, -200, "Times New Roman", 24, "DarkRed", 200, 35);
+        var lemelTitleLabel1 = makeLabel("apprentice", -200, -200, "Times New Roman", 24, "Turquoise", 200, 35);
+        var lemelTitleLabel2 = makeLabel("blacksmith", -200, -200, "Times New Roman", 24, "Turquoise", 200, 35);
         lemelNameLabel.opacity = 0;
         
         var lissetteTextA = "How about if I slam you in the head with this tankard? That ought to put you to sleep.";
         var lissetteBannerA = makeLabel(lissetteTextA + ' ' + lissetteTextA, 50, 350, "monospace", 24, "White", 5000, 35);
         lissetteBannerA.opacity = 0;
         var lissetteNameLabel= makeLabel("Lissette", -200, -200, "Times New Roman", 24, "White", 200, 35);
-        var lissetteTitleLabel1 = makeLabel("bartender", -200, -200, "Times New Roman", 24, "DarkOrchid", 200, 35);
-        var lissetteTitleLabel2 = makeLabel("waitress", -200, -200, "Times New Roman", 24, "DarkOrchid", 200, 35);
+        var lissetteTitleLabel1 = makeLabel("bartender", -200, -200, "Times New Roman", 24, "DarkRed", 200, 35);
+        var lissetteTitleLabel2 = makeLabel("waitress", -200, -200, "Times New Roman", 24, "DarkRed", 200, 35);
         lissetteNameLabel.opacity = 0;
         
         var mizakTextA = "C'mon, I said I was sorry. Don't be like that.";
         var mizakBannerA = makeLabel(mizakTextA + ' ' + mizakTextA, 50, 400, "monospace", 24, "White", 5000, 35);
         mizakBannerA.opacity = 0;
         var mizakNameLabel= makeLabel("Mizak", -200, -200, "Times New Roman", 24, "White", 200, 35);
-        var mizakTitleLabel1 = makeLabel("shopkeeper", -200, -200, "Times New Roman", 24, "DarkGreen", 200, 35);
-        var mizakTitleLabel2 = makeLabel("merchant", -200, -200, "Times New Roman", 24, "DarkGreen", 200, 35);
+        var mizakTitleLabel1 = makeLabel("shopkeep", -200, -200, "Times New Roman", 24, "ForestGreen", 200, 35);
+        var mizakTitleLabel2 = makeLabel("merchant", -200, -200, "Times New Roman", 24, "ForestGreen", 200, 35);
         mizakNameLabel.opacity = 0;
         
         var textLabel = makeLabel("", 40, 245, "16px monospace", 58, "White", 320, 120, "", "left");
@@ -195,12 +195,16 @@ var creditScreen = Class.create(Scene, {
         this.bgm.play();
         
         var bg = makeBackground(game.assets['res/blackBg.png']);
+        bg.tl.setTimeBased();
         
         var endScene = makeImage(game.assets['res/endScene.png'], 1159, 560, 0, 0);
 		endScene.opacity = 0;
         endScene.tl.setTimeBased();
         endScene.tl.fadeIn(4000).moveBy(-759, 0, 39250).fadeOut(2000);
 		
+		var aphorismImage = makeImage(game.assets['res/aph.png'], 150, 150, 150, 75);
+        aphorismImage.opacity = 0;
+        aphorismImage.tl.setTimeBased();
         var artistImg = makeImage(game.assets['res/aerinboy.png'], 150, 150, 150, 75);
         artistImg.opacity = 0;
         artistImg.tl.setTimeBased();
@@ -208,51 +212,68 @@ var creditScreen = Class.create(Scene, {
         bandImg.opacity = 0;
         bandImg.tl.setTimeBased();
         
-        var textLabel = makeLabel('', 40, 245, 'monospace', '16', 'rgb(255,255,255)', 320, 150, 'rgba(0,0,0,0.6)', '');	
+        var textLabel = makeLabel('', 40, 245, 'monospace', '16', 'white', 320, 75, '', '');
         textLabel.tl.setTimeBased();
-        textLabel.tl.delay(50000).fadeOut(5000);
+        textLabel.tl.opacity = 0;
         
-        
-        var finalDialogue = 'Clavo: I don\'t think I have a real reason. I just wanted to come home.';
-        var dialogueLabel = makeLabel(wordWrap(finalDialogue, 320, 16), 40, 340, 'monospace', '16', 'rgb(255,255,255)', 320, 160, 'rgba(0,0,0,0.6)');
+        var finalDialogue1 = 'Clavo: I don\'t think I have a real reason. I just wanted to come home.';
+        var finalDialogue2 = 'Lissette: A good enough reason - for now....';
+        var dialogueLabel = makeLabel(wordWrap(finalDialogue1, 320, 16), 40, 340, 'monospace', '16', 'rgb(255,255,255)', 320, 80, 'rgba(0,0,0,0.6)');
 		dialogueLabel.tl.setTimeBased();
-        dialogueLabel.tl.delay(17000).fadeOut(500);
-        
+		dialogueLabel.tl.cue( {
+			9000: function() {
+				dialogueLabel.text = wordWrap(finalDialogue2, dialogueLabel.width, 16);
+			},
+			17000: function() {
+				dialogueLabel.tl.fadeOut(500);
+			}
+		});
+		
+        aphorismImage.tl.delay(17000).fadeIn(500).delay(6000).fadeOut(500);
         artistImg.tl.delay(24000).fadeIn(500).delay(5250).fadeOut(500);
         bandImg.tl.delay(30250).fadeIn(500).delay(5750).fadeOut(500);
+        
+        
 		
 		textLabel.tl.cue( {
+			17000: function() {
+				textLabel.tl.fadeIn(500);
+			},
 			17500: function() {
-				textLabel.text = wordWrap("Aphorism44 - game engine design, JavaScript/enchant.js coding, and dialogue"
+				textLabel.backgroundColor = 'rgba(0,0,0,0.6)';
+				textLabel.text = wordWrap('Aphorism44: game engine design, JavaScript and enchant.js coding, dialogue'
 					, textLabel.width, 16);
 			},
 			24000: function() {
-				textLabel.text = wordWrap("AerinBoy - atrwork and graphic design"
+				textLabel.text = wordWrap('AerinBoy: atrwork, character design'
 					, textLabel.width, 16);
 			},
 			30250: function() {
-				textLabel.text = wordWrap("Exit Vehicles - music (Unplugged track)."
+				textLabel.text = wordWrap('Exit Vehicles: music, Unplugged track'
 					, textLabel.width, 16);
 			},
 			37000: function() {
-				textLabel.text = wordWrap("Public domain art and sounds - Hyptosis, Sprite Creator 3, Wikimedia Commons, and SoundBible."
+				textLabel.text = wordWrap('Public domain art and sounds: Hyptosis, Sprite Creator 3, Wikimedia Commons, and SoundBible.'
 					, textLabel.width, 16);
 			},
 			43250: function() {
-				textLabel.text = wordWrap("All copyrights on non-public domain materials are maintained by these parties. 2015."
+				textLabel.tl.fadeOut(7250);
+				textLabel.text = wordWrap('All rights, including copyright in the overall game design, art and audio, are owned and controlled by the respective listed parties.'
 					, textLabel.width, 16);
 			}
 		});
 		
 		this.addEventListener(Event.ENTER_FRAME, function() {
-			if (this.age > 55000) {
-				game.popScene();                                                                           
+			/*don't ask me why, can't get the screen to work as if it's time-based */
+			if (this.age > 825) {
+				game.popScene();                                                              
 			}
 		});	
-        
+		
         this.addChild(bg);
         this.addChild(endScene);
         this.addChild(dialogueLabel);
+        this.addChild(aphorismImage);
         this.addChild(artistImg);
         this.addChild(bandImg);
         this.addChild(textLabel);

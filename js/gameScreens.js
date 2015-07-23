@@ -139,7 +139,7 @@ var gameScreen = Class.create(Scene, {
         this.gameStage.addChild(gameTiles);
         this.gameStage.addChild(player);
         
-        //find any NPCs that are on this map and place them
+         //find any NPCs that are on this map and place them
         this.placeNPCs();
         
         this.addChild(this.gameStage);

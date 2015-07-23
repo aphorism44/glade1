@@ -1,5 +1,36 @@
 
 
+
+logicInstructions1=
+'When evaluating clues,<br> use these logic rules:';
+
+logicInstructions2=
+'MODUS PONENS<br>' +
+'IF p THEN q<br>' +
+'p<br>' +
+'THEREFORE q';
+
+logicInstructions3=
+'MODUS TOLLENS<br>' +
+'IF p THEN q<br>' +
+'NOT q<br>' +
+'THEREFORE NOT p';
+
+logicInstructions4=
+'ELIMINATION<br>' +
+'p OR q<br>' +
+'NOT p<br>' +
+'THEREFORE q';
+
+logicInstructions5=
+'TRANSITIVITY<br>' +
+'IF p THEN q<br>' +
+'IF q THEN r<br>' +
+'THEREFORE IF p THEN r';
+
+
+
+
 //the array value = sceneId
 //fill this manually
 var initialSceneTriggered = [
@@ -51,6 +82,13 @@ var initialBattlesTriggered = [
 //set this manually
 var loadGameStartPoints = [
 	{'loadId':'1', 'gameStage': 1, 'startMap':'2', 'startX':'19', 'startY':'22', 'startDir':'0' }
+	, {'loadId':'2', 'gameStage': 2, 'startMap':'3', 'startX':'12', 'startY':'23', 'startDir':'1' }
+];
+
+
+var stageMissions = [
+	{'stage':1, 'mission' : 'Mission: Find the expedition survivors and discover who the wizard possessed.'}
+	, {'stage':2, 'mission' : 'Mission: Escape the cave and warn Talem\'s Glade!'}
 ];
 
 //action that happens after an explain scene
@@ -124,21 +162,27 @@ var sceneActions = [
 	, {'scene':'2', 'action':'toggleGameVariable', 'variable': 'lemelOutside' }
 	, {'scene':'2', 'action':'addCharacter', 'character': 'Lemel' }
 	, {'scene':'2', 'action':'gotoMap', 'startMap': '2', 'startX': '2', 'startY': '8', 'startDir': '0' }
+	, {'scene':'2', 'action':'restartMusic' }
 	, {'scene':'3', 'action':'trigger' }
 	, {'scene':'3', 'action':'toggleGameVariable', 'variable': 'helpingMizak' }
 	, {'scene':'3', 'action':'popScene' }
+	, {'scene':'3', 'action':'restartMusic' }
 	, {'scene':'4', 'action':'popScene' }
+	, {'scene':'4', 'action':'restartMusic' }
 	, {'scene':'5', 'action':'trigger' }
 	, {'scene':'5', 'action':'toggleGameVariable', 'variable': 'foundMizakItem' }
 	, {'scene':'5', 'action':'toggleGameVariable', 'variable': 'helpingMizak' }
 	, {'scene':'5', 'action':'popScene' }
+	, {'scene':'5', 'action':'restartMusic' }
 	, {'scene':'6', 'action':'trigger' }
 	, {'scene':'6', 'action':'toggleGameVariable', 'variable': 'mizakOutside' }
 	, {'scene':'6', 'action':'addCharacter', 'character': 'Mizak' }
 	, {'scene':'6', 'action':'gotoMap', 'startMap': '2', 'startX': '17', 'startY': '8', 'startDir': '0' }
+	, {'scene':'6', 'action':'restartMusic' }
 	, {'scene':'7', 'action':'trigger' }
 	, {'scene':'7', 'action':'toggleGameVariable', 'variable': 'helpingLissette' }
 	, {'scene':'7', 'action':'popScene' }
+	, {'scene':'7', 'action':'restartMusic' }
 	, {'scene':'8', 'action':'popScene' }
 	, {'scene':'9', 'action':'trigger' }
 	, {'scene':'9', 'action':'addCharacter', 'character': 'Lissette' }
@@ -146,6 +190,7 @@ var sceneActions = [
 	, {'scene':'10', 'action':'trigger' }
 	, {'scene':'10', 'action':'toggleGameVariable', 'variable': 'lissetteOutside' }
 	, {'scene':'10', 'action':'gotoMap', 'startMap': '2', 'startX': '13', 'startY': '13', 'startDir': '' }
+	, {'scene':'10', 'action':'restartMusic' }
 	, {'scene':'11', 'action':'trigger' }
 	, {'scene':'11', 'action':'toggleGameVariable', 'variable': 'sawaOutside' }
 	, {'scene':'11', 'action':'gotoTalkScene', 'npc': 'sawa' }
@@ -162,27 +207,34 @@ var sceneActions = [
 	, {'scene':'15', 'action':'trigger' }
 	, {'scene':'15', 'action':'removeCharacter', 'character': 'Mizak' }
 	, {'scene':'15', 'action':'popScene' }
+	, {'scene':'15', 'action':'restartMusic' }
 	, {'scene':'16', 'action':'trigger' }
 	, {'scene':'16', 'action':'addCharacter', 'character': 'Mizak' }
 	, {'scene':'16', 'action':'toggleGameVariable', 'variable': 'caveAvailable' }
 	, {'scene':'16', 'action':'addClue', 'clueId': '15' }
 	, {'scene':'16', 'action':'advanceStage' }
+	, {'scene':'16', 'action':'stopMusic' }
 	, {'scene':'16', 'action':'gotoMap', 'startMap': '3', 'startX': '12', 'startY': '23', 'startDir': '1' }
 	, {'scene':'17', 'action':'trigger' }
 	, {'scene':'17', 'action':'addClue', 'clueId': '16' }
 	, {'scene':'17', 'action':'popScene' }
+	, {'scene':'17', 'action':'restartMusic' }
 	, {'scene':'18', 'action':'trigger' }
 	, {'scene':'18', 'action':'addClue', 'clueId': '17' }
 	, {'scene':'18', 'action':'popScene' }
+	, {'scene':'18', 'action':'restartMusic' }
 	, {'scene':'19', 'action':'trigger' }
 	, {'scene':'19', 'action':'addClue', 'clueId': '18' }
 	, {'scene':'19', 'action':'popScene' }
+	, {'scene':'19', 'action':'restartMusic' }
 	, {'scene':'20', 'action':'trigger' }
 	, {'scene':'20', 'action':'addClue', 'clueId': '19' }
 	, {'scene':'20', 'action':'popScene' }
+	, {'scene':'20', 'action':'restartMusic' }
 	, {'scene':'21', 'action':'trigger' }
 	, {'scene':'21', 'action':'addClue', 'clueId': '20' }
 	, {'scene':'21', 'action':'popScene' }
+	, {'scene':'21', 'action':'restartMusic' }
 	, {'scene':'22', 'action':'trigger' }
 	, {'scene':'22', 'action':'toggleGameVariable', 'variable': 'soldierOutside' }
 	, {'scene':'22', 'action':'toggleGameVariable', 'variable': 'sawaOutside' }
@@ -215,10 +267,10 @@ var npcInfo = [
 	, {'npcName':'sawa', 'mapId':1, 'sprite':'res/sawaSprites.png', 'visible':'sawaOutside', 'xCord': 17, 'yCord':8 }
 	, {'npcName':'swordsman', 'mapId':1, 'sprite':'res/swordmanSprites.png', 'visible':'soldierOutside', 'xCord': 6, 'yCord':18 }
 	, {'npcName':'bowman', 'mapId':1, 'sprite':'res/bowmanSprites.png', 'visible':'bowmanOutside', 'xCord': 23, 'yCord':5 }
-	, {'npcName':'sawaEnd', 'mapId':2, 'sprite':'res/sawaSprites.png', 'visible':'sawaInTown', 'xCord': 20, 'yCord':12 }
-	, {'npcName':'swordmanEnd', 'mapId':2, 'sprite':'res/swordmanSprites.png', 'visible':'soldierInTown', 'xCord': 19, 'yCord':14 }
-	, {'npcName':'bowmanEnd', 'mapId':2, 'sprite':'res/bowmanSprites.png', 'visible':'bowmanInTown', 'xCord': 21, 'yCord':14 }
-
+	, {'npcName':'sawaEnd', 'mapId':2, 'sprite':'res/sawaSprites.png', 'visible':'sawaInTown', 'xCord': 20, 'yCord':6 }
+	, {'npcName':'swordmanEnd', 'mapId':2, 'sprite':'res/swordmanSprites.png', 'visible':'soldierInTown', 'xCord': 19, 'yCord':7 }
+	, {'npcName':'bowmanEnd', 'mapId':2, 'sprite':'res/bowmanSprites.png', 'visible':'bowmanInTown', 'xCord': 21, 'yCord':7 }
+	
 ];
 
 var combatActions = [
@@ -259,11 +311,11 @@ var initialClueData = [
 	, {'id': '14', 'gameStage': '1',  'available': '0', 'partner': '0', 'revealed': '0', 'wordRevealed': 'vampyre', 'text': 'The wizard possessed a vampyre.'}
 	
 	, {'id': '15', 'gameStage': '2',  'available': '1', 'partner': '24', 'revealed': '25', 'wordRevealed': '', 'text': 'When the sun and the moon rise, the door will open.'}
-	, {'id': '16', 'gameStage': '2',  'available': '0', 'partner': '23', 'revealed': '24', 'wordRevealed': '', 'text': 'When the altar is touched, the sun rises.'}
-	, {'id': '17', 'gameStage': '2',  'available': '0', 'partner': '22', 'revealed': '23', 'wordRevealed': '', 'text': 'If the petals are not closed, the moon will not rise.'}
-	, {'id': '18', 'gameStage': '2',  'available': '0', 'partner': '21', 'revealed': '22', 'wordRevealed': '', 'text': 'While the water flows or the farmer toils, the petals will not close.'}
-	, {'id': '19', 'gameStage': '2',  'available': '0', 'partner': '20', 'revealed': '21', 'wordRevealed': '', 'text': 'If the fountain is stopped, the water will not flow.'}
-	, {'id': '20', 'gameStage': '2',  'available': '0', 'partner': '19', 'revealed': '21', 'wordRevealed': '', 'text': 'If the statue of the farmer is moved, the farmer will stop toiling.'}
+	, {'id': '16', 'gameStage': '2',  'available': '1', 'partner': '23', 'revealed': '24', 'wordRevealed': '', 'text': 'When the altar is touched, the sun rises.'}
+	, {'id': '17', 'gameStage': '2',  'available': '1', 'partner': '22', 'revealed': '23', 'wordRevealed': '', 'text': 'If the petals are not closed, the moon will not rise.'}
+	, {'id': '18', 'gameStage': '2',  'available': '1', 'partner': '21', 'revealed': '22', 'wordRevealed': '', 'text': 'While the water flows or the farmer toils, the petals will not close.'}
+	, {'id': '19', 'gameStage': '2',  'available': '1', 'partner': '20', 'revealed': '21', 'wordRevealed': '', 'text': 'If the fountain is stopped, the water will not flow.'}
+	, {'id': '20', 'gameStage': '2',  'available': '1', 'partner': '19', 'revealed': '21', 'wordRevealed': '', 'text': 'If the statue of the farmer is moved, the farmer will stop toiling.'}
 	, {'id': '21', 'gameStage': '2',  'available': '0', 'partner': '18', 'revealed': '22', 'wordRevealed': '', 'text': 'If the fountain stops and the statue moved, the water won\'t flow and the farmer stops toiling.'}
 	, {'id': '22', 'gameStage': '2',  'available': '0', 'partner': '17', 'revealed': '23', 'wordRevealed': '', 'text': 'If the fountain stops and the statue moved, the petals will close'}
 	, {'id': '23', 'gameStage': '2',  'available': '0', 'partner': '16', 'revealed': '24', 'wordRevealed': '', 'text': 'If the fountain is stopped and the statue moved, the moon rises.'}
@@ -303,9 +355,9 @@ var changeMapData = [
 	, {'mapChangeId' :'26' ,'changeType': 'gotoScene','mapId' : '3', 'x' : '9', 'y': '10 ', 'newScene':'19', 'requirement':''}
 	, {'mapChangeId' :'27' ,'changeType': 'gotoScene','mapId' : '3', 'x' : '2', 'y': '19 ', 'newScene':'20', 'requirement':''}
 	, {'mapChangeId' :'28' ,'changeType': 'gotoScene','mapId' : '3', 'x' : '4', 'y': '8 ', 'newScene':'21', 'requirement':''}
-	, {'mapChangeId' :'29' ,'changeType': 'gotoScene','mapId' : '2', 'x' : '20', 'y': '12 ', 'newScene':'23', 'requirement':'sawaInTown'}
-	, {'mapChangeId' :'30' ,'changeType': 'gotoScene','mapId' : '2', 'x' : '19', 'y': '14 ', 'newScene':'23', 'requirement':'soldierInTown'}
-	, {'mapChangeId' :'31' ,'changeType': 'gotoScene','mapId' : '2', 'x' : '21', 'y': '14 ', 'newScene':'23', 'requirement':'bowmanInTown'}
+	, {'mapChangeId' :'29' ,'changeType': 'gotoScene','mapId' : '2', 'x' : '20', 'y': '6 ', 'newScene':'23', 'requirement':'sawaInTown'}
+	, {'mapChangeId' :'30' ,'changeType': 'gotoScene','mapId' : '2', 'x' : '19', 'y': '7 ', 'newScene':'23', 'requirement':'soldierInTown'}
+	, {'mapChangeId' :'31' ,'changeType': 'gotoScene','mapId' : '2', 'x' : '21', 'y': '7 ', 'newScene':'23', 'requirement':'bowmanInTown'}
 
 ]; 
 
@@ -376,32 +428,47 @@ var sceneMedia = {
 //from spreadsheet
 var explainData= {
 	"explain0" : [ 
-	{ 'bg': 'res/blackBg.png', 'text': 'The instructions for this game are very simple (click on or touch this text to continue...)', 'sound': '' }
-	, { 'bg': 'res/instructScene.png', 'text': 'During scenes, click or touch in the dialogue box to advance to the next step.', 'sound': '' }
-	, { 'bg': 'res/instructScene.png', 'text': 'Be careful, as if you click through too fast, you might miss something important.', 'sound': '' }
-	, { 'bg': 'res/instructTalk.png', 'text': 'In the talk screen, press the Change Topic button to pick different topic words, then press the Ask About button to choose it.', 'sound': '' }
-	, { 'bg': 'res/instructTalk.png', 'text': 'If you hear this sound, it means you either discovered a new topic word, or a new clue. Both are instantly available.', 'sound': 'res/sounds/tone.mp3' }
-	, { 'bg': 'res/instructTalk.png', 'text': 'More on the clues shortly….', 'sound': '' }
-	, { 'bg': 'res/instructMap.png', 'text': 'On the map screen, tap on a spot to walk to it. Certain doors and other locations can lead to scenes or talk screens.', 'sound': '' }
-	, { 'bg': 'res/instructMap.png', 'text': 'To save your game, press the Save button. You can only have one saved game at a time. This uses HTML5 localStorage, if your browser supports it.', 'sound': '' }
-	, { 'bg': 'res/instructMap.png', 'text': 'Finally, at any time you\'re on the map screen, press the Clues button to open the clue screen.', 'sound': '' }
-	, { 'bg': 'res/instructClues.png', 'text': 'If you press any clue, it will turn yellow and its text will appear in one of the below windows.', 'sound': '' }
-	, { 'bg': 'res/instructClues.png', 'text': 'You can create more clues by choosing two clues, then pressing the Evaluate button at the bottom.', 'sound': '' }
-	, { 'bg': 'res/instructClues.png', 'text': 'If you evaluate two appropriate clues, a new clue will appear, along with this sound.', 'sound': 'res/sounds/tone.mp3' }
-	, { 'bg': 'res/instructClues.png', 'text': 'New clues will also appear as you talk to people and witness certain scenes, so check the clues often.', 'sound': '' }
-	, { 'bg': 'res/instructClues.png', 'text': 'If you evaluate incorrect clues, this sound will play. If you make too many incorrect moves, the game ends.', 'sound': 'res/sounds/slap.mp3' }
-	, { 'bg': 'res/blackBg.png', 'text': 'That\'s all.', 'sound': '' 
- }
+		{ 'bg': 'res/blackBg.png', 'text': 'The instructions for this game are very simple (click on or touch this text to continue...)', 'sound': '' }
+		, { 'bg': 'res/instructScene.png', 'text': 'During a cut scene, click or tap anywhere on the screen to advance to the next frame.', 'sound': '' }
+		, { 'bg': 'res/instructScene.png', 'text': 'You can press the Skip button to end the scene, but you may miss something important.', 'sound': '' }
+		, { 'bg': 'res/instructTalk.png', 'text': 'In the talk screen, press the Change Topic button to pick different topic words, then press the Ask About button to choose it.', 'sound': '' }
+		, { 'bg': 'res/instructTalk.png', 'text': 'Talk to as many people on as many topics as possible to advance in the game.', 'sound': '' }
+		, { 'bg': 'res/instructTalk.png', 'text': 'If you hear this sound, it means you either discovered a new topic word, or a new clue.', 'sound': 'res/sounds/tone.mp3' }
+		, { 'bg': 'res/instructTalk.png', 'text': 'More on the clues later….', 'sound': '' }
+		, { 'bg': 'res/instructBattle.png', 'text': 'Battles are triggered at set points, or randomly while outside town. Moves are turn-based.', 'sound': '' }
+		, { 'bg': 'res/instructBattle.png', 'text': 'Each round, you can choose whether to attack full out (ATT), defend full out (DEF)…', 'sound': '' }
+		, { 'bg': 'res/instructBattle.png', 'text': '…balance between attack and defense (SPLIT), or run away (RUN).', 'sound': '' }
+		, { 'bg': 'res/instructBattle.png', 'text': 'Not all battles include the RUN option….', 'sound': '' }
+		, { 'bg': 'res/instructBattle.png', 'text': 'As long as one player is alive or successfully fled by the end, you will survive the fight, otherwise the game ends.', 'sound': '' }
+		, { 'bg': 'res/instructBattle.png', 'text': 'Don\'t worry - all unconscious and wounded characters will be fully restored right afterwards!', 'sound': '' }
+		, { 'bg': 'res/instructMap.png', 'text': 'On the map screen, tap on a spot to walk to it. The game will move you there automatically.', 'sound': '' }
+		, { 'bg': 'res/instructMap.png', 'text': 'Be careful, as the game will move you by the shortest path, not the safest one…', 'sound': '' }
+		, { 'bg': 'res/instructMap.png', 'text': 'If you click somewhere while already walking, you will stop.', 'sound': '' }
+		, { 'bg': 'res/instructMap.png', 'text': 'Entering certain squares, such as open doors, NPCs, map edges, and secret locations, can lead to new scenes.', 'sound': '' }
+		, { 'bg': 'res/instructMap.png', 'text': 'You can check your party stats by pressing the Status button.', 'sound': '' }
+		, { 'bg': 'res/instructMap.png', 'text': 'To save your game, press the Save button. You can only have one saved game at a time, and only if your browser supports it.', 'sound': '' }
+		, { 'bg': 'res/instructMap.png', 'text': 'Finally, at any time you\'re on the map screen, press the Clues button to open the clue screen.', 'sound': '' }
+		, { 'bg': 'res/instructClue1.png', 'text': 'You advance through the game by solving puzzles. Clicking on a box will highlight the clue and its text.', 'sound': '' }
+		, { 'bg': 'res/instructClue2.png', 'text': 'Now, when you press a second clue, both will be highlighted', 'sound': '' }
+		, { 'bg': 'res/instructClue2.png', 'text': 'If you believe the clues combine logically, press the Evaluate button when both are active.', 'sound': '' }
+		, { 'bg': 'res/instructClue2.png', 'text': 'If you evaluate two appropriate clues, a new clue will appear, along with this sound.', 'sound': 'res/sounds/tone.mp3' }
+		, { 'bg': 'res/instructClue2.png', 'text': 'New clues will also appear as you talk to people and witness certain scenes, so check the clues often.', 'sound': '' }
+		, { 'bg': 'res/instructClue2.png', 'text': 'If you evaluate incorrect clues, this sound will play. If you make 5 incorrect moves, the game ends.', 'sound': 'res/sounds/slap.mp3' }
+		, { 'bg': 'res/instructClue2.png', 'text': 'You should be very careful and think logically before combining any clues.', 'sound': '' }
+		, { 'bg': 'res/instructClue2.png', 'text': 'Clicking the Refresher button will pop up a reminder on how this game\'s logic works.', 'sound': '' }
+		, { 'bg': 'res/blackBg.png', 'text': 'That\'s all.', 'sound': '' }
+
 	] ,
 	"explain1" : [
-	 { 'bg': 'res/caveBg.png', 'text': 'The cave looked normal outside, but inside was a rich chapel. I was underground, but sunlight shot through the stained glass.', 'sound': '' }
-	, { 'bg': 'res/caveBg.png', 'text': 'The altar was up near the front. The most magnificent one I ever saw. Gold candle holders encrusted with jewels flanked it.', 'sound': '' }
-	, { 'bg': 'res/caveBg.png', 'text': 'And then, in front of me: a man? A shadow? I dont know. But it must have been the wizard.', 'sound': '' }
-	, { 'bg': 'res/caveBg.png', 'text': 'He never spoke a word, just stared at me, and images filled my head. Telepathy, I suppose.', 'sound': '' }
-	, { 'bg': 'res/caveBg.png', 'text': 'I saw myself wearing royal robes, or sitting amidst mounds of gold. He was trying to make a deal. ', 'sound': '' }
-	, { 'bg': 'res/caveBg.png', 'text': 'All I had to do was free him, he was trying to explain, and all these things could me mine.', 'sound': '' }
-	, { 'bg': 'res/caveBg.png', 'text': 'But there\'s only one way to free a wizard from his sanctuary - you have to let him possess you, body and soul.', 'sound': '' }
-	, { 'bg': 'res/caveBg.png', 'text': 'I shook my head, started to back out. Then he raised his arm and there was a flash of light….', 'sound': '' }
+		{ 'bg': 'res/caveBg.png', 'text': 'The cave looked normal outside, and was a maze of rock and lava inside. At the center was the chapel.', 'sound': '' }
+		, { 'bg': 'res/caveBg.png', 'text': 'It was one of the most magnificent ones I ever saw. Stained glass lit with a magical sun.', 'sound': '' }
+		, { 'bg': 'res/caveBg.png', 'text': 'And then, in front of me: a man? A shadow? I dont know. But it must have been the wizard.', 'sound': '' }
+		, { 'bg': 'res/caveBg.png', 'text': 'He never spoke a word, just stared at me, and images filled my head. Telepathy, I suppose.', 'sound': '' }
+		, { 'bg': 'res/caveBg.png', 'text': 'I saw myself wearing royal robes, or sitting amidst mounds of gold. He was trying to make a deal. ', 'sound': '' }
+		, { 'bg': 'res/caveBg.png', 'text': 'All I had to do was free him, he was trying to explain, and all these things could me mine.', 'sound': '' }
+		, { 'bg': 'res/caveBg.png', 'text': 'But there\'s only one way to free a wizard from his sanctuary - you have to let him possess you, body and soul.', 'sound': '' }
+		, { 'bg': 'res/caveBg.png', 'text': 'I shook my head, started to back out. Then he raised his arm and there was a flash of light….', 'sound': '' }
+
 	]
 }; 
 
@@ -543,7 +610,7 @@ var sceneDialog = {
 		, { 'pic': 'res/faces/reeveNormal.png', 'speaker': 'Reeve Donte', 'text': 'Mizak! Get back to the shop and tell Burton to stock up on essentials as quick as possible. Because-', 'sound': '' }
 		, { 'pic': 'res/faces/mizakFrown.png', 'speaker': 'Mizak', 'text': 'Because the traders might start having trouble getting through. I know. I\'m on it.', 'sound': '' }
 		, { 'pic': 'res/faces/reeveNormal.png', 'speaker': 'Reeve Donte', 'text': 'Weston, Lissette, tie these creatures up. Be careful with them.', 'sound': '' }
-		, { 'pic': 'res/faces/westonYell.png', 'speaker': 'Weston', 'text': 'I know how to handle goblins, Donte. I was fighting them before you drank your first beer.', 'sound': '' }
+		, { 'pic': 'res/faces/westonYell.png', 'speaker': 'Weston', 'text': 'I know how to handle goblins, Donte. I was fighting them before you were born.', 'sound': '' }
 		, { 'pic': 'res/faces/reeveNormal.png', 'speaker': 'Reeve Donte', 'text': '…right. And ask any travelers if they\'ve seen more goblins. Or any Grandmarchy soldiers.', 'sound': '' }
 		, { 'pic': 'res/faces/lissetteFrown.png', 'speaker': 'Lissette', 'text': 'The soldiers….they\'re okay?', 'sound': '' }
 		, { 'pic': 'res/faces/reeveNormal.png', 'speaker': 'Reeve Donte', 'text': 'I hope. Clavo, come with me.', 'sound': '' }
@@ -551,7 +618,7 @@ var sceneDialog = {
 		, { 'pic': 'res/faces/reeveNormal.png', 'speaker': 'Reeve Donte', 'text': 'I need you to write two dispatches, one for the Grandmarchy and one for the League. Let them know we\'ve been attacked. And that we need more help.', 'sound': '' }
 		, { 'pic': 'res/faces/clavoFrown.png', 'speaker': 'Clavo', 'text': 'What happened in the cave? What happened to the soldiers who went with you?', 'sound': '' }
 		, { 'pic': 'res/faces/reeveNormal.png', 'speaker': 'Reeve Donte', 'text': '…', 'sound': '' }
-		, { 'pic': 'res/faces/reeveNormal.png', 'speaker': 'Reeve Donte', 'text': 'We found the cave where you said it was. We went inside to look around.', 'sound': '' }
+		, { 'pic': 'res/faces/reeveNormal.png', 'speaker': 'Reeve Donte', 'text': 'We found the cave where your map said it was. We went inside to look around.', 'sound': '' }
 		, { 'pic': 'res/faces/clavoFrown.png', 'speaker': 'Clavo', 'text': 'The wizard?', 'sound': '' }
 		, { 'pic': 'res/faces/reeveNormal.png', 'speaker': 'Reeve Donte', 'text': 'Gone. We saw that much.', 'sound': '' }
 		, { 'pic': 'res/faces/reeveNormal.png', 'speaker': 'Reeve Donte', 'text': 'Then the goblins came. There were too many. We agreed to split up so the goblins would have to split up too.', 'sound': '' }
@@ -601,10 +668,10 @@ var sceneDialog = {
 		, { 'pic': 'res/faces/mizakNormal.png', 'speaker': 'Mizak', 'text': 'Oh? What are you up to? Did the Reeve assign something to you?', 'sound': '' }
 		, { 'pic': 'res/faces/clavoNormal.png', 'speaker': 'Clavo', 'text': 'Yeah - I\'m trying to find out who released the wizard from the cave. I\'ve gotten some clues, but I need to leave town to find out more.', 'sound': '' }
 		, { 'pic': 'res/faces/clavoNormal.png', 'speaker': 'Clavo', 'text': 'And monsters are roaming all over the countryside. The more people travelling together, the better.', 'sound': '' }
-		, { 'pic': 'res/faces/mizakNormal.png', 'speaker': 'Mizak', 'text': 'Hmm…you said there was gold in that cave? And jewels?', 'sound': '' }
-		, { 'pic': 'res/faces/clavoFrown.png', 'speaker': 'Clavo', 'text': 'Well, yeah….', 'sound': '' }
-		, { 'pic': 'res/faces/mizakNormal.png', 'speaker': 'Mizak', 'text': 'Donte didn\'t say anything about taking that, did he?', 'sound': '' }
-		, { 'pic': 'res/faces/clavoFrown.png', 'speaker': 'Clavo', 'text': 'Not to my knowledge, but some monsters or a thief could have gotten to them.', 'sound': '' }
+		, { 'pic': 'res/faces/mizakNormal.png', 'speaker': 'Mizak', 'text': 'Hmm…did you say there was treasure in that cave? Maybe in that rich-looking chapel?', 'sound': '' }
+		, { 'pic': 'res/faces/clavoFrown.png', 'speaker': 'Clavo', 'text': 'I don\'t know….', 'sound': '' }
+		, { 'pic': 'res/faces/mizakNormal.png', 'speaker': 'Mizak', 'text': 'Donte didn\'t say anything about taking anything, did he?', 'sound': '' }
+		, { 'pic': 'res/faces/clavoFrown.png', 'speaker': 'Clavo', 'text': 'Not to my knowledge, but-', 'sound': '' }
 		, { 'pic': 'res/faces/mizakLaugh.png', 'speaker': 'Mizak', 'text': 'Nothing ventured, nothing gained, old friend. I\'m game.', 'sound': '' }
 		, { 'pic': 'res/faces/burtonFrown.png', 'speaker': 'Burton', 'text': 'No you\'re not. We\'re missing an entire chest of tea leaves. Where did you put it?', 'sound': '' }
 		, { 'pic': 'res/faces/mizakFrown.png', 'speaker': 'Mizak', 'text': 'Well, I sorta…misplaced….', 'sound': '' }
@@ -630,7 +697,7 @@ var sceneDialog = {
 		 { 'pic': 'res/faces/mizakLaugh.png', 'speaker': 'Mizak', 'text': 'Well done, Clavo! Just what I needed.', 'sound': '' }
 		, { 'pic': 'res/faces/mizakNormal.png', 'speaker': 'Mizak', 'text': 'You upheld your side of the bargain, so let\'s be off.', 'sound': '' }
 		, { 'pic': 'res/faces/blankFace.png', 'speaker': '', 'text': '(Mizak joins the party)', 'sound': '' }
-		, { 'pic': 'res/faces/mizakNormal.png', 'speaker': 'Mizak', 'text': 'Okay, let\'s see if that old wizard was nice enough to leave behind some of that gold.', 'sound': '' }
+		, { 'pic': 'res/faces/mizakNormal.png', 'speaker': 'Mizak', 'text': 'Okay, let\'s see if that old wizard was nice enough to leave behind some gold or something.', 'sound': '' }
 		, { 'pic': 'res/faces/clavoFrown.png', 'speaker': 'Clavo', 'text': 'First we need to find out exactly who released the wizard. This isn\'t a treasure hunt.', 'sound': '' }
 		, { 'pic': 'res/faces/mizakNormal.png', 'speaker': 'Mizak', 'text': 'Of course…of course…first things first…', 'sound': '' }
 		, { 'pic': 'res/faces/clavoFrown.png', 'speaker': 'Clavo', 'text': '…', 'sound': '' }
@@ -753,14 +820,14 @@ var sceneDialog = {
 		, { 'pic': 'res/faces/clavoFrown.png', 'speaker': 'Clavo', 'text': 'Why doesn\'t that surprise me?', 'sound': '' }
 		, { 'pic': 'res/faces/blankFace.png', 'speaker': '', 'text': '(Burton tosses the note to Lissette before heading back inside)', 'sound': '' }
 		, { 'pic': 'res/faces/lissetteAngry.png', 'speaker': 'Lissette', 'text': 'Just great. The last time I listened to one of his moneymaking ideas, I lost a month\'s worth of tips.', 'sound': '' }
-		, { 'pic': 'res/faces/clavoFrown.png', 'speaker': 'Lemel', 'text': 'So what does it say?', 'sound': '' }
+		, { 'pic': 'res/faces/clavoFrown.png', 'speaker': 'Clavo', 'text': 'So what does it say?', 'sound': '' }
 		, { 'pic': 'res/faces/lissetteNormal.png', 'speaker': 'Lissette', 'text': '(reading) Hey all, I was asking the lost soldiers a few discreet questions while you were busy.', 'sound': '' }
 		, { 'pic': 'res/faces/lissetteFrown.png', 'speaker': 'Lissette', 'text': '(reading) They all agreed on one thing - there was some type of treasure in the wizard\'s cave, probably made of silver.', 'sound': '' }
 		, { 'pic': 'res/faces/lissetteFrown.png', 'speaker': 'Lissette', 'text': '(reading) Since the Grandmarchy will no doubt take everything when they secure the cave, I\'m heading them off tonight.', 'sound': '' }
 		, { 'pic': 'res/faces/lissetteAngry.png', 'speaker': 'Lissette', 'text': '(reading) If you want in, meet me at the cave\'s entrance. Clavo - thanks for the map - it\'s coming in really helpful!', 'sound': '' }
 		, { 'pic': 'res/faces/clavoTalk.png', 'speaker': 'Clavo', 'text': 'Hey! The map I drew is gone!', 'sound': '' }
 		, { 'pic': 'res/faces/lemelOut.png', 'speaker': 'Lemel', 'text': 'I can\'t believe this!', 'sound': '' }
-		, { 'pic': 'res/faces/lissetteAngry.png', 'speaker': 'Lissette', 'text': 'I can! That idiot\'s going to get himself killed trying to get rich!', 'sound': '' }
+		, { 'pic': 'res/faces/lissetteAngry.png', 'speaker': 'Lissette', 'text': 'I can! That idiot\'s going to get himself killed!', 'sound': '' }
 		, { 'pic': 'res/faces/clavoFrown.png', 'speaker': 'Clavo', 'text': 'If he avoids the monsters, he should be safe…', 'sound': '' }
 		, { 'pic': 'res/faces/lemelFrown.png', 'speaker': 'Lemel', 'text': 'Yeah, right. Mizak\'s clothes were tailored to announce his presence.', 'sound': '' }
 		, { 'pic': 'res/faces/lissetteAngry.png', 'speaker': 'Lissette', 'text': 'That goddamned moron…only thinking of himself….', 'sound': '' }
@@ -804,8 +871,7 @@ var sceneDialog = {
 		, { 'pic': 'res/faces/clavoAngry.png', 'speaker': 'Clavo', 'text': 'You tried to kill me!', 'sound': '' }
 		, { 'pic': 'res/faces/blankFace.png', 'speaker': '???', 'text': 'Only when you refused your destiny. I\'ve spent a thousand years trapped in this cave; now it\'s your turn!', 'sound': '' }
 		, { 'pic': 'res/faces/clavoAngry.png', 'speaker': 'Clavo', 'text': '…grrrrr….', 'sound': '' }
-		, { 'pic': 'res/faces/blankFace.png', 'speaker': '???', 'text': 'Please make yourselves at home. Now that the sun is going down, I think I\'ll visit your charming hometown in my new body. Gis!', 'sound': '' }
-		, { 'pic': 'res/faces/blankFace.png', 'speaker': '', 'text': '(Lissette pulls out a small lantern and looks around)', 'sound': '' }
+		, { 'pic': 'res/faces/blankFace.png', 'speaker': '???', 'text': 'Please make yourselves at home. Now that the sun is going down, I think I\'ll visit your charming hometown in my new body. Gis revido!', 'sound': '' }
 		, { 'pic': 'res/faces/lissetteAngry.png', 'speaker': 'Lissette', 'text': 'Damnit, we\'re trapped! Thanks a lot, Mizak!', 'sound': '' }
 		, { 'pic': 'res/faces/mizakFrown.png', 'speaker': 'Mizak', 'text': 'I\'m sorry, okay? I was trying to benefit us all!', 'sound': '' }
 		, { 'pic': 'res/faces/lemelFrown.png', 'speaker': 'Lemel', 'text': 'Clavo, you\'ve been here before. Is there any other way out of this cave? We have to warn the Glade!', 'sound': '' }
@@ -828,7 +894,7 @@ var sceneDialog = {
 			
 	
 	"scene17" : [ 
-		{ 'pic': 'res/faces/blankFace.png', 'speaker': '', 'text': '(the group walks into the small altar in the center of the cave)', 'sound': '' }
+		{ 'pic': 'res/faces/blankFace.png', 'speaker': '', 'text': '(the group walks to the small altar in the center of the chapel)', 'sound': '' }
 		, { 'pic': 'res/faces/clavoFrown.png', 'speaker': 'Clavo', 'text': 'Here. This is it. Where I first encountered the wizard.', 'sound': '' }
 		, { 'pic': 'res/faces/lemelFrown.png', 'speaker': 'Lemel', 'text': 'What happened to those stained glass windows you mentioned?', 'sound': '' }
 		, { 'pic': 'res/faces/clavoFrown.png', 'speaker': 'Clavo', 'text': 'Good question.', 'sound': '' }
@@ -854,7 +920,7 @@ var sceneDialog = {
 		],
 	
 	"scene18" : [ 
-		{ 'pic': 'res/faces/blankFace.png', 'speaker': '', 'text': '(Lissette shines the lantern on a bronze statue of a large flower with wide open petals)', 'sound': '' }
+		{ 'pic': 'res/faces/blankFace.png', 'speaker': '', 'text': '(Lissette points to a bronze statue of a large flower with wide open petals)', 'sound': '' }
 		, { 'pic': 'res/faces/lissetteFrown.png', 'speaker': 'Lissette', 'text': 'What’s this?', 'sound': '' }
 		, { 'pic': 'res/faces/lemelFrown.png', 'speaker': 'Lemel', 'text': 'Looks like another clue. Clavo?', 'sound': '' }
 		, { 'pic': 'res/faces/clavoFrown.png', 'speaker': 'Clavo', 'text': 'Coming. Luno…floro…', 'sound': '' }
@@ -910,7 +976,8 @@ var sceneDialog = {
 		, { 'pic': 'res/faces/lissetteNormal.png', 'speaker': 'Lissette', 'text': 'Yeah - when the farmer stops toiling and the water stops flowing, the petals close.', 'sound': '' }
 		, { 'pic': 'res/faces/mizakLaugh.png', 'speaker': 'Mizak', 'text': 'And when the petals close, the moon comes up! Clavo, you\'re a genius!', 'sound': '' }
 		, { 'pic': 'res/faces/lemelNormal.png', 'speaker': 'Lemel', 'text': 'I\'ll go to the fountain.', 'sound': '' }
-		, { 'pic': 'res/faces/lissetteNormal.png', 'speaker': 'Lissette', 'text': 'I\'ll be at the statue.', 'sound': '' }
+		, { 'pic': 'res/faces/lissetteNormal.png', 'speaker': 'Lissette', 'text': 'I\'ll go tip that statue.', 'sound': '' }
+		, { 'pic': 'res/faces/mizakNormal.png', 'speaker': 'Mizak', 'text': 'I\'ll drop by the chapel again.', 'sound': '' }
 		, { 'pic': 'res/faces/clavoNormal.png', 'speaker': 'Clavo', 'text': 'I\'ll stay up here and yell. When I do, everyone do your thing. If it works, the door should open!', 'sound': '' }
 		, { 'pic': 'res/faces/blankFace.png', 'speaker': '', 'text': '(the group seperates across the cave)', 'sound': '' }
 		, { 'pic': 'res/faces/clavoTalk.png', 'speaker': 'Clavo', 'text': 'Everyone? Ready, set, go!', 'sound': '' }
@@ -950,7 +1017,7 @@ var sceneDialog = {
 	
 	"scene24" : [ 
 		{ 'pic': 'res/faces/blankFace.png', 'speaker': '', 'text': '(the figure of the vampyre dissolves into smoke)', 'sound': '' }
-		, { 'pic': 'res/faces/clavoTalk.png', 'speaker': 'Clavo', 'text': '…pant…pant…it\'s over.', 'sound': '' }
+		, { 'pic': 'res/faces/lemelTalk.png', 'speaker': 'Lemel', 'text': '…pant…pant…it\'s over.', 'sound': '' }
 		, { 'pic': 'res/faces/lissetteFrown.png', 'speaker': 'Lissette', 'text': 'I\'m not sure about that….', 'sound': '' }
 		, { 'pic': 'res/faces/blankFace.png', 'speaker': '', 'text': '(the smoke forms itself into a vague figure)', 'sound': '' }
 		, { 'pic': 'res/faces/clavoAngry.png', 'speaker': 'Clavo', 'text': 'The wizard!', 'sound': '' }
@@ -967,8 +1034,8 @@ var sceneDialog = {
 		, { 'pic': 'res/faces/jeraFrown.png', 'speaker': 'Brother Jera', 'text': 'It\'s not a perfect solution, but for now, it will have to do.', 'sound': '' }
 		, { 'pic': 'res/faces/blankFace.png', 'speaker': '', 'text': '(Jera turns away to help Sawa and the wounded swordsman)', 'sound': '' }
 		, { 'pic': 'res/faces/widowNormal.png', 'speaker': 'Widow Starnes', 'text': 'Lemel, Clavo - you\'re safe!', 'sound': '' }
-		, { 'pic': 'res/faces/reeveSmile.png', 'speaker': 'Reeve Donte', 'text': 'You kids saved the town! We owe you!', 'sound': '' }
-		, { 'pic': 'res/faces/mizakNormal.png', 'speaker': 'Mizak', 'text': 'Well, cash is always good…', 'sound': '' }
+		, { 'pic': 'res/faces/reeveSmile.png', 'speaker': 'Reeve Donte', 'text': 'You kids saved the town! We\'re all in your debt!!', 'sound': '' }
+		, { 'pic': 'res/faces/mizakNormal.png', 'speaker': 'Mizak', 'text': 'Well, cash is always nice…', 'sound': '' }
 		, { 'pic': 'res/faces/reeveSmile.png', 'speaker': 'Reeve Donte', 'text': 'For you, Mizak, sure. I\'ll pay off your debts. You\'re now worth zero.', 'sound': '' }
 		, { 'pic': 'res/faces/mizakFrown.png', 'speaker': 'Mizak', 'text': 'Thanks….I think…', 'sound': '' }
 		, { 'pic': 'res/faces/lemelTalk.png', 'speaker': 'Lemel', 'text': 'Forget the money - I\'m starving! We spent all day hoofing it in the forest and the cave.', 'sound': '' }

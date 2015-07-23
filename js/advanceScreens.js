@@ -35,7 +35,8 @@ var talkScreen = Class.create(Scene, {
 		var skipButton = makeButton(" Skip ", 300, 510, 100, 35);
 		
 		skipButton.addEventListener(Event.TOUCH_END, function(e) {
-	       	leaveTalkScreen(game.currentScene.sceneId);
+			var scene = new skipTalkScreen(game.currentScene.sceneId);
+			game.pushScene(scene);
 		});
 		
 		this.i = 0;
@@ -123,6 +124,7 @@ function leaveTalkScreen(sceneId) {
     		if (action == 'endGameGood') {
     			game.popScene();
 				game.popScene();
+				game.popScene();
 				resetGameVariables();
 				var scene = new creditScreen();
 				game.pushScene(scene);
@@ -173,7 +175,8 @@ var explainScreen = Class.create(Scene, {
 		var skipButton = makeButton(" Skip ", 300, 500, 100, 35);
 		
 		skipButton.addEventListener(Event.TOUCH_END, function(e) {
-	       	leaveExplainScreen(explainId);
+	       	var scene = new skipExplainScreen(explainId);
+			game.pushScene(scene);
 		});
 		
 		this.i = 0;
@@ -324,4 +327,68 @@ var interactScreen = Class.create(Scene, {
         this.addChild(returnButton);
     	}
 	});
+
+
+var skipTalkScreen = Class.create(Scene, {
+     // the links to credits   
+    initialize: function(sceneId) {
+    	this.name = "skipScene]";
+        var game;
+        Scene.apply(this);
+        game = Game.instance;
+		var bg = makeBackground(game.assets['res/blackBg.png']);
+       
+		var question = makeLabel("Skip scene?", 75, 75, "Times New Roman", 48, "White", 300, 50, "", "left");
+		
+		var noSkip = makeButton(" No ", 175, 250, 100, 35);	
+		var yesSkip = makeButton(" Yes ", 175, 350, 100, 35);	
+		
+		noSkip.addEventListener(Event.TOUCH_END, function(e) {
+	    	game.popScene();
+		});
+		
+		
+		yesSkip.addEventListener(Event.TOUCH_END, function(e) {
+	    	game.popScene();
+	    	leaveTalkScreen(sceneId);
+		});
+		
+		this.addChild(bg);  
+		this.addChild(question);
+		this.addChild(yesSkip);
+		this.addChild(noSkip); 
+		
+    	}
+	});
 	
+var skipExplainScreen = Class.create(Scene, {
+     // the links to credits   
+    initialize: function(explainId) {
+    	this.name = "skipExplain]";
+        var game;
+        Scene.apply(this);
+        game = Game.instance;
+		var bg = makeBackground(game.assets['res/blackBg.png']);
+       
+		var question = makeLabel("Skip scene?", 75, 75, "Times New Roman", 48, "White", 300, 50, "", "left");
+		
+		var noSkip = makeButton(" No ", 175, 250, 100, 35);	
+		var yesSkip = makeButton(" Yes ", 175, 350, 100, 35);	
+		
+		noSkip.addEventListener(Event.TOUCH_END, function(e) {
+	    	game.popScene();
+		});
+		
+		yesSkip.addEventListener(Event.TOUCH_END, function(e) {
+	    	game.popScene();
+	    	leaveExplainScreen(explainId);
+		});
+		
+		this.addChild(bg);  
+		this.addChild(question);
+		this.addChild(yesSkip);
+		this.addChild(noSkip); 
+		
+    	}
+	});
+

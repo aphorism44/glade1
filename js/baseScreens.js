@@ -13,10 +13,12 @@ var titleScreen = Class.create(Scene, {
 		var subTitleLabel = makeLabel("The Glade Chronicles: Chapter 1", 50, 270, "Impact", 22, "Maroon ", 300, 50, "", "left");
 		var siteLink = makeLabel("an Aphorism44 game", 175, 300, "Comic Sans MS", 14, "OrangeRed", 170, 12, "", "left");
 		
-        var startButton = makeButton(" Start New Game ", 140, 350, 200, 75);
-        var instructionButton = makeButton(" Instructions ", 140, 400, 200, 75);
-        var creditsButton = makeButton(" Credits ", 140, 450, 200, 75);
-        var loadButton = makeButton(" Load Game ", 140, 500, 200, 75);
+        var startButton = makeButton(" New Game ", 40, 350, 200, 75);
+        var instructionButton = makeButton(" Instructions ", 40, 400, 200, 75);
+        var loadButton = makeButton(" Load Game ", 40, 450, 200, 75);
+        
+        var creditsButton = makeButton(" Credits ", 200, 350, 200, 75);
+        var logicButton = makeButton(" Logic Refresher ", 200, 400, 200, 75);
         
         //uncomment eraseButton lines to test HTML5 localStorage
         //var eraseButton = makeButton(" Erase ", 20, 500, 200, 75);
@@ -32,6 +34,7 @@ var titleScreen = Class.create(Scene, {
         this.addChild(instructionButton);
         this.addChild(creditsButton);
         this.addChild(loadButton);
+        this.addChild(logicButton);
         
        // this.addChild(eraseButton);
                 
@@ -40,8 +43,8 @@ var titleScreen = Class.create(Scene, {
 	       	window.open("http://www.aphorism44.com");
 		});
 		startButton.addEventListener(Event.TOUCH_END, function(e) {
-	      //var scene = new openingScreen();
-	       var scene = new talkScreen(30);
+	      var scene = new openingScreen();
+	       //var scene = new talkScreen(30);
 	       //var scene = new interactScreen("jera", 1);
 	       //var scene = new gameScreen(1, 4, 5, 0);
 	       //game.stage++;
@@ -68,6 +71,11 @@ var titleScreen = Class.create(Scene, {
 	   	loadButton.addEventListener(Event.TOUCH_END, function(e) {
 	   		loadGame();  
 	   	});
+	   	logicButton.addEventListener(Event.TOUCH_END, function(e) {
+	   		var scene = new logicScreen();
+			game.pushScene(scene); 
+	   	});
+		
 		
     	}
 	});
@@ -137,6 +145,44 @@ var linkScreen = Class.create(Scene, {
     	}
 	});
 
+var logicScreen = Class.create(Scene, {
+     // the links to credits   
+    initialize: function() {
+    	this.name = "logicScreen";
+        var game;
+        Scene.apply(this);
+        game = Game.instance;
+		var bg = makeBackground(game.assets['res/woodBg.png']);
+		
+		
+		var logic1Label = makeLabel('', 25, 50, 'monospace', '16', 'rgb(255,255,255)', 300, 40, 'rgba(0,0,0,0.6)');
+		var logic2Label = makeLabel('', 25, 140, 'monospace', '16', 'rgb(255,255,255)', 300, 75, 'rgba(0,0,0,0.6)');
+		var logic3Label = makeLabel('', 25, 225, 'monospace', '16', 'rgb(255,255,255)', 300, 75, 'rgba(0,0,0,0.6)');
+		var logic4Label = makeLabel('', 25, 315, 'monospace', '16', 'rgb(255,255,255)', 300, 75, 'rgba(0,0,0,0.6)');
+		var logic5Label = makeLabel('', 25, 400, 'monospace', '16', 'rgb(255,255,255)', 300, 75, 'rgba(0,0,0,0.6)');
+		
+		logic1Label.text =logicInstructions1;
+		logic2Label.text =logicInstructions2;
+		logic3Label.text =logicInstructions3;
+		logic4Label.text =logicInstructions4;
+		logic5Label.text =logicInstructions5;
+		
+      	var returnButton = makeButton(" Return ", 300, 485, 200, 75);
+      	
+      	this.addChild(bg);
+        this.addChild(logic1Label);
+        this.addChild(logic2Label);
+        this.addChild(logic3Label);
+        this.addChild(logic4Label);
+        this.addChild(logic5Label);    
+        this.addChild(returnButton);
+        
+	   	returnButton.addEventListener(Event.TOUCH_END, function(e) {
+			game.popScene(); 
+	   	});
+		
+    	}
+	});
 
 
 var statusScreen = Class.create(Scene, {
@@ -177,12 +223,8 @@ var statusScreen = Class.create(Scene, {
 		}
 		
 		var missionLabel = makeLabel('', 25, 450, "monospace", 14, "White", 350, 50);
-		switch(game.stage) {
-			case 1: missionLabel.text = wordWrap('Mission: Find the expedition survivors and discover who the wizard possessed.', 350, 14);
-				break;
-			case 2: missionLabel.text = wordWrap('Mission: Escape the cave!', 350, 14);
-				break;
-		}
+		missionLabel.text = wordWrap(stageMissions[game.stage], 350, 14);
+		
 		this.addChild(missionLabel);
 		
 	   	returnButton.addEventListener(Event.TOUCH_END, function(e) {

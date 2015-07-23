@@ -18,7 +18,7 @@ window.onload = function() {
 	game.fps = 15;
 	//NG.connect('38383:OfvBk542','Myy86IWvjbSIU2oK2416YEHfMssjjgkh');
 	
-	game.stage = 1;
+	
 	
 	game.spriteWidth = 25;
 	game.spriteHeight = 25;
@@ -36,6 +36,9 @@ window.onload = function() {
     var gameVariablesLoad = initialGameVariables;
     var clueDataLoad = initialClueData;
     var topicWordsLoad = initialTopicWords;
+    var currentPartyLoad = ['Lemel', 'Clavo', 'Lissette', 'Mizak'];
+    var stageLoad = 1;
+    
 	
 	game.topicWords = topicWordsLoad;
 	game.specialScenesTriggered = specialScenesTriggeredLoad;
@@ -48,8 +51,9 @@ window.onload = function() {
 	game.revealedClueActions = revealedClueActions;
 	game.revealedClueTriggers = revealedClueTriggers;
 	game.npcInfo = npcInfo;
+	game.stage = stageLoad;
 	
-	game.currentParty = ['Lemel', 'Clavo', 'Lissette', 'Mizak'];
+	game.currentParty = currentPartyLoad;
 	
 	game.availableWords = null;
 	game.clueData = clueDataLoad;
@@ -95,6 +99,7 @@ window.onload = function() {
 			, 'res/44Coded.png'
 			
 			, 'res/album.png'
+			, 'res/aph.png'
 			, 'res/aerinboy.png'
 			, 'res/endScene.png'
 			
@@ -134,7 +139,9 @@ window.onload = function() {
 			, 'res/instructMap.png'
 			, 'res/instructScene.png'
 			, 'res/instructTalk.png'
-			, 'res/instructClues.png'
+			, 'res/instructBattle.png'
+			, 'res/instructClue1.png'
+			, 'res/instructClue2.png'
 			
 			, 'res/clavoProfile.png'
 			, 'res/lemelProfile.png'
@@ -259,12 +266,19 @@ function saveGame() {
     	return false; 
     	}
     try {
-    localStorage.setItem('scenesTriggeredGlade0', JSON.stringify(game.scenesTriggered));	
-    localStorage.setItem('battlesTriggeredGlade0', JSON.stringify(game.battlesTriggered));	
-    localStorage.setItem('gameVariablesGlade0', JSON.stringify(game.gameVariables));
-    localStorage.setItem('clueDataGlade0', JSON.stringify(game.clueData));
-    localStorage.setItem('topicWordsGlade0', JSON.stringify(game.topicWords));
-    localStorage.setItem('clueMistakesMadeGlade0', JSON.stringify(game.clueMistakesMade));	
+    localStorage.setItem('scenesTriggeredGlade1', JSON.stringify(game.scenesTriggered));	
+    localStorage.setItem('specialScenesTriggeredGlade1', JSON.stringify(game.specialScenesTriggered));	
+    localStorage.setItem('battlesTriggeredGlade1', JSON.stringify(game.battlesTriggered));	
+    localStorage.setItem('gameVariablesGlade1', JSON.stringify(game.gameVariables));
+    localStorage.setItem('clueDataGlade1', JSON.stringify(game.clueData));
+    localStorage.setItem('topicWordsGlade1', JSON.stringify(game.topicWords));
+    localStorage.setItem('clueMistakesMadeGlade1', JSON.stringify(game.clueMistakesMade));	
+    localStorage.setItem('currentPartyGlade1', JSON.stringify(game.currentParty));	
+    localStorage.setItem('gameStageGlade1', JSON.stringify(game.stage));	
+    
+    
+    
+    
     
     /*console.log("saved: ");
     console.log(JSON.stringify(game.scenesTriggered));
@@ -299,18 +313,17 @@ function loadGame() {
     	return false; 
     	}
     try {
-	    var scenesTriggeredLoad = JSON.parse(localStorage.getItem('scenesTriggeredGlade0'));	
-		var battlesTriggeredLoad = JSON.parse(localStorage.getItem('battlesTriggeredGlade0'));	
-		var gameVariablesLoad = JSON.parse(localStorage.getItem('gameVariablesGlade0'));
-		var clueDataLoad = JSON.parse(localStorage.getItem('clueDataGlade0'));
-		var topicWordsLoad = JSON.parse(localStorage.getItem('topicWordsGlade0'));
-		var clueMistakesMadeLoad = JSON.parse(localStorage.getItem('clueMistakesMadeGlade0'));
+	    var scenesTriggeredLoad = JSON.parse(localStorage.getItem('scenesTriggeredGlade1'));	
+	    var specialScenesTriggeredLoad = JSON.parse(localStorage.getItem('specialScenesTriggeredGlade1'));
+		var battlesTriggeredLoad = JSON.parse(localStorage.getItem('battlesTriggeredGlade1'));	
+		var gameVariablesLoad = JSON.parse(localStorage.getItem('gameVariablesGlade1'));
+		var clueDataLoad = JSON.parse(localStorage.getItem('clueDataGlade1'));
+		var topicWordsLoad = JSON.parse(localStorage.getItem('topicWordsGlade1'));
+		var clueMistakesMadeLoad = JSON.parse(localStorage.getItem('clueMistakesMadeGlade1'));
+		var currentPartyLoad = JSON.parse(localStorage.getItem('currentPartyGlade1'));
+		var stageLoad = JSON.parse(localStorage.getItem('gameStageGlade1'));
 		
-	    //start game at set point
-	    var startMap = loadGameStartPoints[0].startMap;
-	   	var startX = loadGameStartPoints[0].startX;
-		var startY = loadGameStartPoints[0].startY;
-		var startDir = loadGameStartPoints[0].startDir;
+
 		
 		if (scenesTriggeredLoad != null) {
 			
@@ -320,6 +333,16 @@ function loadGame() {
 		    game.clueData = clueDataLoad;
 		    game.topicWords = topicWordsLoad;
 		    game.clueMistakesMade = clueMistakesMadeLoad;
+		    game.specialScenesTriggered = specialScenesTriggeredLoad;
+		    game.currentParty = currentPartyLoad;
+		    game.stage = stageLoad;
+		    
+		    
+		    //start game at set point for stage
+		    var startMap = loadGameStartPoints[game.stage - 1].startMap;
+		   	var startX = loadGameStartPoints[game.stage - 1].startX;
+			var startY = loadGameStartPoints[game.stage - 1].startY;
+			var startDir = loadGameStartPoints[game.stage - 1].startDir;
 		    
 			var scene = new gameScreen(startMap, startX, startY, startDir);
 			game.replaceScene(scene); 
@@ -366,12 +389,15 @@ function clearSavedData() {
     	}
     	
 	try {
-		localStorage.removeItem('scenesTriggeredGlade0');
-		localStorage.removeItem('battlesTriggeredGlade0');
-		localStorage.removeItem('gameVariablesGlade0');
-		localStorage.removeItem('clueDataGlade0');
-		localStorage.removeItem('topicWordsGlade0');
-		localStorage.removeItem('clueMistakesMadeGlade0');
+		localStorage.removeItem('scenesTriggeredGlade1');
+		localStorage.removeItem('specialScenesTriggeredGlade1');
+		localStorage.removeItem('battlesTriggeredGlade1');
+		localStorage.removeItem('gameVariablesGlade1');
+		localStorage.removeItem('clueDataGlade1');
+		localStorage.removeItem('topicWordsGlade1');
+		localStorage.removeItem('clueMistakesMadeGlade1');
+		localStorage.removeItem('currentPartyGlade1');
+		localStorage.removeItem('gameStageGlade1');		
 		
 		return true;
 	} catch(error) {

@@ -755,9 +755,10 @@ function leaveCombatScreen(battleId) {
 		game.popScene();
 		game.pushScene(scene);
     	
-   //if it's a random encounter (battleId = -1), then just pop it; otherwise look through JSON data
+   //if it's a random encounter (battleId = -1), then just pop it and restart music; otherwise look through JSON data
     } else if (battleId == -1) {
     	game.popScene();
+    	game.currentScene.restartMusic();
     } else {
 	    for (var i = 0; i < game.combatActions.length; i++) {
 	    	if (game.combatActions[i].battle == battleId) {

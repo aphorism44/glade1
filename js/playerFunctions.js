@@ -140,9 +140,10 @@ function checkCurrentMapBox(mapId, scene, x, y) {
 			var enemyArray =  null;
 			var isEscapable =  true;
 			var maxNoOfEmemies =  4;
-			var scene = new combatScreen(battleId, game.currentParty, enemyArray
+			scene.bgm.stop();
+			var newBattle = new combatScreen(battleId, game.currentParty, enemyArray
 				, isEscapable, ememyLevels, maxNoOfEmemies);
-			game.pushScene(scene);
+			game.pushScene(newBattle);
 		} else {
 			//loop through game.changeMap JSON to check current spot
 			for (var i = 0; i < game.changeMap.length; i++) {

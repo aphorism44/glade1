@@ -178,7 +178,7 @@ var openingScreen = Class.create(Scene, {
         this.addChild(close1);
         this.addChild(close2);
         
-        this.addChild(skipButton);
+        //this.addChild(skipButton);
         
     }
 	
@@ -208,7 +208,7 @@ var creditScreen = Class.create(Scene, {
         var artistImg = makeImage(game.assets['res/aerinboy.png'], 150, 150, 150, 75);
         artistImg.opacity = 0;
         artistImg.tl.setTimeBased();
-        var bandImg = makeImage(game.assets['res/album.png'], 141, 141, 150, 75);
+        var bandImg = makeImage(game.assets['res/exitvehicles.png'], 141, 141, 150, 75);
         bandImg.opacity = 0;
         bandImg.tl.setTimeBased();
         

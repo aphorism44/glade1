@@ -99,6 +99,7 @@ window.onload = function() {
 			, 'res/44Coded.png'
 			
 			, 'res/album.png'
+			, 'res/exitvehicles.png'
 			, 'res/aph.png'
 			, 'res/aerinboy.png'
 			, 'res/endScene.png'

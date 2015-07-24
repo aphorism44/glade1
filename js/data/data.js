@@ -2,31 +2,37 @@
 
 
 logicInstructions1=
-'When evaluating clues,<br> use these logic rules:';
+' When evaluating clues,<br> use these logic rules:';
 
 logicInstructions2=
-'MODUS PONENS<br>' +
-'IF p THEN q<br>' +
-'p<br>' +
-'THEREFORE q';
+' MODUS PONENS<br>' +
+' IF p THEN q<br>' +
+' p<br>' +
+' THEREFORE q';
 
 logicInstructions3=
-'MODUS TOLLENS<br>' +
-'IF p THEN q<br>' +
-'NOT q<br>' +
-'THEREFORE NOT p';
+' MODUS TOLLENS<br>' +
+' IF p THEN q<br>' +
+' NOT q<br>' +
+' THEREFORE NOT p';
 
 logicInstructions4=
-'ELIMINATION<br>' +
-'p OR q<br>' +
-'NOT p<br>' +
-'THEREFORE q';
+' ELIMINATION<br>' +
+' p OR q<br>' +
+' NOT p<br>' +
+' THEREFORE q';
 
 logicInstructions5=
-'TRANSITIVITY<br>' +
-'IF p THEN q<br>' +
-'IF q THEN r<br>' +
-'THEREFORE IF p THEN r';
+' TRANSITIVITY<br>' +
+' IF p THEN q<br>' +
+' IF q THEN r<br>' +
+' THEREFORE IF p THEN r';
+
+logicInstructions6=
+' CONJUNCTION<br>' +
+' p<br>' +
+' q<br>' +
+' THEREFORE p AND q';
 
 
 
@@ -83,12 +89,14 @@ var initialBattlesTriggered = [
 var loadGameStartPoints = [
 	{'loadId':'1', 'gameStage': 1, 'startMap':'2', 'startX':'19', 'startY':'22', 'startDir':'0' }
 	, {'loadId':'2', 'gameStage': 2, 'startMap':'3', 'startX':'12', 'startY':'23', 'startDir':'1' }
+	, {'loadId':'3', 'gameStage': 3, 'startMap':'1', 'startX':'16', 'startY':'2', 'startDir':'1' }
 ];
 
 
 var stageMissions = [
 	{'stage':1, 'mission' : 'Mission: Find the expedition survivors and discover who the wizard possessed.'}
-	, {'stage':2, 'mission' : 'Mission: Escape the cave and warn Talem\'s Glade!'}
+	, {'stage':2, 'mission' : 'Mission: Escape the cave!'}
+	, {'stage':3, 'mission' : 'Mission: Return to Talem\'s Glade and confront the wizard.'}
 ];
 
 //action that happens after an explain scene
@@ -151,7 +159,7 @@ var revealedClueTriggers = [
 //from spreadsheet
 var sceneActions = [
 	{'scene':'0', 'action':'trigger' }
-	, {'scene':'0', 'action':'battle', 'enemyArray': ['Goblin'], 'battleId': 0 }
+	, {'scene':'0', 'action':'battle', 'enemyArray': ['Goblin','Goblin','Goblin'], 'battleId': 0 }
 	, {'scene':'1', 'action':'trigger' }
 	, {'scene':'1', 'action':'removeCharacter', 'character': 'Lemel' }
 	, {'scene':'1', 'action':'removeCharacter', 'character': 'Lissette' }
@@ -242,19 +250,17 @@ var sceneActions = [
 	, {'scene':'22', 'action':'toggleGameVariable', 'variable': 'soldierInTown' }
 	, {'scene':'22', 'action':'toggleGameVariable', 'variable': 'sawaInTown' }
 	, {'scene':'22', 'action':'toggleGameVariable', 'variable': 'bowmanInTown' }
+	, {'scene':'22', 'action':'advanceStage' }
 	, {'scene':'22', 'action':'gotoMap', 'startMap': '1', 'startX': '16', 'startY': '1', 'startDir': '0' }
 	, {'scene':'23', 'action':'trigger' }
 	, {'scene':'23', 'action':'battle', 'enemyArray': ['Vampyre'], 'battleId': 3 }
 	, {'scene':'24', 'action':'trigger' }
 	, {'scene':'24', 'action':'popScene' }
 	, {'scene':'24', 'action':'newScene', 'nextScene': '30' }
-	, {'scene':'30', 'action':'trigger' }
-	, {'scene':'30', 'action':'endGameGood' }
-
-		
+	
 	, {'scene':'27', 'action':'gotoMap', 'startMap': '2', 'startX': '19', 'startY': '22', 'startDir': '0' }
 	, {'scene':'28', 'action':'endGameBad' }
-	, {'scene':'29', 'action':'endGameBad' }
+	, {'scene':'29', 'action':'endGameMistakes' }
 
 	, {'scene':'30', 'action':'trigger' }
 	, {'scene':'30', 'action':'endGameGood' }
@@ -298,7 +304,7 @@ var initialClueData = [
 	{'id': '1', 'gameStage': '1',  'available': '1', 'partner': '9', 'revealed': '10', 'wordRevealed': '', 'text': 'The wizard possessed either a human or a monster.'}
 	, {'id': '2', 'gameStage': '1',  'available': '0', 'partner': '7', 'revealed': '9', 'wordRevealed': '', 'text': 'If the wizard possessed a human, they needed a blood sacrifice.'}
 	, {'id': '3', 'gameStage': '1',  'available': '0', 'partner': '0', 'revealed': '0', 'wordRevealed': '', 'text': 'A being possessed by a wizard can command monsters.'}
-	, {'id': '4', 'gameStage': '1',  'available': '0', 'partner': '10', 'revealed': '11', 'wordRevealed': '', 'text': 'If the wizard possessed a monster, it was one strong monster or a group of weak ones.'}
+	, {'id': '4', 'gameStage': '1',  'available': '0', 'partner': '10', 'revealed': '11', 'wordRevealed': '', 'text': 'If the wizard possessed a monster, it was one strong one or a group of weak ones.'}
 	, {'id': '5', 'gameStage': '1',  'available': '0', 'partner': '8', 'revealed': '12', 'wordRevealed': '', 'text': 'If the wizard possessed a group of monsters, he would manifest as a ghost.'}
 	, {'id': '6', 'gameStage': '1',  'available': '0', 'partner': '13', 'revealed': '14', 'wordRevealed': '', 'text': 'The only single monster that could survive possession is a vampyre.'}
 	, {'id': '7', 'gameStage': '1',  'available': '0', 'partner': '2', 'revealed': '9', 'wordRevealed': '', 'text': 'Nobody performed a blood sacrifice.'}
@@ -311,14 +317,14 @@ var initialClueData = [
 	, {'id': '14', 'gameStage': '1',  'available': '0', 'partner': '0', 'revealed': '0', 'wordRevealed': 'vampyre', 'text': 'The wizard possessed a vampyre.'}
 	
 	, {'id': '15', 'gameStage': '2',  'available': '1', 'partner': '24', 'revealed': '25', 'wordRevealed': '', 'text': 'When the sun and the moon rise, the door will open.'}
-	, {'id': '16', 'gameStage': '2',  'available': '1', 'partner': '23', 'revealed': '24', 'wordRevealed': '', 'text': 'When the altar is touched, the sun rises.'}
-	, {'id': '17', 'gameStage': '2',  'available': '1', 'partner': '22', 'revealed': '23', 'wordRevealed': '', 'text': 'If the petals are not closed, the moon will not rise.'}
-	, {'id': '18', 'gameStage': '2',  'available': '1', 'partner': '21', 'revealed': '22', 'wordRevealed': '', 'text': 'While the water flows or the farmer toils, the petals will not close.'}
-	, {'id': '19', 'gameStage': '2',  'available': '1', 'partner': '20', 'revealed': '21', 'wordRevealed': '', 'text': 'If the fountain is stopped, the water will not flow.'}
-	, {'id': '20', 'gameStage': '2',  'available': '1', 'partner': '19', 'revealed': '21', 'wordRevealed': '', 'text': 'If the statue of the farmer is moved, the farmer will stop toiling.'}
-	, {'id': '21', 'gameStage': '2',  'available': '0', 'partner': '18', 'revealed': '22', 'wordRevealed': '', 'text': 'If the fountain stops and the statue moved, the water won\'t flow and the farmer stops toiling.'}
-	, {'id': '22', 'gameStage': '2',  'available': '0', 'partner': '17', 'revealed': '23', 'wordRevealed': '', 'text': 'If the fountain stops and the statue moved, the petals will close'}
-	, {'id': '23', 'gameStage': '2',  'available': '0', 'partner': '16', 'revealed': '24', 'wordRevealed': '', 'text': 'If the fountain is stopped and the statue moved, the moon rises.'}
+	, {'id': '16', 'gameStage': '2',  'available': '0', 'partner': '23', 'revealed': '24', 'wordRevealed': '', 'text': 'When the altar is touched, the sun rises.'}
+	, {'id': '17', 'gameStage': '2',  'available': '0', 'partner': '22', 'revealed': '23', 'wordRevealed': '', 'text': 'If the petals are not closed, the moon will not rise.'}
+	, {'id': '18', 'gameStage': '2',  'available': '0', 'partner': '21', 'revealed': '22', 'wordRevealed': '', 'text': 'While the water flows or the farmer toils, the petals will not close.'}
+	, {'id': '19', 'gameStage': '2',  'available': '0', 'partner': '20', 'revealed': '21', 'wordRevealed': '', 'text': 'If the fountain is stopped, the water will not flow.'}
+	, {'id': '20', 'gameStage': '2',  'available': '0', 'partner': '19', 'revealed': '21', 'wordRevealed': '', 'text': 'If the statue of the farmer is moved, the farmer will stop toiling.'}
+	, {'id': '21', 'gameStage': '2',  'available': '0', 'partner': '18', 'revealed': '22', 'wordRevealed': '', 'text': 'If the fountain stops and statue moved, the water won\'t flow and the farmer stops toiling.'}
+	, {'id': '22', 'gameStage': '2',  'available': '0', 'partner': '17', 'revealed': '23', 'wordRevealed': '', 'text': 'If the fountain stops and statue moved, the petals will close'}
+	, {'id': '23', 'gameStage': '2',  'available': '0', 'partner': '16', 'revealed': '24', 'wordRevealed': '', 'text': 'If the fountain stops and the statue moved, the moon rises.'}
 	, {'id': '24', 'gameStage': '2',  'available': '0', 'partner': '15', 'revealed': '25', 'wordRevealed': '', 'text': 'If the altar is touched, the fountain stopped, and statue moved, the sun and moon rise.'}
 	, {'id': '25', 'gameStage': '2',  'available': '0', 'partner': '0', 'revealed': '0', 'wordRevealed': '', 'text': 'If the altar is touched, the fountain stopped, and statue moved, the door opens.'}
 	
@@ -337,7 +343,6 @@ var changeMapData = [
 	, {'mapChangeId' :'8' ,'changeType': 'npc','mapId' : '2', 'x' : '11', 'y': '11 ', 'newScene':'', 'requirement':'', 'name': 'reeve'}
 	, {'mapChangeId' :'9' ,'changeType': 'npc','mapId' : '2', 'x' : '20', 'y': '11 ', 'newScene':'', 'requirement':'', 'name': 'burton'}
 	, {'mapChangeId' :'10' ,'changeType': 'npc','mapId' : '2', 'x' : '2', 'y': '11 ', 'newScene':'', 'requirement':'', 'name': 'bryce'}
-	, {'mapChangeId' :'11' ,'changeType': 'npc','mapId' : '1', 'x' : '20', 'y': '19 ', 'newScene':'', 'requirement':'', 'name': 'sawa'}
 	, {'mapChangeId' :'12' ,'changeType': 'gotoScene','mapId' : '2', 'x' : '1', 'y': '8 ', 'newScene':'2', 'requirement':'lemelOutside'}
 	, {'mapChangeId' :'13' ,'changeType': 'gotoScene','mapId' : '2', 'x' : '18', 'y': '8 ', 'newScene':'3', 'requirement':'mizakOutside'}
 	, {'mapChangeId' :'14' ,'changeType': 'gotoScene','mapId' : '2', 'x' : '7', 'y': '20 ', 'newScene':'7', 'requirement':'lissetteOutside'}
@@ -432,7 +437,7 @@ var explainData= {
 		, { 'bg': 'res/instructScene.png', 'text': 'During a cut scene, click or tap anywhere on the screen to advance to the next frame.', 'sound': '' }
 		, { 'bg': 'res/instructScene.png', 'text': 'You can press the Skip button to end the scene, but you may miss something important.', 'sound': '' }
 		, { 'bg': 'res/instructTalk.png', 'text': 'In the talk screen, press the Change Topic button to pick different topic words, then press the Ask About button to choose it.', 'sound': '' }
-		, { 'bg': 'res/instructTalk.png', 'text': 'Talk to as many people on as many topics as possible to advance in the game.', 'sound': '' }
+		, { 'bg': 'res/instructTalk.png', 'text': 'Talk to as many people about as many topics as possible to advance in the game.', 'sound': '' }
 		, { 'bg': 'res/instructTalk.png', 'text': 'If you hear this sound, it means you either discovered a new topic word, or a new clue.', 'sound': 'res/sounds/tone.mp3' }
 		, { 'bg': 'res/instructTalk.png', 'text': 'More on the clues later….', 'sound': '' }
 		, { 'bg': 'res/instructBattle.png', 'text': 'Battles are triggered at set points, or randomly while outside town. Moves are turn-based.', 'sound': '' }
@@ -482,7 +487,7 @@ var npcResponses = {
 		'Horde wars': { 'response': 'I served as a healer with the Grandmarchy during the final year. But I never saw any fighting.', 'reveal': '', 'clueReveal': '' , 'activate':''},
 		'goblins': { 'response': 'This week, I had to treat several travelers who were wounded by goblins. This isn\'t good.', 'reveal': '', 'clueReveal': '' , 'activate':''},
 		'blood': { 'response': 'Once the wizard possesses someone, he can control monsters. Like goblins, unfortunately.', 'reveal': '', 'clueReveal': '3' , 'activate':''},
-		'vampyre': { 'response': 'The most powerful of undead creatures…only a special ritual using herbs can keep them at bay.', 'reveal': '', 'clueReveal': '' , 'activate':''}
+		'vampyre': { 'response': 'The most powerful of undead creatures…only a special ritual can keep them at bay.', 'reveal': '', 'clueReveal': '' , 'activate':''}
 			},
 	
 	"reeve" : {
@@ -526,10 +531,10 @@ var npcResponses = {
 	},
 	"bryce": {
 		'cave': { 'response': 'I wish they would just blast that place shut before anything else bad comes out of there.', 'reveal': '', 'clueReveal': '' , 'activate':''},
-		'wizards': { 'response': 'I\'ve heard lots of stories about those bastards. They have to posess the living to get their power back.', 'reveal': '', 'clueReveal': '' , 'activate':''},
+		'wizards': { 'response': 'I\'ve heard lots of stories about those bastards. They have to possess the living to get their power back.', 'reveal': '', 'clueReveal': '' , 'activate':''},
 		'Sawa': { 'response': 'He bought some arrows from me once. But he made his own bow.', 'reveal': '', 'clueReveal': '' , 'activate':''},
 		'Horde wars': { 'response': 'I was barely 12 when the war started, but I joined the militia. After I was wounded, I turned to weaponmaking.', 'reveal': '', 'clueReveal': '' , 'activate':''},
-		'goblins': { 'response': 'I heard wizards can posess whole groups of weak monsters, like goblins.', 'reveal': '', 'clueReveal': '4' , 'activate':''},
+		'goblins': { 'response': 'I heard wizards can possess whole groups of weak monsters, like goblins.', 'reveal': '', 'clueReveal': '4' , 'activate':''},
 		'blood': { 'response': 'Who in their right mind would want to be possessed?', 'reveal': '', 'clueReveal': '' , 'activate':''},
 		'vampyre': { 'response': 'Sounds nasty. And I don\'t have much silver to use in the weapons.', 'reveal': '', 'clueReveal': '' , 'activate':''}
 			},
@@ -627,7 +632,7 @@ var sceneDialog = {
 		, { 'pic': 'res/faces/reeveSmile.png', 'speaker': 'Reeve Donte', 'text': 'Actually, here\'s a chance to use that university training of yours for something other than figuring taxes and tariffs.', 'sound': '' }
 		, { 'pic': 'res/faces/reeveNormal.png', 'speaker': 'Reeve Donte', 'text': 'We need to know exactly what we\'re up against. The wizard is on the loose.', 'sound': '' }
 		, { 'pic': 'res/faces/clavoFrown.png', 'speaker': 'Clavo', 'text': 'And you know he couldn\'t do that by himself. Not unless someone…freed him…', 'sound': '' }
-		, { 'pic': 'res/faces/reeveNormal.png', 'speaker': 'Reeve Donte', 'text': 'And the only way to do that is for someone to let him posess them. Yes.', 'sound': '' }
+		, { 'pic': 'res/faces/reeveNormal.png', 'speaker': 'Reeve Donte', 'text': 'And the only way to do that is for someone to let him possess them. Yes.', 'sound': '' }
 		, { 'pic': 'res/faces/reeveNormal.png', 'speaker': 'Reeve Donte', 'text': 'We don\'t know where - or who - the wizard is. You need to find out.', 'sound': '' }
 		, { 'pic': 'res/faces/reeveNormal.png', 'speaker': 'Reeve Donte', 'text': 'Was it some human explorer? A random monster? The wizard is wearing someone else\'s flesh now.', 'sound': '' }
 		, { 'pic': 'res/faces/reeveNormal.png', 'speaker': 'Reeve Donte', 'text': 'Find out who. Then we\'ll know what we\'re up against, and the League will at least know who they\'re fighting.', 'sound': '' }
@@ -1084,12 +1089,12 @@ var FIGHTER_DATA = [
 	 , {'name' : 'Lissette' , 'title':'Bartender' , 'isMonster' : false , 'faceIcon' : 'res/faces/lissetteFight.png' , 'sprite' : 'res/lissetteFightSprites.png' , 'attackIcon' : 'res/faces/lissetteAttack.png' , 'DEX' : 15 , 'CON'  :  10 , 'POW' : 10 , 'level' :  1}
 	 , {'name' : 'Mizak'  , 'title':'Shopkeep' , 'isMonster' : false , 'faceIcon' : 'res/faces/mizakFight.png' , 'sprite' : 'res/mizakFightSprites.png' , 'attackIcon' : 'res/faces/mizakAttack.png' , 'DEX' : 15 , 'CON' : 8 , 'POW' : 7 , 'level'  :  1}
 	
-	 , {'name' : 'Goblin' , 'isMonster' : true , 'faceIcon' : '' , 'sprite' : 'res/goblinSprites.png' , 'attackIcon' : '' , 'DEX' : 10 , 'CON' : 1 , 'POW' : 4 , 'level'  : 1}
+	 , {'name' : 'Goblin' , 'isMonster' : true , 'faceIcon' : '' , 'sprite' : 'res/goblinSprites.png' , 'attackIcon' : '' , 'DEX' : 10 , 'CON' : 9 , 'POW' : 4 , 'level'  : 1}
 	 , {'name' : 'Highwayman' , 'isMonster' : true , 'faceIcon' : '' , 'sprite' : 'res/highwaymanSprites.png' , 'attackIcon' : '' , 'DEX' : 12 , 'CON' : 12 , 'POW' : 7 , 'level'  : 2}
 	 , {'name' : 'Barrow-Wight' , 'isMonster' : true , 'faceIcon' : '' , 'sprite' : 'res/wightSprites.png' , 'attackIcon' : '' , 'DEX' : 6 , 'CON' : 16 , 'POW' : 1 , 'level'  : 2}
 	 , {'name' : 'Trow' , 'isMonster' : true , 'faceIcon' : '' , 'sprite' : 'res/trowSprites.png' , 'attackIcon' : '' , 'DEX' : 10 , 'CON' : 20 , 'POW' : 6 , 'level'  : 3}
 	 , {'name' : 'Nicor' , 'isMonster' : true , 'faceIcon' : '' , 'sprite' : 'res/nicorSprites.png' , 'attackIcon' : '' , 'DEX' : 18 , 'CON' : 18 , 'POW' : 10 , 'level'  : 4}
-	 , {'name' : 'Vampyre' , 'isMonster' : true , 'faceIcon' : '' , 'sprite' : 'res/vampyreSprites.png' , 'attackIcon' : '' , 'DEX' : 20 , 'CON' : 20 , 'POW' : 30 , 'level'  : 5}
+	 , {'name' : 'Vampyre' , 'isMonster' : true , 'faceIcon' : '' , 'sprite' : 'res/vampyreSprites.png' , 'attackIcon' : '' , 'DEX' : 20 , 'CON' : 35 , 'POW' : 30 , 'level'  : 5}
 ];
 
 var EQUIPMENT_DATA = [

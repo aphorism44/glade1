@@ -115,15 +115,17 @@ function leaveTalkScreen(sceneId) {
     		if (action == 'restartMusic') {
     			game.currentScene.restartMusic();
     		}
+    		if (action == 'endGameMistakes') {
+				game.popScene();
+				game.popScene();
+				resetGameVariables();
+    		}
     		if (action == 'endGameBad') {
-    			game.popScene();
 				game.popScene();
 				game.popScene();
 				resetGameVariables();
     		}
     		if (action == 'endGameGood') {
-    			game.popScene();
-				game.popScene();
 				game.popScene();
 				resetGameVariables();
 				var scene = new creditScreen();
@@ -171,7 +173,7 @@ var explainScreen = Class.create(Scene, {
         game = Game.instance;
 		
 		var bg = makeBackground('res/grayBg.png');
-		var textLabel = makeLabel('', 40, 320, 'monospace', '16', 'rgb(255,255,255)', 320, 200, 'rgba(0,0,0,0.6)');
+		var textLabel = makeLabel('', 40, 375, 'monospace', '16', 'rgb(255,255,255)', 320, 200, 'rgba(0,0,0,0.6)');
 		var skipButton = makeButton(" Skip ", 300, 500, 100, 35);
 		
 		skipButton.addEventListener(Event.TOUCH_END, function(e) {

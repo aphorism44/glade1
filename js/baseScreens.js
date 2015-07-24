@@ -155,17 +155,20 @@ var logicScreen = Class.create(Scene, {
 		var bg = makeBackground(game.assets['res/woodBg.png']);
 		
 		
-		var logic1Label = makeLabel('', 25, 50, 'monospace', '16', 'rgb(255,255,255)', 300, 40, 'rgba(0,0,0,0.6)');
-		var logic2Label = makeLabel('', 25, 140, 'monospace', '16', 'rgb(255,255,255)', 300, 75, 'rgba(0,0,0,0.6)');
-		var logic3Label = makeLabel('', 25, 225, 'monospace', '16', 'rgb(255,255,255)', 300, 75, 'rgba(0,0,0,0.6)');
-		var logic4Label = makeLabel('', 25, 315, 'monospace', '16', 'rgb(255,255,255)', 300, 75, 'rgba(0,0,0,0.6)');
-		var logic5Label = makeLabel('', 25, 400, 'monospace', '16', 'rgb(255,255,255)', 300, 75, 'rgba(0,0,0,0.6)');
+		var logic1Label = makeLabel('', 25, 20, 'monospace', '16', 'rgb(255,255,255)', 300, 40, 'rgba(0,0,0,0.6)');
+		var logic2Label = makeLabel('', 25, 70, 'monospace', '16', 'rgb(255,255,255)', 300, 75, 'rgba(0,0,0,0.6)');
+		var logic3Label = makeLabel('', 25, 150, 'monospace', '16', 'rgb(255,255,255)', 300, 75, 'rgba(0,0,0,0.6)');
+		var logic4Label = makeLabel('', 25, 240, 'monospace', '16', 'rgb(255,255,255)', 300, 75, 'rgba(0,0,0,0.6)');
+		var logic5Label = makeLabel('', 25, 320, 'monospace', '16', 'rgb(255,255,255)', 300, 75, 'rgba(0,0,0,0.6)');
+		var logic6Label = makeLabel('', 25, 400, 'monospace', '16', 'rgb(255,255,255)', 300, 75, 'rgba(0,0,0,0.6)');
+		
 		
 		logic1Label.text =logicInstructions1;
 		logic2Label.text =logicInstructions2;
 		logic3Label.text =logicInstructions3;
 		logic4Label.text =logicInstructions4;
 		logic5Label.text =logicInstructions5;
+		logic6Label.text =logicInstructions6;
 		
       	var returnButton = makeButton(" Return ", 300, 485, 200, 75);
       	
@@ -175,6 +178,7 @@ var logicScreen = Class.create(Scene, {
         this.addChild(logic3Label);
         this.addChild(logic4Label);
         this.addChild(logic5Label);    
+        this.addChild(logic6Label); 
         this.addChild(returnButton);
         
 	   	returnButton.addEventListener(Event.TOUCH_END, function(e) {
@@ -223,7 +227,7 @@ var statusScreen = Class.create(Scene, {
 		}
 		
 		var missionLabel = makeLabel('', 25, 450, "monospace", 14, "White", 350, 50);
-		missionLabel.text = wordWrap(stageMissions[game.stage - 1], 350, 14);
+		missionLabel.text = wordWrap(stageMissions[game.stage - 1].mission, 350, 14);
 		
 		this.addChild(missionLabel);
 		

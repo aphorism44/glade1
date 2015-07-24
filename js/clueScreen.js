@@ -9,12 +9,12 @@ var clueScreen = Class.create(Scene, {
 		var bg = makeBackground(game.assets['res/woodBg.png']); 
         
         //text of clue goes here
-        var clueTextA = makeLabel("", 20, 340, "monospace", 16, "White", 160, 170, "Black");
-        var clueTextB = makeLabel("", 220, 340, "monospace", 16, "White", 160, 170, "Black");
+        var clueTextA = makeLabel("", 20, 320, "monospace", 16, "White", 160, 170, "Black");
+        var clueTextB = makeLabel("", 220, 320, "monospace", 16, "White", 160, 170, "Black");
         
-       	var evaluateButton = makeButton(" Evaluate ", 40, 515, 100, 35);
-       	var logicButton = makeButton(" Refresher ", 170, 515, 100, 35);
-   		var returnButton = makeButton(" Return ", 310, 515, 50, 35);
+       	var evaluateButton = makeButton(" Evaluate ", 40, 520, 100, 35);
+       	var logicButton = makeButton(" Refresher ", 170, 520, 100, 35);
+   		var returnButton = makeButton(" Return ", 310, 520, 50, 35);
    		
         
 	   	this.addEventListener(Event.TOUCH_END, function(e) {
@@ -34,6 +34,8 @@ var clueScreen = Class.create(Scene, {
 			evaluateClues();
 	   	});
 		returnButton.addEventListener(Event.TOUCH_END, function(e) {
+			game.clueDataA = null;
+			game.clueDataB = null;
 			game.popScene();
 			game.currentScene.restartMusic();
 	   	});
@@ -81,11 +83,10 @@ function placeClues() {
 function evaluateClues() {
 	var game;
    	game = Game.instance;
-   	
 	if (game.clueDataB == null) {
 		game.clueDataA = null;
 		game.clueDataB = null;
-		placeClues();  	
+		placeClues();
 	} else if (game.clueDataA.partner == game.clueDataB.id) {
 		updateClueAvailability(game.clueDataA.revealed);
 		game.assets['res/sounds/tone.mp3'].play();
@@ -95,7 +96,7 @@ function evaluateClues() {
 		game.clueMistakesMade++;
 		//gameend for making too many mistakes
 		if (game.clueMistakesMade > 4) {
-			game.endingsTriggered[0].status = '1';
+			game.specialScenesTriggered[0].status = '1';
 		}
 	}
 }
@@ -139,7 +140,6 @@ var clueType = Class.create(Sprite, {
 		    	game.clueDataA = null;
 		    	game.clueDataB = null;
 		    } 
-		    
 		});
 	}
 });

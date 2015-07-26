@@ -190,7 +190,6 @@ var creditScreen = Class.create(Scene, {
         Scene.apply(this);
         game = Game.instance;
         this.name = "creditScreen";
-        
         this.bgm = game.assets['res/sounds/closer.mp3'];
         this.bgm.play();
         
@@ -266,7 +265,11 @@ var creditScreen = Class.create(Scene, {
 		this.addEventListener(Event.ENTER_FRAME, function() {
 			/*don't ask me why, can't get the screen to work as if it's time-based */
 			if (this.age > 825) {
-				game.popScene();                                                              
+				game.popScene();
+				if (game.wasLoaded == 0) {
+					var scene = new titleScreen();
+					game.pushScene(scene);  
+				}                                                              
 			}
 		});	
 		
@@ -299,7 +302,7 @@ var splashScreen = Class.create(Scene, {
 		var codeLogo = makeImage(game.assets['res/44Coded.png'], 300, 328, 50, 60);
 		codeLogo.opacity = 0;
         
-        var mainTitleLabel = makeLabel("Aphorism44", 30, 100, "Comic Sans MS", 58, "Orange", 300, 50, "", "left");
+        var mainTitleLabel = makeLabel("Aphorism44", 20, 150, "Comic Sans MS", 42, "Orange", 300, 50, "", "left");
         mainTitleLabel.opacity = 0;
         
         equationLogo.tl.delay(10).fadeIn(10).delay(20).fadeOut(10);
@@ -314,8 +317,7 @@ var splashScreen = Class.create(Scene, {
         this.addChild(mainTitleLabel);  
              
 		this.addEventListener(Event.ENTER_FRAME, function() {
-			if (this.age > 5) {
-			//if (this.age > 100) {
+			if (this.age > 100) {
 				var scene = new titleScreen();
 				game.pushScene(scene);                                                                                  
 			}

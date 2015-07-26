@@ -16,9 +16,7 @@ enchant();
 window.onload = function() {
 	var game = new Core(400, 560);
 	game.fps = 15;
-	//NG.connect('38383:OfvBk542','Myy86IWvjbSIU2oK2416YEHfMssjjgkh');
-	
-	
+	NG.connect('41454:js6pLhex','oQ5FYPC3dwKNjPYJ7FIyNTDg1LOLiXfQ');
 	
 	game.spriteWidth = 25;
 	game.spriteHeight = 25;
@@ -52,6 +50,7 @@ window.onload = function() {
 	game.revealedClueTriggers = revealedClueTriggers;
 	game.npcInfo = npcInfo;
 	game.stage = stageLoad;
+	game.wasLoaded = 0;
 	
 	game.currentParty = currentPartyLoad;
 	
@@ -337,7 +336,7 @@ function loadGame() {
 		    game.specialScenesTriggered = specialScenesTriggeredLoad;
 		    game.currentParty = currentPartyLoad;
 		    game.stage = stageLoad;
-		    
+		    game.wasLoaded = 1;
 		    
 		    //start game at set point for stage
 		    var startMap = loadGameStartPoints[game.stage - 1].startMap;

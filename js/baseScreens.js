@@ -210,12 +210,12 @@ var statusScreen = Class.create(Scene, {
 			var name = game.currentParty[i];
 			var player = new Fighter(name, null, game);
 			var playerFace = makeImage(game.assets[player.faceIcon], 80, 80, 25, 25 + (100 * i));
-			var nameLabel = makeLabel(player.name, 125, 25 + (100 * i), "monospace", 14, "White", 50, 20);
-			var titleLabel = makeLabel(player.title, 250, 25 + (100 * i), "monospace", 14, "White", 90, 20);
-			var conLabel = makeLabel('CON: ' + player.HP, 125, 45 + (100 * i), "monospace", 14, "White", 50, 20);
-			var dexLabel = makeLabel('DEX: ' + player.DEX, 250, 45 + (100 * i), "monospace", 14, "White", 50, 20);
-			var weaponLabel = makeLabel('Weapon: ' + player.weaponName, 125, 65 + (100 * i), "monospace", 14, "White", 200, 20);
-			var armorLabel = makeLabel('Armor: ' + player.armorName, 125, 85 + (100 * i), "monospace", 14, "White", 200, 20);
+			var nameLabel = makeLabel(player.name, 120, 25 + (100 * i), "monospace", 14, "White", 75, 20);
+			var titleLabel = makeLabel(player.title, 245, 25 + (100 * i), "monospace", 14, "White", 90, 20);
+			var conLabel = makeLabel('CON: ' + player.HP, 120, 45 + (100 * i), "monospace", 14, "White", 55, 20);
+			var dexLabel = makeLabel('DEX: ' + player.DEX, 245, 45 + (100 * i), "monospace", 14, "White", 55, 20);
+			var weaponLabel = makeLabel('Weapon: ' + player.weaponName, 120, 65 + (100 * i), "monospace", 14, "White", 200, 20);
+			var armorLabel = makeLabel('Armor: ' + player.armorName, 120, 85 + (100 * i), "monospace", 14, "White", 200, 20);
 			
 			this.addChild(playerFace);
 			this.addChild(nameLabel);
